@@ -26,7 +26,8 @@
 		</noscript>
 		
 		<!--CATpiler Scripts-->
-		<script src="js/globals.js"></script>
+		<script src="js/utils/globals.js"></script>
+		<script src="js/utils/utils.js"></script>
 		<script src="js/lexical/lex.js"></script>
 		<script src="js/lexical/token.js"></script>
 	</head>
@@ -64,11 +65,12 @@
 												var buttonListener = document.getElementById("btnCATpile");
 													buttonListener.addEventListener("click",
 														function(){
-															compile();
+															lex();
 														},
 														false
 													);
 											</script>
+											<!--<input type="checkbox" name="verboseLex" id="verboseLex"/>-->
 										</ul>
 									</section>
 								</section>
