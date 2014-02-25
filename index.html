@@ -26,6 +26,9 @@
 		</noscript>
 		
 		<!--CATpiler Scripts-->
+		<script src="js/globals.js"></script>
+		<script src="js/lexical/lex.js"></script>
+		<script src="js/lexical/token.js"></script>
 	</head>
 	<body class="left-sidebar">
 		<!-- Header Wrapper -->
@@ -55,11 +58,18 @@
 											id  ="taUserInput"
 											></textarea>
 										<ul class="actions">
-											<li><a href="#" class="button">CATpile!</a></li>
+											<li><a id="btnCATpile" class="button">CATpile!</a></li>
+											<!--<li><input type="button" id="btnCATpile" class="button" value="CATpile!" onclick="alert(&quot;Meow&quot;);"/></li>-->
+											<script>
+												var buttonListener = document.getElementById("btnCATpile");
+													buttonListener.addEventListener("click",
+														function(){
+															compile();
+														},
+														false
+													);
+											</script>
 										</ul>
-									</section>
-									<section>
-										<img src="images/pic07.jpg" alt="" /></a>
 									</section>
 								</section>
 					

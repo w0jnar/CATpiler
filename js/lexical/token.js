@@ -1,0 +1,8 @@
+//
+//token.js
+//
+
+function Token()
+{
+	
+}
