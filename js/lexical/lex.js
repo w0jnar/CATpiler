@@ -4,7 +4,6 @@
 
 function lex()
 {
-	document.getElementById("taOutput").scroll = 1;
 	document.getElementById("taOutput").value = "";
 	inputProgram = document.getElementById("taUserInput").value;
 	
@@ -19,19 +18,20 @@ function lex()
 		for(i = 0; i < inputProgram.length; i++)
 		{
 			putMessage("Lexing Character");
-			putMessage("-Found " + currentCharacter().toString());
+			putMessage("-Found " + currentCharacter().toString()); //.toString() mostly unnecessary, but you never know, aka, if something breaks, it will not be noticed (by the debugger)
 		}
 	}
 }
 
 function currentCharacter()
 {
-	var currentChar = inputProgram[i];
-	if(currentChar === "\n")
+	currentSymbol = inputProgram[i];
+	if(currentSymbol === "\n")
 		return "newline";
-	else if(currentChar === " ") //not even possible at this point, but you never know
+	else if(currentSymbol === " ")
 		return "space";
-	else if(currentChar === "\t") //not even possible at this point, but you never know
+	else if(currentSymbol === "\t") //not even possible at this point, but you never know
 		return "tab";
-	else return currentChar;
+	else
+		return currentSymbol;
 }
