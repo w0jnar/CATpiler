@@ -62,7 +62,7 @@ function lex()
 	}
 }
 
-function currentCharacter()
+function currentCharacter() //returns the current character we are on.
 {
 	if(i < inputProgram.length)
 	{
@@ -83,7 +83,7 @@ function currentCharacter()
 	}
 }
 
-function nextCharacter()
+function nextCharacter() //next character...
 {
 	if((i + 1) < inputProgram.length)
 	{
@@ -112,16 +112,16 @@ function braceHandle(character) //handles brace characters
 	}
 }
 
-function keywordMatch(currentCharacter) //matches a current character(s) to the next set to see if it is a keyword
+function keywordMatch(currentCharacter) //matches a current character(s) to the next set to see if it is a keyword.
 {
 	var nextSpace = findNextSpace();
 	var currentWord = inputProgram.substr(i, nextSpace);
 	//alert(currentWord);
 	createToken(currentWord, "string...");
-	i = i + nextSpace - 1;
+	i = i + nextSpace - 1; //modifies i to move past the rest of the string.
 }
 
-function findNextSpace()
+function findNextSpace() //finds the dividing space for accurate string manipulation.
 {
 	var index = i;
 	while(inputProgram[index] !== " ")
@@ -131,7 +131,7 @@ function findNextSpace()
 	return index - i;
 }
 
-function stringMatch(currentCharacter) //matches a current character(s) to find a string
+function stringMatch(currentCharacter) //matches a current character(s) to find a string.
 {
 	var stringEnd = findStringEnd();
 	var currentWord = inputProgram.toString().substr((i + 1), stringEnd);
@@ -140,7 +140,7 @@ function stringMatch(currentCharacter) //matches a current character(s) to find 
 	i = i + stringEnd;
 }
 
-function findStringEnd()
+function findStringEnd() //find where a string ends by looking for the next quote.
 {
 	var index = i;
 	while(inputProgram[index + 1] !== "\"" && index < inputProgram.length)
@@ -155,7 +155,7 @@ function findStringEnd()
 	return index - i;
 }
 
-function isLetter(character)
+function isLetter(character) //checks if a character is a letter. RegEx were not agreeing with outputs from functions, making this necessary.
 {
 	var test = character.match(/[a-z]/);
 	//alert(test);
