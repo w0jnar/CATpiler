@@ -15,12 +15,21 @@ function lex()
 	else
 	{
 		putMessage("Starting Lexical Analysis");
-		
 		for(i = 0; i < inputProgram.length; i++)
 		{
 			putMessage("Lexing Character");
 			putMessage("-Found: " + currentCharacter().toString()); //.toString() mostly unnecessary, but you never know, aka, if something breaks, it will not be noticed (by the debugger).
+			currentChar = currentCharacter();
 			
+			if(!isNaN(parseInt(currentChar)))
+			{
+				createToken(currentChar, "int");
+			}
+			
+			if(currentChar === "space")
+			{
+				createToken(currentChar, "space");
+			}
 		}
 		putMessage("Ending Lexical Analysis");
 		if(_ErrorCount > 0)
@@ -37,18 +46,22 @@ function lex()
 
 function currentCharacter()
 {
-	currentSymbol = inputProgram[i];
-	_SymbolLineLocation++;
-	if(currentSymbol === "\n")
+	if(i < inputProgram.length)
 	{
-		_SymbolLineLocation = 0;
-		_LineNumber++;
-		return "newline";
+		currentSymbol = inputProgram[i];
+		_SymbolLineLocation++;
+		if(currentSymbol === "\n")
+		{
+			_SymbolLineLocation = 0;
+			_LineNumber++;
+			return "newline";
+		}
+		else if(currentSymbol === " ")
+			return "space";
+		else if(currentSymbol === "\t") //not even possible at this point, but you never know
+			return "tab";
+		else
+			return currentSymbol;
 	}
-	else if(currentSymbol === " ")
-		return "space";
-	else if(currentSymbol === "\t") //not even possible at this point, but you never know
-		return "tab";
-	else
-		return currentSymbol;
 }
+
