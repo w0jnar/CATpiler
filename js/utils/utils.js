@@ -14,4 +14,5 @@ function reset()
 	_LineNumber = 1;
 	_ErrorCount = 0;
 	_TokenArray = [];
+	_TokenTotal = 1;
 }

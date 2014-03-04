@@ -23,12 +23,15 @@ function lex()
 			
 			if(!isNaN(parseInt(currentChar)))
 			{
-				createToken(currentChar, "int");
+				createToken(currentChar, "digit");
 			}
-			
-			if(currentChar === "space")
+			else if(currentChar === "space")
 			{
 				createToken(currentChar, "space");
+			}
+			else if((currentChar.match(/[a-z]/)) && ((nextCharacter() === " ") || (nextCharacter() === "\n")) && _NotMidParse)
+			{
+				createToken(currentChar, ("var_id(" + currentChar + ")"));
 			}
 		}
 		putMessage("Ending Lexical Analysis");
@@ -62,6 +65,15 @@ function currentCharacter()
 			return "tab";
 		else
 			return currentSymbol;
+	}
+}
+
+function nextCharacter()
+{
+	if((i + 1) < inputProgram.length)
+	{
+		nextSymbol = inputProgram[i + 1];
+		return nextSymbol;
 	}
 }
 

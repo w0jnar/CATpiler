@@ -10,3 +10,5 @@ var _TokenArray = [];
 var inputProgram = "";
 var _CurrentSymbol = "";
 var _SymbolLineLocation = 0;
+var _TokenTotal = 1;
+var _NotMidParse = true;
