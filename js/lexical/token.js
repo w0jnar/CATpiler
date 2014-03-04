@@ -18,6 +18,6 @@ function createToken(token, type)
 	currentToken.position = _SymbolLineLocation;
 	currentToken.lineNumber = _LineNumber;
 	_TokenArray.push(currentToken);
-	putMessage("---Token Number " + _TokenTotal++ + " created");
+	putMessage("---Token number " + _TokenTotal++ + " created");
 	putMessage("---Token Created of Type: " + type);
 }
