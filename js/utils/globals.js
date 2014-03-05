@@ -13,3 +13,4 @@ var _CurrentSymbol = "";
 var _SymbolLineLocation = 0;
 var _TokenTotal = 1;
 var _NotMidParse = true;
+var wsMatch = new RegExp("\\s");

@@ -11,6 +11,7 @@ function lex()
 	if(inputProgram.length === 0)
 	{
 		putMessage("Error, Program Not Found");
+		_ErrorCount++;
 	}
 	else
 	{
@@ -31,7 +32,7 @@ function lex()
 				{
 					createToken(currentChar, "digit(" + currentChar.toString() + ")");
 				}
-				else if((currentChar.match(/[a-z]/)) && (!nextCharacter().match(/[a-z]/))) //var ids
+				else if((currentChar.match(/[a-z]/)) && (wsMatch.test(nextCharacter()))) //var ids
 				{
 					createToken(currentChar, ("var_id(" + currentChar + ")"));
 				}
@@ -47,17 +48,44 @@ function lex()
 				{
 					stringMatch(currentChar);
 				}
+				else if(currentChar === "=") //equals
+				{
+					equalSignCheck();
+				}
+				else if(currentChar === "!" && nextCharacter() === "=") //int ops
+				{
+					notEqualCheck();
+				}
+				else if((currentChar === "+" || currentChar === "-") && nextCharacter() === " ") //int ops
+				{
+					if(currentChar === "+") //figured cleaner looking more organized blocks > more outte else/if conditions.
+					{
+						createToken(currentChar, "plus_op");
+					}
+					else
+					{
+						createToken(currentChar, "minus_op");
+					}
+				}
+				else if(currentChar === _EOF)
+				{
+					createToken(currentChar, "end_of_file");
+				}
+				else
+				{
+					putMessage("---SYNTAX ERROR invalid character on line " + _LineNumber + ", character " + _SymbolLineLocation);
+				}
 			}
 		}
 		putMessage("Ending Lexical Analysis");
 		if(_ErrorCount > 0)
 		{
 			putMessage("Oh No! Errors Found! Check Code for details");
-			_ErrorCount = 0;
+			//_ErrorCount = 0;
 		}
 		else
 		{
-			putMessage("No Errors Found! Nice!");
+			putMessage("No Lexical Errors Found! Nice!");
 		}
 	}
 }
@@ -195,4 +223,42 @@ function isLetter(character) //checks if a character is a letter. RegEx were not
 	var test = character.match(/[a-z]/);
 	//alert(test);
 	return (test !== null);
+}
+
+function equalSignCheck() //check what an equal sign means.
+{
+	putMessage("--\"=\" Found, checking next character");
+	var nextSpace = findNextSpace();
+	var currentWord = inputProgram.substr(i, nextSpace);
+	if(currentWord === "==")
+	{
+		createToken("==", "boolop_equal");
+	}
+	else if(currentWord === "=")
+	{
+		createToken(currentChar, "assignment_op");
+	}
+	else
+	{
+		putMessage("---SYNTAX ERROR invalid character combination starting with \"=\" on line " + _LineNumber + ", character " + _SymbolLineLocation);
+		_ErrorCount++;
+	}
+	i = i + nextSpace - 1; //to offset the next character.
+}
+
+function notEqualCheck() //check if ! means not equal or not.
+{
+	putMessage("--\"!\" Found, checking next character");
+	var nextSpace = findNextSpace();
+	var currentWord = inputProgram.substr(i, nextSpace);
+	if(currentWord === "!=")
+	{
+		createToken("!=", "boolop_not_equal");
+	}
+	else
+	{
+		putMessage("---SYNTAX ERROR invalid character combination starting with \"!\" on line " + _LineNumber + ", character " + _SymbolLineLocation);
+		_ErrorCount++;
+	}
+	i = i + nextSpace - 1; //to offset the next character.
 }
