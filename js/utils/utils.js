@@ -13,6 +13,6 @@ function reset()
 	_SymbolLineLocation = 0;
 	_LineNumber = 1;
 	_ErrorCount = 0;
-	_TokenArray = [];
+	_TokenList = [];
 	_TokenTotal = 1;
 }

@@ -29,7 +29,7 @@ function lex()
 				//alert(isLetter(nextCharacter()));
 				if(currentChar.match(/\d/)) //digits
 				{
-					createToken(currentChar, "digit");
+					createToken(currentChar, "digit(" + currentChar.toString() + ")");
 				}
 				else if((currentChar.match(/[a-z]/)) && (!nextCharacter().match(/[a-z]/))) //var ids
 				{
@@ -117,7 +117,41 @@ function keywordMatch(currentCharacter) //matches a current character(s) to the 
 	var nextSpace = findNextSpace();
 	var currentWord = inputProgram.substr(i, nextSpace);
 	//alert(currentWord);
-	createToken(currentWord, "string...");
+	putMessage("-Word Found: " + currentWord);
+	putMessage("-Checking if Keyword");
+	if(currentWord === "int")
+	{
+		createToken(currentWord, "int");
+	}
+	else if(currentWord === "string")
+	{
+		createToken(currentWord, "string");
+	}
+	else if(currentWord === "boolean")
+	{
+		createToken(currentWord, "boolean");
+	}
+	else if(currentWord === "print")
+	{
+		createToken(currentWord, "print");
+	}
+	else if(currentWord === "if")
+	{
+		createToken(currentWord, "if");
+	}
+	else if(currentWord === "false")
+	{
+		createToken(currentWord, "false");
+	}
+	else if(currentWord === "true")
+	{
+		createToken(currentWord, "true");
+	}
+	else
+	{
+		putMessage("---SYNTAX ERROR invalid word found on line " + _LineNumber + ", character " + _SymbolLineLocation);
+	}
+	//createToken(currentWord, "string...");
 	i = i + nextSpace - 1; //modifies i to move past the rest of the string.
 }
 
@@ -149,7 +183,7 @@ function findStringEnd() //find where a string ends by looking for the next quot
 	}
 	if((index + 1) > inputProgram.length)
 	{
-		putMessage("--ERROR string end not found before end of file on line " + _LineNumber + " character " + _SymbolLineLocation);
+		putMessage("---SYNTAX ERROR string end not found before end of file on line " + _LineNumber + ", character " + _SymbolLineLocation);
 		_ErrorCount++;
 	}
 	return index - i;
