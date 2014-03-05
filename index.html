@@ -62,6 +62,7 @@
 											<li><a id="btnCATpile" class="button">CATpile!</a></li>
 											<!--<li><input type="button" id="btnCATpile" class="button" value="CATpile!" onclick="alert(&quot;Meow&quot;);"/></li>-->
 											<script>
+												//mainly put this here because I like the fancy button.
 												var buttonListener = document.getElementById("btnCATpile");
 													buttonListener.addEventListener("click",
 														function(){
@@ -69,10 +70,11 @@
 															if(_ErrorCount === 0)
 															{
 																//whatever else goes here (probably should be moved else where eventually
-																for(var i = 0; i < _TokenList.length; i++)
-																{
-																	tokenToString(_TokenList[i]);
-																}
+																//this is for token testing.
+																//for(var i = 0; i < _TokenList.length; i++)
+																//{
+																//	tokenToString(_TokenList[i]);
+																//}
 															}
 														},
 														false

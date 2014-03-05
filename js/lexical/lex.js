@@ -5,7 +5,7 @@
 function lex()
 {
 	
-	reset();
+	reset(); //reset the entire process. I thought it would work well here as Lex will always occur first and I am still not sure how I feel about the index.html situation.
 	inputProgram = document.getElementById("taUserInput").value;
 	
 	if(inputProgram.length === 0)
@@ -150,6 +150,7 @@ function keywordMatch(currentCharacter) //matches a current character(s) to the 
 	else
 	{
 		putMessage("---SYNTAX ERROR invalid word found on line " + _LineNumber + ", character " + _SymbolLineLocation);
+		_ErrorCount++;
 	}
 	//createToken(currentWord, "string...");
 	i = i + nextSpace - 1; //modifies i to move past the rest of the string.

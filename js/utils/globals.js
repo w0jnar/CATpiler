@@ -6,6 +6,7 @@ var _LineNumber = 1;
 var _EOF = "$";
 //var _CurrentToken = "";
 var _ErrorCount = 0;
+var _WarningCount = 0;
 var _TokenList = [];
 var inputProgram = "";
 var _CurrentSymbol = "";
