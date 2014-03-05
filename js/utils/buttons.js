@@ -35,7 +35,7 @@ function buttons()
 	program1Listener.addEventListener("click",
 		function(){
 			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n   int a\n   a = 1\n   {\n      int a\n      a = 2\n      print ( a )\n   }\n\n   string b\n   b = \"alan\"\n\n   if ( a == 1 ) {\n      print ( b )\n   }\n\n   string c\n   c = \"james\"\n   b = \"blackstone\"\n   print ( b )\n} $";
+			taUserProgamFill.value = "{\n   int a\n   a = 1\n   {\n      int a\n      a = 2\n      print ( a )\n   }\n\n   string b\n   b = \"alan\"\n\n   if ( a == 1 ) {\n      print ( b )\n   }\n\n   string c\n   c = \"cat\"\n   b = \"meowington\"\n   print ( b )\n} $";
 		},
 		false
 	);
@@ -44,7 +44,7 @@ function buttons()
 	program2Listener.addEventListener("click",
 		function(){
 			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n   int a = 1\n   inta\n\n   while (  false  ) {\n      print ( \"MEOW\"  )\n   }\n   string b\n   string c\n   c2 = \"james\n   print( a )\n   b = \"blackstone\"\n   print ( b )\n}";
+			taUserProgamFill.value = "{\n   int a = 1\n   inta\n\n   while (  false  ) {\n      print ( \"MEOW\"  )\n   }\n   string b\n   string c\n   c2 = \"cat\n   print( a )\n   b = \"meowington\"\n   print ( b )\n}";
 		},
 		false
 	);

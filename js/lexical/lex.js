@@ -15,7 +15,7 @@ function lex()
 	}
 	else
 	{
-		putMessage("Starting Lexical Analysis");
+		putMessage("~~~Starting Lexical Analysis");
 		for(i = 0; i < inputProgram.length; i++)
 		{
 			currentChar = currentCharacter();
@@ -92,8 +92,6 @@ function lex()
 			_WarningCount++;
 		}
 		
-		putMessage("Ending Lexical Analysis");
-		
 		if(_ErrorCount > 0 || _WarningCount > 0)
 		{
 			putMessage("Error Count: " + _ErrorCount + ", Warning Count: " + _WarningCount);
@@ -103,6 +101,8 @@ function lex()
 		{
 			putMessage("No Lexical Errors Found! Nice!");
 		}
+		
+		putMessage("~~~Ending Lexical Analysis");
 	}
 }
 
@@ -241,7 +241,7 @@ function findStringEnd() //find where a string ends by looking for the next quot
 
 function isLetter(character) //checks if a character is a letter. RegEx were not agreeing with outputs from functions, making this necessary.
 {
-	var test = character.match(/[a-zA-Z0-9]/);
+	var test = character.match(/[a-z]/); //removed uppercase support as it did not seem right with 6502a.
 	//alert(test);
 	return (test !== null);
 }
