@@ -159,7 +159,7 @@ function braceHandle(character) //handles brace characters
 function keywordMatch(currentCharacter) //matches a current character(s) to the next set to see if it is a keyword.
 {
 	var nextSpace = findNextSpace();
-	var currentWord = inputProgram.substr(i, nextSpace);
+	var currentWord = inputProgram.substr(i, nextSpace).replace(/\s/g, '');
 	//alert(currentWord);
 	putMessage("-Word Found: " + currentWord);
 	putMessage("-Checking if Keyword");
@@ -182,6 +182,10 @@ function keywordMatch(currentCharacter) //matches a current character(s) to the 
 	else if(currentWord === "if")
 	{
 		createToken(currentWord, "if");
+	}
+	else if(currentWord === "while")
+	{
+		createToken(currentWord, "while");
 	}
 	else if(currentWord === "false")
 	{
@@ -237,7 +241,7 @@ function findStringEnd() //find where a string ends by looking for the next quot
 
 function isLetter(character) //checks if a character is a letter. RegEx were not agreeing with outputs from functions, making this necessary.
 {
-	var test = character.match(/[a-z]/);
+	var test = character.match(/[a-zA-Z0-9]/);
 	//alert(test);
 	return (test !== null);
 }
