@@ -4,6 +4,7 @@
 
 var _LineNumber = 1;
 var _EOF = "$";
+var _EOFCount = 0;
 //var _CurrentToken = "";
 var _ErrorCount = 0;
 var _WarningCount = 0;

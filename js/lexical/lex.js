@@ -70,6 +70,13 @@ function lex()
 				else if(currentChar === _EOF)
 				{
 					createToken(currentChar, "end_of_file");
+					_EOFcount++;
+					if(nextCharacter() !== undefined) //was considering ignoring whitespace, but at the same time, it wwould still be ignored.
+					{
+						putMessage("---WARNING code after end of file on line " + _LineNumber + ", character " + _SymbolLineLocation + " will be ignored");
+						_WarningCount++;
+					}
+					break;
 				}
 				else
 				{
@@ -77,11 +84,20 @@ function lex()
 				}
 			}
 		}
+		if(_EOFCount === 0)
+		{
+			putMessage("---WARNING end of file reached before finding EOF marker on line " + _LineNumber + ", character " + _SymbolLineLocation);
+			putMessage("---WARNING appending EOF");
+			createToken("$", "end_of_file");
+			_WarningCount++;
+		}
+		
 		putMessage("Ending Lexical Analysis");
+		
 		if(_ErrorCount > 0)
 		{
+			putMessage("Error Count: " + _ErrorCount + ", Warning Count: " + _WarningCount);
 			putMessage("Oh No! Errors Found! Check Code for details");
-			//_ErrorCount = 0;
 		}
 		else
 		{
@@ -200,7 +216,7 @@ function stringMatch(currentCharacter) //matches a current character(s) to find 
 	var currentWord = inputProgram.toString().substr((i + 1), stringEnd);
 	//alert(currentWord);
 	createToken(currentWord, ("string(\"" + currentWord + "\")"));
-	i = i + stringEnd;
+	i = i + stringEnd + 1;
 }
 
 function findStringEnd() //find where a string ends by looking for the next quote.

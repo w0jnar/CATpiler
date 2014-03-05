@@ -16,4 +16,5 @@ function reset()
 	_WarningCount = 0;
 	_TokenList = [];
 	_TokenTotal = 1;
+	_EOFCount = 0;
 }
