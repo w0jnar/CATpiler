@@ -10,7 +10,7 @@ function lex()
 	
 	if(inputProgram.length === 0)
 	{
-		putMessage("Error, Program Not Found");
+		putMessage("~~~Error, Program Not Found");
 		_ErrorCount++;
 	}
 	else
@@ -73,21 +73,21 @@ function lex()
 					_EOFCount++;
 					if(nextCharacter() !== undefined) //was considering ignoring whitespace, but at the same time, it wwould still be ignored.
 					{
-						putMessage("---WARNING code after end of file on line " + _LineNumber + ", character " + _SymbolLineLocation + " will be ignored");
+						putMessage("~~~WARNING code after end of file on line " + _LineNumber + ", character " + _SymbolLineLocation + " will be ignored");
 						_WarningCount++;
 					}
 					break;
 				}
 				else
 				{
-					putMessage("---SYNTAX ERROR invalid character on line " + _LineNumber + ", character " + _SymbolLineLocation);
+					putMessage("~~~SYNTAX ERROR invalid character on line " + _LineNumber + ", character " + _SymbolLineLocation);
 				}
 			}
 		}
 		if(_EOFCount === 0)
 		{
-			putMessage("---WARNING end of file reached before finding EOF marker on line " + _LineNumber + ", character " + _SymbolLineLocation);
-			putMessage("---WARNING appending EOF");
+			putMessage("~~~WARNING end of file reached before finding EOF marker on line " + _LineNumber + ", character " + _SymbolLineLocation);
+			putMessage("~~~WARNING appending EOF");
 			createToken("$", "end_of_file");
 			_WarningCount++;
 		}
@@ -197,7 +197,7 @@ function keywordMatch(currentCharacter) //matches a current character(s) to the 
 	}
 	else
 	{
-		putMessage("---SYNTAX ERROR invalid word found on line " + _LineNumber + ", character " + _SymbolLineLocation);
+		putMessage("~~~SYNTAX ERROR invalid word found on line " + _LineNumber + ", character " + _SymbolLineLocation);
 		_ErrorCount++;
 	}
 	//createToken(currentWord, "string...");
@@ -233,7 +233,7 @@ function findStringEnd() //find where a string ends by looking for the next quot
 	}
 	if((index + 1) > inputProgram.length)
 	{
-		putMessage("---SYNTAX ERROR string end not found before end of file on line " + _LineNumber + ", character " + _SymbolLineLocation);
+		putMessage("~~~SYNTAX ERROR string end not found before end of file on line " + _LineNumber + ", character " + _SymbolLineLocation);
 		_ErrorCount++;
 	}
 	return index - i;
@@ -261,7 +261,7 @@ function equalSignCheck() //check what an equal sign means.
 	}
 	else
 	{
-		putMessage("---SYNTAX ERROR invalid character combination starting with \"=\" on line " + _LineNumber + ", character " + _SymbolLineLocation);
+		putMessage("~~~SYNTAX ERROR invalid character combination starting with \"=\" on line " + _LineNumber + ", character " + _SymbolLineLocation);
 		_ErrorCount++;
 	}
 	i = i + nextSpace - 1; //to offset the next character.
@@ -278,7 +278,7 @@ function notEqualCheck() //check if ! means not equal or not.
 	}
 	else
 	{
-		putMessage("---SYNTAX ERROR invalid character combination starting with \"!\" on line " + _LineNumber + ", character " + _SymbolLineLocation);
+		putMessage("~~~SYNTAX ERROR invalid character combination starting with \"!\" on line " + _LineNumber + ", character " + _SymbolLineLocation);
 		_ErrorCount++;
 	}
 	i = i + nextSpace - 1; //to offset the next character.
