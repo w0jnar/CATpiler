@@ -28,10 +28,11 @@
 		<!--CATpiler Scripts-->
 		<script src="js/utils/globals.js"></script>
 		<script src="js/utils/utils.js"></script>
+		<script src="js/utils/buttons.js"></script>
 		<script src="js/lexical/lex.js"></script>
 		<script src="js/lexical/token.js"></script>
 	</head>
-	<body class="left-sidebar">
+	<body class="left-sidebar" onload = "buttonTest()">
 		<!-- Header Wrapper -->
 			<div id="header-wrapper">					
 				<!-- Header -->
@@ -54,33 +55,12 @@
 										<header>
 											<h3>Input Code Here</h3>
 										</header>
-										<textarea style="width: 400px; height: 400px; resize:none;"
+										<textarea style="width: 370px; height: 400px; resize:none;"
 											name="taUserInput"
 											id  ="taUserInput"
 											></textarea>
 										<ul class="actions">
 											<li><a id="btnCATpile" class="button">CATpile!</a></li>
-											<!--<li><input type="button" id="btnCATpile" class="button" value="CATpile!" onclick="alert(&quot;Meow&quot;);"/></li>-->
-											<script>
-												//mainly put this here because I like the fancy button.
-												var buttonListener = document.getElementById("btnCATpile");
-													buttonListener.addEventListener("click",
-														function(){
-															lex();
-															if(_ErrorCount === 0)
-															{
-																//whatever else goes here (probably should be moved else where eventually
-																//this is for token testing.
-																//for(var i = 0; i < _TokenList.length; i++)
-																//{
-																//	tokenToString(_TokenList[i]);
-																//}
-															}
-														},
-														false
-													);
-											</script>
-											<!--<input type="checkbox" name="verboseLex" id="verboseLex"/>-->
 										</ul>
 									</section>
 								</section>

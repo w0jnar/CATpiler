@@ -70,7 +70,7 @@ function lex()
 				else if(currentChar === _EOF)
 				{
 					createToken(currentChar, "end_of_file");
-					_EOFcount++;
+					_EOFCount++;
 					if(nextCharacter() !== undefined) //was considering ignoring whitespace, but at the same time, it wwould still be ignored.
 					{
 						putMessage("---WARNING code after end of file on line " + _LineNumber + ", character " + _SymbolLineLocation + " will be ignored");
@@ -94,7 +94,7 @@ function lex()
 		
 		putMessage("Ending Lexical Analysis");
 		
-		if(_ErrorCount > 0)
+		if(_ErrorCount > 0 || _WarningCount > 0)
 		{
 			putMessage("Error Count: " + _ErrorCount + ", Warning Count: " + _WarningCount);
 			putMessage("Oh No! Errors Found! Check Code for details");
