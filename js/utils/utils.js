@@ -17,4 +17,5 @@ function reset()
 	_TokenList = [];
 	_TokenTotal = 1;
 	_EOFCount = 0;
+	_Index = 0;
 }
