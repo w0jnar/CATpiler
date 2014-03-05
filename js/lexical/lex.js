@@ -56,16 +56,16 @@ function lex()
 				{
 					notEqualCheck();
 				}
-				else if((currentChar === "+" || currentChar === "-") && nextCharacter() === " ") //int ops
+				else if((currentChar === "+" /*|| currentChar === "-"*/) && nextCharacter() === " ") //int ops
 				{
 					if(currentChar === "+") //figured cleaner looking more organized blocks > more outte else/if conditions.
 					{
 						createToken(currentChar, "plus_op");
-					}
+					} /* //originally assumed we had a minus and it was just an error on the grammar, but after discussing it with some people, realized we did not have it. Figured I should leave this just in case.
 					else
 					{
 						createToken(currentChar, "minus_op");
-					}
+					} */
 				}
 				else if(currentChar === _EOF)
 				{
@@ -203,9 +203,10 @@ function keywordMatch(currentCharacter) //matches a current character(s) to the 
 function findNextSpace() //finds the dividing space for accurate string manipulation.
 {
 	var index = i;
-	while(inputProgram[index] !== " ")
+	while(inputProgram[index] !== " " && index < inputProgram.length)
 	{
 		index++;
+		//alert("MEOW");
 	}
 	return index - i;
 }
