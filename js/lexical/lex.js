@@ -19,6 +19,7 @@ function lex()
 		for(i = 0; i < inputProgram.length; i++)
 		{
 			currentChar = currentCharacter();
+			_CharacterGet = false;
 			if(currentChar === "space" || currentChar === "newline" || currentChar === "tab") //space
 			{
 				
@@ -83,6 +84,7 @@ function lex()
 					putMessage("~~~SYNTAX ERROR invalid character on line " + _LineNumber + ", character " + _SymbolLineLocation);
 				}
 			}
+			_CharacterGet = true;
 		}
 		if(_EOFCount === 0)
 		{
@@ -110,8 +112,11 @@ function currentCharacter() //returns the current character we are on.
 {
 	if(i < inputProgram.length)
 	{
+		if(_CharacterGet === true)
+		{
+			_SymbolLineLocation++;
+		}
 		currentSymbol = inputProgram[i];
-		_SymbolLineLocation++;
 		if(currentSymbol === "\n")
 		{
 			_SymbolLineLocation = 0;
@@ -201,6 +206,7 @@ function keywordMatch(currentCharacter) //matches a current character(s) to the 
 		_ErrorCount++;
 	}
 	//createToken(currentWord, "string...");
+	_SymbolLineLocation += nextSpace - 2;
 	i = i + nextSpace - 1; //modifies i to move past the rest of the string.
 }
 
@@ -221,6 +227,7 @@ function stringMatch(currentCharacter) //matches a current character(s) to find 
 	var currentWord = inputProgram.toString().substr((i + 1), stringEnd);
 	//alert(currentWord);
 	createToken(currentWord, ("string(\"" + currentWord + "\")"));
+	_SymbolLineLocation += stringEnd + 1;
 	i = i + stringEnd + 1;
 }
 
