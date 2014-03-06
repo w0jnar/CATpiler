@@ -78,8 +78,9 @@ function parseBlock()
 	else if(currentStatement.type === "right_brace")
 	{
 		removeDash();
-		putMessage(_CurrentDashes + "Closing Scope from line " + _CurrentBlock.pop() + " on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
-		currentScope();
+		var scopeAboutToLeave = _CurrentBlock.pop();
+		putMessage(_CurrentDashes + "Closing Scope from line " + scopeAboutToLeave + " on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+		putMessage(currentScope(scopeAboutToLeave));
 	}
 	else if(currentStatement.type === "end_of_file")
 	{
@@ -158,23 +159,28 @@ function parseExpr()
 
 function parseIntExpr() //we know we arrived from a digit
 {
-	var currentStatement = _TokenList[_Index++];
-	currentPrint();
-	if(currentStatement.type === "right_paren") //woot!
+	var currentValue = _TokenList[--_Index]; //the number that brought us here.
+	var previousStatement = _TokenList[--_Index]; //what the previous token was, checking for assignment.
+	_Index++;
+	var currentStatement = _TokenList[++_Index]; //the current statement.
+	// alert(currentValue.type);
+	// alert(previousStatement.type);
+	// alert(currentStatement.type);
+	// currentPrint();
+	if(currentStatement.type === "right_paren")
 	{
 		_CurrentDashes += "-";
 		putMessage(_CurrentDashes + "Parsed Int expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
-		_Index--;
 	}
 	else if(currentStatement.type === "plus_op")
 	{
 		//_Index; //to get the next next character next time.
+		_Index++;
 		parseExpr();
 	}
-	else if(currentStatement.type === "assignment_op")
+	else if(previousStatement.type === "assignment_op")
 	{
-		currentStatement = _TokenList[_Index++];
-		_SymbolTable[_SymbolTable.length - 1].setValue(currentStatement.value);
+		_SymbolTable[_SymbolTable.length - 1].setValue(currentValue.value);
 		_SymbolTable[_SymbolTable.length - 1].setType("int");
 	}
 	removeDash();
@@ -262,6 +268,13 @@ function parseID()
 	_CurrentDashes += "-";
 	putMessage(_CurrentDashes + "Parsed ID expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
 	removeDash();
+	var previousStatement = _TokenList[_Index - 1];
+	if(previousStatement.type === "assignment_op")
+	{
+		_SymbolTable[_SymbolTable.length - 1].setValue(currentStatement.value);
+		_SymbolTable[_SymbolTable.length - 1].setType("id");
+		_Index++;
+	}
 }
 
 function parseAssignment()
@@ -309,7 +322,23 @@ function escape() //does not work as intended. Pretty sure I know why, but not a
 	}
 }
 
-function currentScope()
+function currentScope(scope)
 {
-	
+	if(_SymbolTable.length === 0)
+	{
+		var outString = "There were no ids in this scope.";
+	}
+	else
+	{
+		var outString = "Final values from ids of this scope: ";
+		for(var i = 0; i < _SymbolTable.length; i++)
+		{
+			if(_SymbolTable[i].scope === scope)
+			{
+				outString += symbolToString(_SymbolTable[i]) + " | ";
+			}
+		}
+		outString = outString.substr(0, outString.length - 3);
+	}
+	return outString;
 }

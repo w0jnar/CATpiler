@@ -15,13 +15,14 @@ function Symbol()
 	function setValue(value)
 	{
 		this.value = value;
-		putMessage("---Symbol " + _SymbolTable[_SymbolTable.length - 1].id + "assigned value " + value);
+		putMessage("---Symbol " + _SymbolTable[_SymbolTable.length - 1].id + " assigned value " + value);
 	}
 	
 	this.setType = setType;
 	function setType(type)
 	{
 		this.type = type;
+		putMessage("---Symbol " + _SymbolTable[_SymbolTable.length - 1].id + " assigned type " + type);
 	}
 }
 
