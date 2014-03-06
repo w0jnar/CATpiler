@@ -66,7 +66,7 @@ function buttons()
 	program4Listener.addEventListener("click",
 		function(){
 			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n   int a\n}$";
+			taUserProgamFill.value = "{\n   while ( ( true == true ) )\n   {\n      int a\n   }\n}";
 		},
 		false
 	);

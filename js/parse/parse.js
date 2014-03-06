@@ -344,6 +344,34 @@ function parseDecl()
 	_Index++;
 }
 
+function parseWhileIf()
+{
+	var currentStatement = _TokenList[_Index++];
+	currentPrint();
+	if(currentStatement.type === "left_paren")
+	{
+		parseBooleanExpr();
+		currentStatement = _TokenList[_Index++];
+		currentPrint();
+		if(currentStatement.type === "right_paren")
+		{
+			parseBlock();
+			_CurrentDashes += "-";
+			putMessage(_CurrentDashes + "Parsed While/If statement on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+			removeDash();
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR invalid While/If statement, missing right parenthesis on line " + currentStatement.lineNumber);
+			_ErrorCount++;
+		}
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid While/If statement, missing left parenthesis on line " + currentStatement.lineNumber);
+			_ErrorCount++;
+	}
+}
 //
 //parse utility functions
 //
@@ -357,14 +385,6 @@ function currentPrint()
 function removeDash()
 {
 	_CurrentDashes = _CurrentDashes.substr(0, (_CurrentDashes - 1));
-}
-
-function escape() //does not work as intended. Pretty sure I know why, but not a huge priority at this time.
-{
-	if(_ErrorCount > 0)
-	{
-		return;
-	}
 }
 
 function currentScope(scope)
@@ -387,4 +407,13 @@ function currentScope(scope)
 		var outString = "There were no ids in this scope.";
 	}
 	return outString;
+}
+
+//intentional extra space for separation.
+function escape() //does not work as intended. Pretty sure I know why, but not a huge priority at this time, will leave in for now as intend on fixing.
+{
+	if(_ErrorCount > 0)
+	{
+		return;
+	}
 }
