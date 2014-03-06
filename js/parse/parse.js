@@ -147,7 +147,7 @@ function parseExpr()
 	{
 		parseStringExpr();
 	}
-	else if(currentStatement.type === "left_paren" || currentStatement.type === "true" || currentStatement.type === "false")
+	else if(currentStatement.type === "left_paren" || currentStatement.type === "right_paren" || currentStatement.type === "true" || currentStatement.type === "false")
 	{
 		_Index--;
 		parseBooleanExpr();
@@ -218,23 +218,66 @@ function parseBooleanExpr()
 {
 	var currentStatement = _TokenList[_Index++]; //decremented because we have already found the next character
 	var nextToken = _TokenList[_Index];
+	var nextFollowingToken = _TokenList[_Index + 1];
 	//alert(currentStatement.type);
-	if((currentStatement.type === "true" || currentStatement.type === "false") && nextToken.type === "right_paren") //check that the next token is the closing paren to make sure the boolean expression is over, otherwise continue.
+	//alert(currentStatement.type);
+	if(currentStatement.type === "left_paren" && (nextToken.type === "true" || nextToken.type === "false") && nextFollowingToken.type === "right_paren") //check for in the middle of another statement
 	{
+		// alert("meow");
 		currentPrint();
 		_CurrentDashes += "-";
 		putMessage(_CurrentDashes + "Parsed Boolean expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
 		//_Index++;
 	}
-	else if(currentStatement.type === "true" || currentStatement.type === "false") //assignment
+	else if((currentStatement.type === "true" || nextToken.type === "false") && nextToken.type === "right_paren") //check that the next token is the closing paren to make sure the boolean expression is over, otherwise continue.
+	{
+		// alert("meow");
+		currentPrint();
+		_CurrentDashes += "-";
+		putMessage(_CurrentDashes + "Parsed Boolean expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+		_Index++;
+	}
+	else if((currentStatement.type === "true" || currentStatement.type === "false") && _TokenList[_Index - 2].type === "assignment_op") //assignment
 	{
 		_SymbolTable[_SymbolTable.length - 1].setValue(currentStatement.value);
 		_SymbolTable[_SymbolTable.length - 1].setType("boolean");
 	}
-	else if(currentStatement.type === "left_paren")
+	else if(currentStatement.type === "left_paren" && nextToken.type === "left_paren")
 	{
 		
 		parseBooleanInternalExpr();
+		
+	}
+	else if(currentStatement.type === "right_paren")
+	{
+		//alert("testmeow");
+		//parseBooleanInternalExpr();
+		
+	}
+	else if(currentStatement.type === "left_paren")
+	{
+		//_Index++;
+		currentPrint();
+		parseExpr();
+		var currentStatement = _TokenList[_Index++]; 
+		//currentPrint();
+		if(currentStatement.value === "==" || currentStatement.value === "!=")
+		{
+			//currentPrint();
+			_Index++;
+			parseExpr();
+			if(currentStatement.type === "right_paren")
+			{
+				//alert("testmeow");
+				//parseBooleanInternalExpr();
+				
+			}
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR invalid Boolean expression, missing operator on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+			_ErrorCount++;
+		}
 		
 	}
 	else
@@ -252,19 +295,34 @@ function parseBooleanInternalExpr() //for internal, multi token bool ops. Not a 
 	var nextToken = _TokenList[_Index];
 	currentPrint();
 	putMessage(_CurrentDashes + "Parsing token: " + nextToken.type + " on line " + nextToken.lineNumber + ", character " + nextToken.position);
-	if((currentStatement.type === "true" || currentStatement.type === "false") && nextToken.type.substr(0, 6) === "boolop")
+	if(validBool(currentStatement.value))
 	{
-		var nextTokenInStatement = _TokenList[_Index + 1];
-		_CurrentDashes += "-";
-		putMessage(_CurrentDashes + "Parsing token: " + nextTokenInStatement.type + " on line " + nextTokenInStatement.lineNumber + ", character " + nextTokenInStatement.position);
-		_CurrentDashes += "-";
-		var nextNextTokenInStatement = _TokenList[_Index + 2];
-		putMessage(_CurrentDashes + "Parsing token: " + nextNextTokenInStatement.type + " on line " + nextNextTokenInStatement.lineNumber + ", character " + nextNextTokenInStatement.position);
-		if((nextTokenInStatement.type === "true" || nextTokenInStatement.type === "false") && nextNextTokenInStatement.type === "right_paren")
+		_Index++;
+		parseExpr();
+		var currentStatement = _TokenList[_Index++];
+		currentPrint();
+		if(currentStatement.value === "==" || currentStatement.value === "!=")
 		{
-			_CurrentDashes += "-";
-			putMessage(_CurrentDashes + "Parsed valid Boolean expression on line " + currentStatement.lineNumber);
-			_Index += 3;
+			parseExpr();
+			currentStatement = _TokenList[_Index++];
+			currentPrint();
+			if(currentStatement.type === "right_paren")
+			{
+				parseBlock();
+				_CurrentDashes += "-";
+				putMessage(_CurrentDashes + "Parsed Boolean expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+				removeDash();
+			}
+			else
+			{
+				putMessage("~~~PARSE ERROR invalid Boolean expression, missing right parenthesis on line " + currentStatement.lineNumber);
+				_ErrorCount++;
+			}
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR invalid Boolean expression, missing operator on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+			_ErrorCount++;
 		}
 	}
 	else
@@ -385,6 +443,20 @@ function currentPrint()
 function removeDash()
 {
 	_CurrentDashes = _CurrentDashes.substr(0, (_CurrentDashes - 1));
+}
+
+function validBool(value)
+{
+	var testChar = value.charAt(0);
+	//alert(testChar);
+	if(testChar === "+" || testChar === "=" || testChar === "!")
+	{
+		return false;
+	}
+	else
+	{
+		return true
+	}
 }
 
 function currentScope(scope)

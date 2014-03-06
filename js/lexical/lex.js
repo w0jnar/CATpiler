@@ -45,7 +45,7 @@ function lex()
 				{
 					keywordMatch(currentChar);
 				}
-				else if((currentChar === "\"") && (isLetter(nextCharacter()))) //strings
+				else if((currentChar === "\"") && (isLetter(nextCharacter()) || nextCharacter() === " ")) //strings
 				{
 					stringMatch(currentChar);
 				}
@@ -82,6 +82,7 @@ function lex()
 				else
 				{
 					putMessage("~~~SYNTAX ERROR invalid character on line " + _LineNumber + ", character " + _SymbolLineLocation);
+					_ErrorCount++;
 				}
 			}
 			_CharacterGet = true;
@@ -224,6 +225,7 @@ function findNextSpace() //finds the dividing space for accurate string manipula
 function stringMatch(currentCharacter) //matches a current character(s) to find a string.
 {
 	var stringEnd = findStringEnd();
+	//alert(stringEnd);
 	var currentWord = inputProgram.toString().substr((i + 1), stringEnd);
 	//alert(currentWord);
 	createToken(currentWord, ("string(\"" + currentWord + "\")"));
