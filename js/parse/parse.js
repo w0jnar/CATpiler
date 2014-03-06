@@ -84,8 +84,16 @@ function parseBlock()
 	}
 	else if(currentStatement.type === "end_of_file")
 	{
-		removeDash();
-		putMessage("Ending program on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+		if(_CurrentBlock.length > 0) //check if we have left all of the scopes.
+		{
+			putMessage("~~~PARSE ERROR End of file reached while still in scope");
+			_ErrorCount++;
+		}
+		else
+		{
+			removeDash();
+			putMessage("Ending program on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+		}
 	}
 	else
 	{
@@ -271,6 +279,11 @@ function parseID()
 {
 	var currentStatement = _TokenList[--_Index];
 	var id = currentStatement.type.charAt(7);
+	if(_DeclarationFlag === true) //We arrive from a variable declaration.
+	{
+		_DeclarationFlag = false;
+		_Index--;
+	}
 	createSymbol(id, currentStatement);
 	_CurrentDashes += "-";
 	//alert(currentStatement.type);
@@ -310,6 +323,30 @@ function parseAssignment()
 	}
 }
 
+function parseDecl()
+{
+	var currentStatement = _TokenList[--_Index];
+	currentPrint();
+	_Index++;
+	var nextToken = _TokenList[_Index];
+	//alert(nextToken.type);
+	if(/^[a-z]$/.test(nextToken.type.charAt(7)))
+	{
+		_Index++;
+		_DeclarationFlag = true;
+		parseID();
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid Declaration expression on line " + currentStatement.lineNumber);
+		_ErrorCount++;
+	}
+	_Index++;
+}
+
+//
+//parse utility functions
+//
 function currentPrint()
 {
 	_CurrentDashes += "-";

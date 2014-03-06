@@ -52,4 +52,22 @@ function buttons()
 		},
 		false
 	);
+	
+	var program3Listener = document.getElementById("btnProgram3");
+	program3Listener.addEventListener("click",
+		function(){
+			var taUserProgamFill = document.getElementById("taUserInput");
+			taUserProgamFill.value = "{\n   print ( ( true == true ))\n   a = true\n   b = 2\n   print ( 2 )\n   b = \"cats\"\n   print ( b )\n   {\n   }\n}$";
+		},
+		false
+	);
+	
+	var program4Listener = document.getElementById("btnProgram4");
+	program4Listener.addEventListener("click",
+		function(){
+			var taUserProgamFill = document.getElementById("taUserInput");
+			taUserProgamFill.value = "{\n   int a\n}$";
+		},
+		false
+	);
 }
