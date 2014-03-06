@@ -104,7 +104,8 @@ function parsePrint()
 		currentStatement = _TokenList[_Index++];
 		if(currentStatement.type === "right_paren")
 		{
-			_CurrentDashes += "-";
+			currentPrint();
+			//_CurrentDashes += "-";
 			putMessage("Parsed valid print statement on line " + currentStatement.lineNumber);
 		}
 		else
@@ -138,6 +139,7 @@ function parseExpr()
 	}
 	else if(currentStatement.type === "left_paren" || currentStatement.type === "true" || currentStatement.type === "false")
 	{
+		_Index--;
 		parseBooleanExpr();
 	}
 	else if(currentStatement.type.substr(0,7) === "var_id(")
@@ -178,6 +180,61 @@ function parseStringExpr() //not sure what else to do here as this is more or le
 	_CurrentDashes += "-";
 	putMessage(_CurrentDashes + "Parsed Charlist expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
 	removeDash();
+}
+
+function parseBooleanExpr()
+{
+	var currentStatement = _TokenList[_Index++]; //decremented because we have already found the next character
+	var nextToken = _TokenList[_Index];
+	//alert(currentStatement.type);
+	if((currentStatement.type === "true" || currentStatement.type === "false") && nextToken.type === "right_paren") //check that the next token is the closing paren to make sure the boolean expression is over, otherwise continue.
+	{
+		currentPrint();
+		_CurrentDashes += "-";
+		putMessage(_CurrentDashes + "Parsed Boolean expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+		//_Index++;
+	}
+	else if(currentStatement.type === "left_paren")
+	{
+		
+		parseBooleanInternalExpr();
+		
+	}
+	else
+	{
+		alert("meow");
+	}
+	removeDash();
+	escape();
+}
+
+function parseBooleanInternalExpr() //for internal, multi token bool ops. Not a fan of this, but was truly not sure how to proceed on this.
+{
+	var currentStatement = _TokenList[_Index++];
+	var nextToken = _TokenList[_Index];
+	currentPrint();
+	putMessage(_CurrentDashes + "Parsing token: " + nextToken.type + " on line " + nextToken.lineNumber + ", character " + nextToken.position);
+	if((currentStatement.type === "true" || currentStatement.type === "false") && nextToken.type.substr(0, 6) === "boolop")
+	{
+		var nextTokenInStatement = _TokenList[_Index + 1];
+		_CurrentDashes += "-";
+		putMessage(_CurrentDashes + "Parsing token: " + nextTokenInStatement.type + " on line " + nextTokenInStatement.lineNumber + ", character " + nextTokenInStatement.position);
+		_CurrentDashes += "-";
+		var nextNextTokenInStatement = _TokenList[_Index + 2];
+		putMessage(_CurrentDashes + "Parsing token: " + nextNextTokenInStatement.type + " on line " + nextNextTokenInStatement.lineNumber + ", character " + nextNextTokenInStatement.position);
+		if((nextTokenInStatement.type === "true" || nextTokenInStatement.type === "false") && nextNextTokenInStatement.type === "right_paren")
+		{
+			_CurrentDashes += "-";
+			putMessage(_CurrentDashes + "Parsed valid Boolean expression on line " + currentStatement.lineNumber);
+			_Index += 3;
+		}
+	}
+	else
+	{
+		//currentPrint();
+		putMessage("~~~PARSE ERROR invalid Boolean expression, missing closing parenthesis on line " + currentStatement.lineNumber);
+		_ErrorCount++;
+	}
 }
 
 function parseID()
