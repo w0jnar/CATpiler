@@ -183,6 +183,11 @@ function parseIntExpr() //we know we arrived from a digit
 		_SymbolTable[_SymbolTable.length - 1].setValue(currentValue.value);
 		_SymbolTable[_SymbolTable.length - 1].setType("int");
 	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid Int expression on line " + currentStatement.lineNumber);
+		_ErrorCount++;
+	}
 	removeDash();
 	escape();
 }
@@ -264,17 +269,20 @@ function parseBooleanInternalExpr() //for internal, multi token bool ops. Not a 
 
 function parseID()
 {
-	var currentStatement = _TokenList[_Index];
+	var currentStatement = _TokenList[--_Index];
+	var id = currentStatement.type.charAt(7);
+	createSymbol(id, currentStatement);
 	_CurrentDashes += "-";
+	//alert(currentStatement.type);
 	putMessage(_CurrentDashes + "Parsed ID expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
 	removeDash();
 	var previousStatement = _TokenList[_Index - 1];
 	if(previousStatement.type === "assignment_op")
 	{
 		_SymbolTable[_SymbolTable.length - 1].setValue(currentStatement.value);
-		_SymbolTable[_SymbolTable.length - 1].setType("id");
-		_Index++;
+		_SymbolTable[_SymbolTable.length - 1].setType("id"); //Assuming this is wrong, but not sure when I want to go with this. I assume it would be fixed by the AST.
 	}
+	_Index++;
 }
 
 function parseAssignment()
@@ -324,21 +332,22 @@ function escape() //does not work as intended. Pretty sure I know why, but not a
 
 function currentScope(scope)
 {
-	if(_SymbolTable.length === 0)
+	var outString = "Final values from ids of this scope: ";
+	for(var i = 0; i < _SymbolTable.length; i++)
 	{
-		var outString = "There were no ids in this scope.";
+		if(_SymbolTable[i].scope === scope)
+		{
+			outString += symbolToString(_SymbolTable[i]) + " | ";
+		}
+	}
+	
+	if(outString.substr(outString.length - 3, outString.length + 1) === " | ")
+	{
+		outString = outString.substr(0, outString.length - 3);
 	}
 	else
 	{
-		var outString = "Final values from ids of this scope: ";
-		for(var i = 0; i < _SymbolTable.length; i++)
-		{
-			if(_SymbolTable[i].scope === scope)
-			{
-				outString += symbolToString(_SymbolTable[i]) + " | ";
-			}
-		}
-		outString = outString.substr(0, outString.length - 3);
+		var outString = "There were no ids in this scope.";
 	}
 	return outString;
 }

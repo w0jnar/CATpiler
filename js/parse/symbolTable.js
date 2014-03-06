@@ -43,7 +43,7 @@ function symbolToString(symbol)
 	var outString = "";
 	outString += "id: " + symbol.id;
 	outString += ", value: " + symbol.value;
-	outString += ", type:" + symbol.type;
+	outString += ", type: " + symbol.type;
 	
 	return outString;
 }
