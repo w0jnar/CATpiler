@@ -35,6 +35,17 @@ function parseProgram() //where most of the work begins/happens for parse.
 		putMessage("~~~PARSE ERROR improper start of program on line " + currentToken.lineNumber + ", character " + currentToken.position);
 		_ErrorCount++;
 	}
+	if(_ErrorCount > 0 || _WarningCount > 0)
+		{
+			putMessage("Error Count: " + _ErrorCount + ", Warning Count: " + _WarningCount);
+			putMessage("Oh No! Errors Found! Check Code for details");
+		}
+		else
+		{
+			putMessage("No Parse Errors Found! Nice!");
+		}
+		
+		putMessage("~~~Ending Parse");
 	escape();
 }
 
@@ -129,7 +140,7 @@ function parseExpr()
 	{
 		parseBooleanExpr();
 	}
-	else if(currentStatement.type === "var_id")
+	else if(currentStatement.type.substr(0,7) === "var_id(")
 	{
 		parseID();
 	}
@@ -144,7 +155,7 @@ function parseExpr()
 
 function parseIntExpr() //we know we arrived from a digit
 {
-	var currentStatement = _TokenList[_Index++]; //do not increment in case it is the matching paren.
+	var currentStatement = _TokenList[_Index++];
 	currentPrint();
 	if(currentStatement.type === "right_paren") //woot!
 	{
@@ -161,6 +172,22 @@ function parseIntExpr() //we know we arrived from a digit
 	escape();
 }
 
+function parseStringExpr() //not sure what else to do here as this is more or less covered earlier in terms of type checking.
+{
+	var currentStatement = _TokenList[_Index];
+	_CurrentDashes += "-";
+	putMessage(_CurrentDashes + "Parsed Charlist expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+	removeDash();
+}
+
+function parseID()
+{
+	var currentStatement = _TokenList[_Index];
+	_CurrentDashes += "-";
+	putMessage(_CurrentDashes + "Parsed ID expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+	removeDash();
+}
+
 function currentPrint()
 {
 	_CurrentDashes += "-";
@@ -173,7 +200,7 @@ function removeDash()
 	_CurrentDashes = _CurrentDashes.substr(0, (_CurrentDashes - 1));
 }
 
-function escape()
+function escape() //does not work as intended. Pretty sure I know why, but not a huge priority at this time.
 {
 	if(_ErrorCount > 0)
 	{
