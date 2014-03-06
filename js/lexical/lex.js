@@ -155,7 +155,7 @@ function braceHandle(character) //handles brace characters
 	{
 		createToken(currentChar, ("left_brace"));
 	}
-	else if(currentChar.match(/[\{]/))
+	else if(currentChar.match(/[\}]/))
 	{
 		createToken(currentChar, ("right_brace"));
 	}

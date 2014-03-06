@@ -66,7 +66,7 @@ function parseBlock()
 	}
 	else if(currentStatement.type === "right_brace")
 	{
-		removeDashes();
+		removeDash();
 		putMessage(_CurrentDashes + "Closing Scope from line " + _CurrentBlock.pop() + " on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
 	}
 	else if(currentStatement.type === "end_of_file")
