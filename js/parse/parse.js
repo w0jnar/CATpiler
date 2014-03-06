@@ -4,6 +4,7 @@
 
 function parse()
 {
+	_WarningCount = 0;
 	putMessage("~~~Starting Parse");
 	if(_TokenList.length === 0) //check if we even have tokens.
 	{
@@ -138,6 +139,7 @@ function parsePrint()
 function parseExpr()
 {
 	var currentStatement = _TokenList[_Index++];
+	//alert(currentStatement.type);
 	currentPrint();
 	if(currentStatement.type.substr(0,6) === "digit(")
 	{
@@ -248,7 +250,7 @@ function parseBooleanExpr()
 		parseBooleanInternalExpr();
 		
 	}
-	else if(currentStatement.type === "right_paren")
+	else if(currentStatement.type === "right_paren" || currentStatement.type === "true" || currentStatement.type === "false")
 	{
 		//alert("testmeow");
 		//parseBooleanInternalExpr();
@@ -260,12 +262,14 @@ function parseBooleanExpr()
 		currentPrint();
 		parseExpr();
 		var currentStatement = _TokenList[_Index++]; 
-		//currentPrint();
+		currentPrint();
+		//alert(currentStatement.value);
 		if(currentStatement.value === "==" || currentStatement.value === "!=")
 		{
 			//currentPrint();
 			_Index++;
 			parseExpr();
+			var currentStatement = _TokenList[_Index++]; 
 			if(currentStatement.type === "right_paren")
 			{
 				//alert("testmeow");
@@ -305,6 +309,7 @@ function parseBooleanInternalExpr() //for internal, multi token bool ops. Not a 
 		{
 			parseExpr();
 			currentStatement = _TokenList[_Index++];
+			//alert(currentStatement.type);
 			currentPrint();
 			if(currentStatement.type === "right_paren")
 			{
@@ -409,7 +414,8 @@ function parseWhileIf()
 	if(currentStatement.type === "left_paren")
 	{
 		parseBooleanExpr();
-		currentStatement = _TokenList[_Index++];
+		currentStatement = _TokenList[_Index - 1];
+		//alert(currentStatement.type);
 		currentPrint();
 		if(currentStatement.type === "right_paren")
 		{

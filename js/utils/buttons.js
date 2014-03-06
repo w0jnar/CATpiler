@@ -39,7 +39,7 @@ function buttons()
 	program1Listener.addEventListener("click",
 		function(){
 			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n   int a\n   a = 1\n   {\n      int a\n      a = 2\n      print ( a )\n   }\n\n   string b\n   b = \"alan\"\n\n   if ( a == 1 ) {\n      print ( b )\n   }\n\n   string c\n   c = \"cat\"\n   b = \"meowington\"\n   print ( b )\n} $";
+			taUserProgamFill.value = "{\n   int a\n   a = 1\n   {\n      int a\n      a = 2\n      print ( a )\n   }\n\n   string b\n   b = \"alan\"\n\n   if ( ( a == 1 ) ) {\n      print ( b )\n   }\n\n   string c\n   c = \"cat\"\n   b = \"meowington\"\n   print ( b )\n} $";
 		},
 		false
 	);
@@ -57,7 +57,7 @@ function buttons()
 	program3Listener.addEventListener("click",
 		function(){
 			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n   print ( ( true == true ))\n   a = true\n   b = 2\n   print ( 2 )\n   b = \"cats\"\n   print ( b )\n   {\n   }\n}$";
+			taUserProgamFill.value = "{\n   print ( true )\n   a = true\n   b = 2\n   print ( 2 )\n   b = \"cats\"\n   print ( b )\n   {\n   }\n}$";
 		},
 		false
 	);
@@ -66,7 +66,7 @@ function buttons()
 	program4Listener.addEventListener("click",
 		function(){
 			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n   while ( ( true == true ) )\n   {\n      int a\n   }\n}";
+			taUserProgamFill.value = "{\n   while ( ( i == 1 ) )\n   {\n      int a\n   }\n}";
 		},
 		false
 	);

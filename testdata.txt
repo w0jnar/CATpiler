@@ -1,0 +1,828 @@
+========================
+= Tests and Output log =
+========================
+//intentionally good test 
+{
+   int a
+   a = 1
+   {
+      int a
+      a = 2
+      print ( a )
+   }
+
+   string b
+   b = "alan"
+
+   if ( ( a == 1 ) ) {
+      print ( b )
+   }
+
+   string c
+   c = "cat"
+   b = "meowington"
+   print ( b )
+} $
+
+~~~Starting Lexical Analysis
+Lexing Character
+-Found: {
+---Token number 1 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: i
+-Word Found: int
+-Checking if Keyword
+---Token number 2 created
+---Token Created of Type: int
+Lexing Character
+-Found: a
+---Token number 3 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: a
+---Token number 4 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 5 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: 1
+---Token number 6 created
+---Token Created of Type: digit(1)
+Lexing Character
+-Found: {
+---Token number 7 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: i
+-Word Found: int
+-Checking if Keyword
+---Token number 8 created
+---Token Created of Type: int
+Lexing Character
+-Found: a
+---Token number 9 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: a
+---Token number 10 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 11 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: 2
+---Token number 12 created
+---Token Created of Type: digit(2)
+Lexing Character
+-Found: p
+-Word Found: print
+-Checking if Keyword
+---Token number 13 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 14 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: a
+---Token number 15 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: )
+---Token number 16 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: }
+---Token number 17 created
+---Token Created of Type: right_brace
+Lexing Character
+-Found: s
+-Word Found: string
+-Checking if Keyword
+---Token number 18 created
+---Token Created of Type: string
+Lexing Character
+-Found: b
+---Token number 19 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: b
+---Token number 20 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 21 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: "
+---Token number 22 created
+---Token Created of Type: string("alan")
+Lexing Character
+-Found: i
+-Word Found: if
+-Checking if Keyword
+---Token number 23 created
+---Token Created of Type: if
+Lexing Character
+-Found: (
+---Token number 24 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: (
+---Token number 25 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: a
+---Token number 26 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 27 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: 1
+---Token number 28 created
+---Token Created of Type: digit(1)
+Lexing Character
+-Found: )
+---Token number 29 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: )
+---Token number 30 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: {
+---Token number 31 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: p
+-Word Found: print
+-Checking if Keyword
+---Token number 32 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 33 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: b
+---Token number 34 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: )
+---Token number 35 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: }
+---Token number 36 created
+---Token Created of Type: right_brace
+Lexing Character
+-Found: s
+-Word Found: string
+-Checking if Keyword
+---Token number 37 created
+---Token Created of Type: string
+Lexing Character
+-Found: c
+---Token number 38 created
+---Token Created of Type: var_id(c)
+Lexing Character
+-Found: c
+---Token number 39 created
+---Token Created of Type: var_id(c)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 40 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: "
+---Token number 41 created
+---Token Created of Type: string("cat")
+Lexing Character
+-Found: b
+---Token number 42 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 43 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: "
+---Token number 44 created
+---Token Created of Type: string("meowington")
+Lexing Character
+-Found: p
+-Word Found: print
+-Checking if Keyword
+---Token number 45 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 46 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: b
+---Token number 47 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: )
+---Token number 48 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: }
+---Token number 49 created
+---Token Created of Type: right_brace
+Lexing Character
+-Found: $
+---Token number 50 created
+---Token Created of Type: end_of_file
+No Lexical Errors Found! Nice!
+~~~Ending Lexical Analysis
+~~~Starting Parse
+-Parsing token: left_brace on line 1, character 0
+Opening new scope on line 1, character 0
+-Parsing token: int on line 2, character 4
+--Parsing token: left_brace on line 1, character 0
+---Symbol number 1 created
+---Symbol Created of with id: a
+---Parsed ID expression on line 2, character 7
+-Parsing token: var_id(a) on line 3, character 4
+--Parsing token: assignment_op on line 3, character 6
+---Symbol number 2 created
+---Symbol Created of with id: a
+---Parsing token: digit(1) on line 3, character 8
+---Symbol a assigned value 1
+---Symbol a assigned type int
+-Parsing token: left_brace on line 4, character 4
+-Opening new scope
+--Parsing token: int on line 5, character 7
+---Parsing token: left_brace on line 4, character 4
+---Symbol number 3 created
+---Symbol Created of with id: a
+----Parsed ID expression on line 5, character 10
+-Parsing token: var_id(a) on line 6, character 7
+--Parsing token: assignment_op on line 6, character 9
+---Symbol number 4 created
+---Symbol Created of with id: a
+---Parsing token: digit(2) on line 6, character 11
+---Symbol a assigned value 2
+---Symbol a assigned type int
+-Parsing token: print on line 7, character 7
+--Parsing token: left_paren on line 7, character 12
+---Parsing token: var_id(a) on line 7, character 14
+---Symbol number 5 created
+---Symbol Created of with id: a
+----Parsed ID expression on line 7, character 14
+-Parsing token: right_paren on line 7, character 16
+Parsed valid print statement on line 7
+-Parsing token: right_brace on line 8, character 4
+Closing Scope from line 21 on line 8, character 4
+Final values from ids of this scope: id: a, value: undefined, type: undefined | id: a, value: 2, type: int | id: a, value: undefined, type: undefined
+-Parsing token: string on line 10, character 4
+--Parsing token: right_brace on line 8, character 4
+---Symbol number 6 created
+---Symbol Created of with id: b
+---Parsed ID expression on line 10, character 10
+-Parsing token: var_id(b) on line 11, character 4
+--Parsing token: assignment_op on line 11, character 6
+---Symbol number 7 created
+---Symbol Created of with id: b
+---Parsing token: string("alan") on line 11, character 8
+----Parsed Charlist expression on line 13, character 4
+-Parsing token: if on line 13, character 4
+--Parsing token: left_paren on line 13, character 6
+---Parsing token: left_paren on line 13, character 8
+----Parsing token: var_id(a) on line 13, character 10
+---Symbol number 8 created
+---Symbol Created of with id: a
+-----Parsed ID expression on line 13, character 10
+-Parsing token: right_paren on line 13, character 16
+-Parsing token: right_paren on line 13, character 18
+--Parsing token: left_brace on line 13, character 20
+--Opening new scope
+---Parsing token: print on line 14, character 7
+----Parsing token: left_paren on line 14, character 12
+-----Parsing token: var_id(b) on line 14, character 14
+---Symbol number 9 created
+---Symbol Created of with id: b
+------Parsed ID expression on line 14, character 14
+-Parsing token: right_paren on line 14, character 16
+Parsed valid print statement on line 14
+-Parsed While/If statement on line 13, character 18
+-Parsing token: right_brace on line 15, character 4
+Closing Scope from line 21 on line 15, character 4
+Final values from ids of this scope: id: a, value: undefined, type: undefined | id: a, value: 2, type: int | id: a, value: undefined, type: undefined | id: b, value: undefined, type: undefined
+-Parsing token: string on line 17, character 4
+--Parsing token: right_brace on line 15, character 4
+---Symbol number 10 created
+---Symbol Created of with id: c
+---Parsed ID expression on line 17, character 10
+-Parsing token: var_id(c) on line 18, character 4
+--Parsing token: assignment_op on line 18, character 6
+---Symbol number 11 created
+---Symbol Created of with id: c
+---Parsing token: string("cat") on line 18, character 8
+----Parsed Charlist expression on line 19, character 4
+-Parsing token: var_id(b) on line 19, character 4
+--Parsing token: assignment_op on line 19, character 6
+---Symbol number 12 created
+---Symbol Created of with id: b
+---Parsing token: string("meowington") on line 19, character 8
+----Parsed Charlist expression on line 20, character 4
+-Parsing token: print on line 20, character 4
+--Parsing token: left_paren on line 20, character 9
+---Parsing token: var_id(b) on line 20, character 11
+---Symbol number 13 created
+---Symbol Created of with id: b
+----Parsed ID expression on line 20, character 11
+-Parsing token: right_paren on line 20, character 13
+Parsed valid print statement on line 20
+-Parsing token: right_brace on line 21, character 1
+Closing Scope from line 1 on line 21, character 1
+Final values from ids of this scope: id: a, value: undefined, type: undefined | id: a, value: 1, type: int | id: b, value: undefined, type: undefined | id: b, value: undefined, type: undefined | id: a, value: undefined, type: undefined | id: c, value: undefined, type: undefined | id: c, value: undefined, type: undefined | id: b, value: undefined, type: undefined | id: b, value: undefined, type: undefined
+-Parsing token: end_of_file on line 21, character 3
+Ending program on line 21, character 3
+No Parse Errors Found! Nice!
+~~~Ending Parse
+
+
+
+
+
+//intentionally bad
+{
+   int a = 1
+   inta
+
+   while (  false  ) {
+      print ( "MEOW"  )
+   }
+   string b
+   string c
+   c2 = "cat
+   print( a )
+   b = "meowington"
+   print ( b )
+}
+
+~~~Starting Lexical Analysis
+Lexing Character
+-Found: {
+---Token number 1 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: i
+-Word Found: int
+-Checking if Keyword
+---Token number 2 created
+---Token Created of Type: int
+Lexing Character
+-Found: a
+---Token number 3 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 4 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: 1
+---Token number 5 created
+---Token Created of Type: digit(1)
+Lexing Character
+-Found: i
+-Word Found: inta
+-Checking if Keyword
+~~~SYNTAX ERROR invalid word found on line 3, character 4
+Lexing Character
+-Found: w
+-Word Found: while
+-Checking if Keyword
+---Token number 6 created
+---Token Created of Type: while
+Lexing Character
+-Found: (
+---Token number 7 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: f
+-Word Found: false
+-Checking if Keyword
+---Token number 8 created
+---Token Created of Type: false
+Lexing Character
+-Found: )
+---Token number 9 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: {
+---Token number 10 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: p
+-Word Found: print
+-Checking if Keyword
+---Token number 11 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 12 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: "
+~~~SYNTAX ERROR invalid character on line 6, character 14
+Lexing Character
+-Found: M
+~~~SYNTAX ERROR invalid character on line 6, character 15
+Lexing Character
+-Found: E
+~~~SYNTAX ERROR invalid character on line 6, character 16
+Lexing Character
+-Found: O
+~~~SYNTAX ERROR invalid character on line 6, character 17
+Lexing Character
+-Found: W
+~~~SYNTAX ERROR invalid character on line 6, character 18
+Lexing Character
+-Found: "
+---Token number 13 created
+---Token Created of Type: string("  )
+   }
+   string b
+   string c
+   c2 = ")
+Lexing Character
+-Found: c
+-Word Found: cat
+-Checking if Keyword
+~~~SYNTAX ERROR invalid word found on line 6, character 62
+Lexing Character
+-Found: p
+-Word Found: print(
+-Checking if Keyword
+~~~SYNTAX ERROR invalid word found on line 7, character 4
+Lexing Character
+-Found: a
+---Token number 14 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: )
+---Token number 15 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: b
+---Token number 16 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 17 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: "
+---Token number 18 created
+---Token Created of Type: string("meowington")
+Lexing Character
+-Found: p
+-Word Found: print
+-Checking if Keyword
+---Token number 19 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 20 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: b
+---Token number 21 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: )
+---Token number 22 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: }
+---Token number 23 created
+---Token Created of Type: right_brace
+~~~WARNING end of file reached before finding EOF marker on line 10, character 1
+~~~WARNING appending EOF
+---Token number 24 created
+---Token Created of Type: end_of_file
+Error Count: 8, Warning Count: 1
+Oh No! Errors Found! Check Code for details
+~~~Ending Lexical Analysis
+
+
+
+
+//Mid development test
+{
+   print (  true )
+   a = true
+   b = 2
+   print ( 2 )
+   b = "cats"
+   print ( b )
+   {
+   }
+}$
+
+~~~Starting Lexical Analysis
+Lexing Character
+-Found: {
+---Token number 1 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: p
+-Word Found: print
+-Checking if Keyword
+---Token number 2 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 3 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: t
+-Word Found: true
+-Checking if Keyword
+---Token number 4 created
+---Token Created of Type: true
+Lexing Character
+-Found: )
+---Token number 5 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: a
+---Token number 6 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 7 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: t
+-Word Found: true
+-Checking if Keyword
+---Token number 8 created
+---Token Created of Type: true
+Lexing Character
+-Found: b
+---Token number 9 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 10 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: 2
+---Token number 11 created
+---Token Created of Type: digit(2)
+Lexing Character
+-Found: p
+-Word Found: print
+-Checking if Keyword
+---Token number 12 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 13 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: 2
+---Token number 14 created
+---Token Created of Type: digit(2)
+Lexing Character
+-Found: )
+---Token number 15 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: b
+---Token number 16 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 17 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: "
+---Token number 18 created
+---Token Created of Type: string("cats")
+Lexing Character
+-Found: p
+-Word Found: print
+-Checking if Keyword
+---Token number 19 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 20 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: b
+---Token number 21 created
+---Token Created of Type: var_id(b)
+Lexing Character
+-Found: )
+---Token number 22 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: {
+---Token number 23 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: }
+---Token number 24 created
+---Token Created of Type: right_brace
+Lexing Character
+-Found: }
+---Token number 25 created
+---Token Created of Type: right_brace
+Lexing Character
+-Found: $
+---Token number 26 created
+---Token Created of Type: end_of_file
+No Lexical Errors Found! Nice!
+~~~Ending Lexical Analysis
+~~~Starting Parse
+-Parsing token: left_brace on line 1, character 0
+Opening new scope on line 1, character 0
+-Parsing token: print on line 2, character 4
+--Parsing token: left_paren on line 2, character 9
+---Parsing token: true on line 2, character 12
+----Parsing token: true on line 2, character 12
+-----Parsed Boolean expression on line 2, character 12
+-Parsing token: right_paren on line 2, character 16
+Parsed valid print statement on line 2
+-Parsing token: var_id(a) on line 3, character 4
+--Parsing token: assignment_op on line 3, character 6
+---Symbol number 1 created
+---Symbol Created of with id: a
+---Parsing token: true on line 3, character 8
+---Symbol a assigned value true
+---Symbol a assigned type boolean
+-Parsing token: var_id(b) on line 4, character 4
+--Parsing token: assignment_op on line 4, character 6
+---Symbol number 2 created
+---Symbol Created of with id: b
+---Parsing token: digit(2) on line 4, character 8
+---Symbol b assigned value 2
+---Symbol b assigned type int
+-Parsing token: print on line 5, character 4
+--Parsing token: left_paren on line 5, character 9
+---Parsing token: digit(2) on line 5, character 11
+----Parsed Int expression on line 5, character 13
+-Parsing token: right_paren on line 5, character 13
+Parsed valid print statement on line 5
+-Parsing token: var_id(b) on line 6, character 4
+--Parsing token: assignment_op on line 6, character 6
+---Symbol number 3 created
+---Symbol Created of with id: b
+---Parsing token: string("cats") on line 6, character 8
+----Parsed Charlist expression on line 7, character 4
+-Parsing token: print on line 7, character 4
+--Parsing token: left_paren on line 7, character 9
+---Parsing token: var_id(b) on line 7, character 11
+---Symbol number 4 created
+---Symbol Created of with id: b
+----Parsed ID expression on line 7, character 11
+-Parsing token: right_paren on line 7, character 13
+Parsed valid print statement on line 7
+-Parsing token: left_brace on line 8, character 4
+-Opening new scope
+--Parsing token: right_brace on line 9, character 4
+Closing Scope from line 10 on line 9, character 4
+There were no ids in this scope.
+-Parsing token: right_brace on line 10, character 1
+Closing Scope from line 1 on line 10, character 1
+Final values from ids of this scope: id: a, value: true, type: boolean | id: b, value: 2, type: int | id: b, value: undefined, type: undefined | id: b, value: undefined, type: undefined
+-Parsing token: end_of_file on line 10, character 2
+Ending program on line 10, character 2
+No Parse Errors Found! Nice!
+~~~Ending Parse
+
+
+
+
+//while test
+{
+   while ( ( i == 1 ) )
+   {
+      int a
+   }
+}
+
+~~~Starting Lexical Analysis
+Lexing Character
+-Found: {
+---Token number 1 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: w
+-Word Found: while
+-Checking if Keyword
+---Token number 2 created
+---Token Created of Type: while
+Lexing Character
+-Found: (
+---Token number 3 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: (
+---Token number 4 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: i
+---Token number 5 created
+---Token Created of Type: var_id(i)
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 6 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: 1
+---Token number 7 created
+---Token Created of Type: digit(1)
+Lexing Character
+-Found: )
+---Token number 8 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: )
+---Token number 9 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: {
+---Token number 10 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: i
+-Word Found: int
+-Checking if Keyword
+---Token number 11 created
+---Token Created of Type: int
+Lexing Character
+-Found: a
+---Token number 12 created
+---Token Created of Type: var_id(a)
+Lexing Character
+-Found: }
+---Token number 13 created
+---Token Created of Type: right_brace
+Lexing Character
+-Found: }
+---Token number 14 created
+---Token Created of Type: right_brace
+~~~WARNING end of file reached before finding EOF marker on line 6, character 1
+~~~WARNING appending EOF
+---Token number 15 created
+---Token Created of Type: end_of_file
+Error Count: 0, Warning Count: 1
+Oh No! Errors Found! Check Code for details
+~~~Ending Lexical Analysis
+~~~Starting Parse
+-Parsing token: left_brace on line 1, character 0
+Opening new scope on line 1, character 0
+-Parsing token: while on line 2, character 4
+--Parsing token: left_paren on line 2, character 9
+---Parsing token: left_paren on line 2, character 11
+----Parsing token: var_id(i) on line 2, character 13
+---Symbol number 1 created
+---Symbol Created of with id: i
+-----Parsed ID expression on line 2, character 13
+-Parsing token: boolop_equal on line 2, character 15
+--Parsing token: right_paren on line 2, character 19
+-Parsing token: right_paren on line 2, character 21
+--Parsing token: left_brace on line 3, character 4
+--Opening new scope
+---Parsing token: int on line 4, character 7
+----Parsing token: left_brace on line 3, character 4
+---Symbol number 2 created
+---Symbol Created of with id: a
+-----Parsed ID expression on line 4, character 10
+-Parsed While/If statement on line 2, character 21
+-Parsing token: right_brace on line 5, character 4
+Closing Scope from line 6 on line 5, character 4
+Final values from ids of this scope: id: a, value: undefined, type: undefined
+-Parsing token: right_brace on line 6, character 1
+Closing Scope from line 1 on line 6, character 1
+Final values from ids of this scope: id: i, value: undefined, type: undefined
+-Parsing token: end_of_file on line 6, character 1
+Ending program on line 6, character 1
+No Parse Errors Found! Nice!
+~~~Ending Parse
