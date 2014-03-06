@@ -57,7 +57,7 @@ function parseBlock()
 	{
 		parsePrint();
 	}
-	else if(currentStatement.type === "var_id")
+	else if(currentStatement.type.substr(0,7) === "var_id(")
 	{
 		parseAssignment();
 	}
@@ -79,6 +79,7 @@ function parseBlock()
 	{
 		removeDash();
 		putMessage(_CurrentDashes + "Closing Scope from line " + _CurrentBlock.pop() + " on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
+		currentScope();
 	}
 	else if(currentStatement.type === "end_of_file")
 	{
@@ -170,16 +171,28 @@ function parseIntExpr() //we know we arrived from a digit
 		//_Index; //to get the next next character next time.
 		parseExpr();
 	}
+	else if(currentStatement.type === "assignment_op")
+	{
+		currentStatement = _TokenList[_Index++];
+		_SymbolTable[_SymbolTable.length - 1].setValue(currentStatement.value);
+		_SymbolTable[_SymbolTable.length - 1].setType("int");
+	}
 	removeDash();
 	escape();
 }
 
-function parseStringExpr() //not sure what else to do here as this is more or less covered earlier in terms of type checking.
+function parseStringExpr()
 {
 	var currentStatement = _TokenList[_Index];
 	_CurrentDashes += "-";
 	putMessage(_CurrentDashes + "Parsed Charlist expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
 	removeDash();
+	var previousStatement = _TokenList[_Index - 1];
+	if(previousStatement.type === "assignment_op")
+	{
+		_SymbolTable[_SymbolTable.length - 1].setValue(currentStatement.value);
+		_SymbolTable[_SymbolTable.length - 1].setType("string");
+	}
 }
 
 function parseBooleanExpr()
@@ -194,6 +207,11 @@ function parseBooleanExpr()
 		putMessage(_CurrentDashes + "Parsed Boolean expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
 		//_Index++;
 	}
+	else if(currentStatement.type === "true" || currentStatement.type === "false") //assignment
+	{
+		_SymbolTable[_SymbolTable.length - 1].setValue(currentStatement.value);
+		_SymbolTable[_SymbolTable.length - 1].setType("boolean");
+	}
 	else if(currentStatement.type === "left_paren")
 	{
 		
@@ -202,7 +220,8 @@ function parseBooleanExpr()
 	}
 	else
 	{
-		alert("meow");
+		putMessage("~~~PARSE ERROR invalid Boolean expression on line " + currentStatement.lineNumber);
+		_ErrorCount++;
 	}
 	removeDash();
 	escape();
@@ -245,6 +264,31 @@ function parseID()
 	removeDash();
 }
 
+function parseAssignment()
+{
+	//alert("meow");
+	var id = _TokenList[_Index - 1].type.charAt(7); //need to retrieve the previous token as it has the name of the id.
+	var currentStatement = _TokenList[_Index - 1];
+	//var id = currentStatement.type.substr(7,8);
+	//alert(id);
+	//currentPrint();
+	if(currentStatement.type.substr(0,7) === "var_id(")
+	{
+		var nextToken = _TokenList[_Index++];
+		currentPrint();
+		if(nextToken.type === "assignment_op")
+		{
+			createSymbol(id, currentStatement);
+			parseExpr();
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR invalid Assignment expression on line " + currentStatement.lineNumber);
+			_ErrorCount++;
+		}
+	}
+}
+
 function currentPrint()
 {
 	_CurrentDashes += "-";
@@ -263,4 +307,9 @@ function escape() //does not work as intended. Pretty sure I know why, but not a
 	{
 		return;
 	}
+}
+
+function currentScope()
+{
+	
 }

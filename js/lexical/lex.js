@@ -213,7 +213,7 @@ function keywordMatch(currentCharacter) //matches a current character(s) to the 
 function findNextSpace() //finds the dividing space for accurate string manipulation.
 {
 	var index = i;
-	while(inputProgram[index] !== " " && index < inputProgram.length)
+	while((!wsMatch.test(inputProgram[index]) && index < inputProgram.length))
 	{
 		index++;
 		//alert("MEOW");

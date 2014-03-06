@@ -21,3 +21,5 @@ var _CharacterGet = true;
 var _CurrentDashes = "-";
 var _Index = 0;
 var _CurrentBlock = [];
+var _SymbolTable = [];
+var _SymbolTotal = 1;
