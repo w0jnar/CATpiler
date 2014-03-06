@@ -235,7 +235,7 @@ function parseBooleanExpr()
 		currentPrint();
 		_CurrentDashes += "-";
 		putMessage(_CurrentDashes + "Parsed Boolean expression on line " + currentStatement.lineNumber + ", character " + currentStatement.position);
-		_Index++;
+		//_Index++;
 	}
 	else if((currentStatement.type === "true" || currentStatement.type === "false") && _TokenList[_Index - 2].type === "assignment_op") //assignment
 	{
