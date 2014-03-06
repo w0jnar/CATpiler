@@ -8,6 +8,10 @@ function buttons()
 	var catpileListener = document.getElementById("btnCATpile");
 	catpileListener.addEventListener("click",
 		function(){
+			if(document.getElementById("ICanHazSound").checked)
+			{
+				document.getElementById('meow').play();
+			}
 			compile();
 			if(_ErrorCount === 0)
 			{
