@@ -33,7 +33,7 @@ function lex()
 				{
 					createToken(currentChar, "digit(" + currentChar.toString() + ")");
 				}
-				else if((currentChar.match(/[a-z]/)) && (wsMatch.test(nextCharacter()))) //var ids
+				else if((currentChar.match(/[a-z]/)) && (!letterMatch.test(nextCharacter()))) //var ids
 				{
 					createToken(currentChar, ("var_id(" + currentChar + ")"));
 				}
@@ -45,7 +45,7 @@ function lex()
 				{
 					keywordMatch(currentChar);
 				}
-				else if((currentChar === "\"") && (isLetter(nextCharacter()) || nextCharacter() === " ")) //strings
+				else if((currentChar === "\"")/* && (isLetter(nextCharacter()) || nextCharacter() === " ")*/) //strings
 				{
 					stringMatch(currentChar);
 				}
@@ -57,16 +57,9 @@ function lex()
 				{
 					notEqualCheck();
 				}
-				else if((currentChar === "+" /*|| currentChar === "-"*/) && nextCharacter() === " ") //int ops
+				else if(currentChar === "+") //int ops
 				{
-					if(currentChar === "+") //figured cleaner looking more organized blocks > more outte else/if conditions.
-					{
-						createToken(currentChar, "plus_op");
-					} /* //originally assumed we had a minus and it was just an error on the grammar, but after discussing it with some people, realized we did not have it. Figured I should leave this just in case.
-					else
-					{
-						createToken(currentChar, "minus_op");
-					} */
+					createToken(currentChar, "plus_op");
 				}
 				else if(currentChar === _EOF)
 				{
@@ -164,7 +157,7 @@ function braceHandle(character) //handles brace characters
 
 function keywordMatch(currentCharacter) //matches a current character(s) to the next set to see if it is a keyword.
 {
-	var nextSpace = findNextSpace();
+	var nextSpace = findNextNonLetter();
 	var currentWord = inputProgram.substr(i, nextSpace).replace(/\s/g, '');
 	//alert(currentWord);
 	putMessage("-Word Found: " + currentWord);
@@ -211,11 +204,12 @@ function keywordMatch(currentCharacter) //matches a current character(s) to the 
 	i = i + nextSpace - 1; //modifies i to move past the rest of the string.
 }
 
-function findNextSpace() //finds the dividing space for accurate string manipulation.
+function findNextNonLetter() //finds the dividing space for accurate string manipulation. Now obsolete because wrong check.
 {
 	var index = i;
-	while((!wsMatch.test(inputProgram[index]) && index < inputProgram.length))
+	while((letterMatch.test(inputProgram[index]) && index < inputProgram.length))
 	{
+		putMessage("---" + inputProgram[index] + " Found, checking next symbol");
 		index++;
 		//alert("MEOW");
 	}
@@ -228,7 +222,16 @@ function stringMatch(currentCharacter) //matches a current character(s) to find 
 	//alert(stringEnd);
 	var currentWord = inputProgram.toString().substr((i + 1), stringEnd);
 	//alert(currentWord);
-	createToken(currentWord, ("string(\"" + currentWord + "\")"));
+	alert(letterMatch.test(currentWord));
+	if(letterMatch.test(currentWord) || stringEnd === 0)
+	{
+		createToken(currentWord, ("string(\"" + currentWord + "\")"));
+	}
+	else
+	{
+		putMessage("~~~SYNTAX ERROR Improper symbol found in string on line " + _LineNumber + ", character " + _SymbolLineLocation);
+		_ErrorCount++;
+	}
 	_SymbolLineLocation += stringEnd + 1;
 	i = i + stringEnd + 1;
 }
@@ -238,6 +241,8 @@ function findStringEnd() //find where a string ends by looking for the next quot
 	var index = i;
 	while(inputProgram[index + 1] !== "\"" && index < inputProgram.length)
 	{
+		putMessage("---" + inputProgram[index] + " Found, checking next symbol");
+		//alert(inputProgram[index]);
 		index++;
 	}
 	if((index + 1) > inputProgram.length)
@@ -258,22 +263,18 @@ function isLetter(character) //checks if a character is a letter. RegEx were not
 function equalSignCheck() //check what an equal sign means.
 {
 	putMessage("--\"=\" Found, checking next character");
-	var nextSpace = findNextSpace();
-	var currentWord = inputProgram.substr(i, nextSpace);
-	if(currentWord === "==")
+	//var nextSpace = findNextSpace();
+	//var currentWord = inputProgram.substr(i, nextSpace);
+	var nextSymbol = nextCharacter();
+	if(nextSymbol === "=")
 	{
 		createToken("==", "boolop_equal");
 	}
-	else if(currentWord === "=")
+	else
 	{
 		createToken(currentChar, "assignment_op");
 	}
-	else
-	{
-		putMessage("~~~SYNTAX ERROR invalid character combination starting with \"=\" on line " + _LineNumber + ", character " + _SymbolLineLocation);
-		_ErrorCount++;
-	}
-	i = i + nextSpace - 1; //to offset the next character.
+	//i = i + nextSpace - 1; //to offset the next character.
 }
 
 function notEqualCheck() //check if ! means not equal or not.
@@ -291,4 +292,17 @@ function notEqualCheck() //check if ! means not equal or not.
 		_ErrorCount++;
 	}
 	i = i + nextSpace - 1; //to offset the next character.
+}
+
+//obsolete
+
+function findNextSpace() //finds the dividing space for accurate string manipulation. Now obsolete because wrong check.
+{
+	var index = i;
+	while((!wsMatch.test(inputProgram[index]) && index < inputProgram.length))
+	{
+		index++;
+		//alert("MEOW");
+	}
+	return index - i;
 }
