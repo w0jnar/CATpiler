@@ -222,8 +222,8 @@ function stringMatch(currentCharacter) //matches a current character(s) to find 
 	//alert(stringEnd);
 	var currentWord = inputProgram.toString().substr((i + 1), stringEnd);
 	//alert(currentWord);
-	alert(letterMatch.test(currentWord));
-	if(letterMatch.test(currentWord) || stringEnd === 0)
+	//alert(stringMatchRegEx.test(currentWord));
+	if(stringMatchRegEx.test(currentWord) || stringEnd === 0)
 	{
 		createToken(currentWord, ("string(\"" + currentWord + "\")"));
 	}
@@ -241,7 +241,14 @@ function findStringEnd() //find where a string ends by looking for the next quot
 	var index = i;
 	while(inputProgram[index + 1] !== "\"" && index < inputProgram.length)
 	{
-		putMessage("---" + inputProgram[index] + " Found, checking next symbol");
+		if(wsMatch.test(inputProgram[index + 1]))
+		{
+			putMessage("---whitespace Found, checking next symbol");
+		}
+		else
+		{
+			putMessage("---" + inputProgram[index + 1] + " Found, checking next symbol");
+		}
 		//alert(inputProgram[index]);
 		index++;
 	}

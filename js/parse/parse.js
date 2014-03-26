@@ -28,7 +28,6 @@ function parseProgram() //where most of the work begins/happens for parse.
 		while(_Index < _TokenList.length)
 		{
 			parseBlock();
-			escape();
 		}
 	}
 	else
@@ -47,7 +46,6 @@ function parseProgram() //where most of the work begins/happens for parse.
 		}
 		
 		putMessage("~~~Ending Parse");
-	escape();
 }
 
 function parseBlock()
@@ -101,7 +99,6 @@ function parseBlock()
 		putMessage("~~~PARSE ERROR invalid statement on line " + currentToken.lineNumber + ", character " + currentToken.position);
 		_ErrorCount++;
 	}
-	escape();
 }
 
 function parsePrint()
@@ -111,7 +108,6 @@ function parsePrint()
 	if(currentStatement.type === "left_paren")
 	{
 		parseExpr();
-		escape();
 		currentStatement = _TokenList[_Index++];
 		if(currentStatement.type === "right_paren")
 		{
@@ -132,8 +128,6 @@ function parsePrint()
 		_ErrorCount++;
 	}
 	removeDash();
-	escape();
-	
 }
 
 function parseExpr()
@@ -164,7 +158,6 @@ function parseExpr()
 		_ErrorCount++;
 	}
 	removeDash();
-	escape();
 }
 
 function parseIntExpr() //we know we arrived from a digit
@@ -199,7 +192,6 @@ function parseIntExpr() //we know we arrived from a digit
 		_ErrorCount++;
 	}
 	removeDash();
-	escape();
 }
 
 function parseStringExpr()
@@ -290,7 +282,6 @@ function parseBooleanExpr()
 		_ErrorCount++;
 	}
 	removeDash();
-	escape();
 }
 
 function parseBooleanInternalExpr() //for internal, multi token bool ops. Not a fan of this, but was truly not sure how to proceed on this.
@@ -485,13 +476,4 @@ function currentScope(scope)
 		var outString = "There were no ids in this scope.";
 	}
 	return outString;
-}
-
-//intentional extra space for separation.
-function escape() //does not work as intended. Pretty sure I know why, but not a huge priority at this time, will leave in for now as intend on fixing.
-{
-	if(_ErrorCount > 0)
-	{
-		return;
-	}
 }

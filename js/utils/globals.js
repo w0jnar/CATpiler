@@ -17,6 +17,7 @@ var _TokenTotal = 1;
 var _NotMidParse = true;
 var wsMatch = new RegExp("\\s");
 var letterMatch = new RegExp("^[a-z]+$");
+var stringMatchRegEx = new RegExp("^[a-z\\s]+$");
 var _CharacterGet = true;
 //Parse
 var _CurrentDashes = "-";
