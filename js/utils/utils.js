@@ -17,8 +17,8 @@ function reset()
 	_TokenList = [];
 	_TokenTotal = 1;
 	_EOFCount = 0;
-	_Index = 0;
-	_CurrentBlock = [];
-	_SymbolTable = [];
-	_SymbolTotal = 1;
+	// _Index = 0;
+	// _CurrentBlock = [];
+	// _SymbolTable = [];
+	// _SymbolTotal = 1;
 }

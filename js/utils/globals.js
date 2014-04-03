@@ -19,10 +19,14 @@ var wsMatch = new RegExp("\\s");
 var letterMatch = new RegExp("^[a-z]+$");
 var stringMatchRegEx = new RegExp("^[a-z\\s]+$");
 var _CharacterGet = true;
+// //Parse
+// var _CurrentDashes = "-";
+// var _Index = 0;
+// var _CurrentBlock = [];
+// var _SymbolTable = [];
+// var _SymbolTotal = 1;
+// _DeclarationFlag = false;
 //Parse
-var _CurrentDashes = "-";
+var _CheckSuccess = false;
+var currentToken;
 var _Index = 0;
-var _CurrentBlock = [];
-var _SymbolTable = [];
-var _SymbolTotal = 1;
-_DeclarationFlag = false;

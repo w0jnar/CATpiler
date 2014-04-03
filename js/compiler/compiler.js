@@ -7,6 +7,6 @@ function compile() //figured editing this was easier/cleaner than going back and
 	lex();
 	if(_ErrorCount === 0)
 	{
-		//parse();
+		parse();
 	}
 }
