@@ -31,11 +31,10 @@ function parse()
 
 function parseProgram()
 {
-	newTokenSetup();
 	_CheckSuccess = parseBlock();
 	if(_CheckSuccess)
 	{
-		_CheckSuccess = false;
+		newTokenSetup();
 		_CheckSuccess = match("end_of_file");
 		if(_CheckSuccess)
 		{
@@ -56,7 +55,7 @@ function parseProgram()
 
 function parseBlock()
 {
-	_CheckSuccess = false;
+	newTokenSetup();
 	_CheckSuccess = match("left_brace");
 	if(_CheckSuccess)
 		{
@@ -96,6 +95,11 @@ function parseBlock()
 	//alert(_CheckSuccess);
 }
 
+function parseStatementList()
+{
+	return true;
+}
+
 function match(tokenType)
 {
 	return _CurrentToken.type === tokenType;
@@ -104,6 +108,6 @@ function match(tokenType)
 function newTokenSetup() //gets the new token, adds it to the output, and resets _CheckSuccess, as all of those occur in order.
 {
 	_CurrentToken = _TokenList[_Index++]; 
-	putMessage("-Parsing token: " + currentToken.type + " on line " + currentToken.lineNumber + ", character " + currentToken.position);
+	putMessage("-Parsing token: " + _CurrentToken.type + " on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
 	_CheckSuccess = false;
 }

@@ -28,5 +28,5 @@ var _CharacterGet = true;
 // _DeclarationFlag = false;
 //Parse
 var _CheckSuccess = false;
-var currentToken;
+var _CurrentToken;
 var _Index = 0;
