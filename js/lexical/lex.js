@@ -31,11 +31,11 @@ function lex()
 				//alert(isLetter(nextCharacter()));
 				if(currentChar.match(/\d/)) //digits
 				{
-					createToken(currentChar, "digit(" + currentChar.toString() + ")");
+					createToken(currentChar, "digit");
 				}
 				else if((currentChar.match(/[a-z]/)) && (!letterMatch.test(nextCharacter()))) //var ids
 				{
-					createToken(currentChar, ("var_id(" + currentChar + ")"));
+					createToken(currentChar, "var_id");
 				}
 				else if(currentChar.match(/[\(\)\{\}]/)) //brace characters
 				{

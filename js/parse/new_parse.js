@@ -171,6 +171,16 @@ function parsePrintStatement()
 	}
 }
 
+function parseExpr()
+{
+	newTokenSetup();
+	if(match("digit"))
+	{
+		
+	}
+	return true;
+}
+
 function match(tokenType)
 {
 	return _CurrentToken.type === tokenType;

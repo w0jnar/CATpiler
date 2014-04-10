@@ -19,7 +19,14 @@ function createToken(token, type)
 	currentToken.position = _SymbolLineLocation;
 	_TokenList.push(currentToken);
 	putMessage("---Token number " + _TokenTotal++ + " created");
-	putMessage("---Token Created of Type: " + type);
+	if(type === "digit" || type == "var_id")
+	{
+		putMessage("---Token Created of Type: " + type + ", value " + token);
+	}
+	else
+	{
+		putMessage("---Token Created of Type: " + type);
+	}
 }
 
 function tokenToString(token)
