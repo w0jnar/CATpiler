@@ -176,9 +176,33 @@ function parseExpr()
 	newTokenSetup();
 	if(match("digit"))
 	{
-		
+		_CheckSuccess = parseIntExpr();
+	}
+	else if(match("string"))
+	{
+		_CheckSuccess = parseStringExpr();
 	}
 	return true;
+}
+
+function parseIntExpr()
+{
+	newTokenSetup(); //get intop, or not. We arrived via a digit
+	if(match("boolop_equal") || match("boolop_not_equal")) // means this is more than just an digit, otherwise, assume it is just a digit, and move back up the recursion
+	{
+		_CheckSuccess = parseExpr();
+		return _CheckSucces; // should have finished the intExpr here, so, just send the result up. This seems wrong, so we shall see.
+	}
+	else // just a digit, which is valid and should simply move up.
+	{
+		_Index = _Index - 2; // to offset the call to newTokenSetup(), as it will be on the next statement's first token, and the ++ that happens to _Index when calling it.
+		return true;
+	}
+}
+
+function parseStringExpr() //string is already defined... so if we reach this point, we have said string... therefore just return true, for now, until the actual statement outputting comes in
+{
+	return match("string"); //could just return true, thought this would make more sense as a placeholder
 }
 
 function match(tokenType)
@@ -188,7 +212,7 @@ function match(tokenType)
 
 function checkTokensRemaining()
 {
-	return _Index < _TokenList.length -1;
+	return _Index <= _TokenList.length;
 }
 
 function newTokenSetup() //gets the new token, adds it to the output, and resets _CheckSuccess, as all of those occur in order in most of the parse functions.
