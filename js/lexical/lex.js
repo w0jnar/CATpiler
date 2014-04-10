@@ -225,7 +225,7 @@ function stringMatch(currentCharacter) //matches a current character(s) to find 
 	//alert(stringMatchRegEx.test(currentWord));
 	if(stringMatchRegEx.test(currentWord) || stringEnd === 0)
 	{
-		createToken(currentWord, ("string(\"" + currentWord + "\")"));
+		createToken(currentWord, "string");
 	}
 	else
 	{

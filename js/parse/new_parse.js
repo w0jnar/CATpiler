@@ -188,7 +188,7 @@ function match(tokenType)
 
 function checkTokensRemaining()
 {
-	return _Index < _TokenList.length;
+	return _Index < _TokenList.length -1;
 }
 
 function newTokenSetup() //gets the new token, adds it to the output, and resets _CheckSuccess, as all of those occur in order in most of the parse functions.
