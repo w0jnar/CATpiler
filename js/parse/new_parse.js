@@ -122,9 +122,27 @@ function parseStatementList()
 	else
 	{
 		return false; //thought about putting some kind of error message, but felt I already was about this.
+	}	
+}
+
+function parseStatement()
+{
+	putMessage("-Beginning Parse of a Statement");
+	if(match("print"))
+	{
+		_CheckSuccess = parsePrintStatement();
 	}
-	
-	
+	return true;
+}
+
+function parsePrintStatement()
+{
+	newTokenSetup();
+	if(match("left_paren"))
+	{
+		
+	}
+	return true;
 }
 
 function match(tokenType)
