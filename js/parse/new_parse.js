@@ -101,7 +101,9 @@ function parseStatementList()
 	_CheckSuccess = true; //work around in cases where a block is empty, so {}.
 	while(!match("right_brace"))
 	{
+		//alert(_Index);
 		_CheckSuccess = parseStatement();
+		//alert(_CheckSuccess);
 		if(_CheckSuccess)
 		{
 			newTokenSetup();
@@ -115,13 +117,13 @@ function parseStatementList()
 		}
 	}
 	
-	if(_CheckSuccess)
+	if(_CheckSuccess) //temporarily here.
 	{
 		return true;
 	}
 	else
 	{
-		return false; //thought about putting some kind of error message, but felt I already was about this.
+		return false; //thought about putting some kind of error message, but felt I already was about this, not sure yet.
 	}	
 }
 
@@ -132,7 +134,11 @@ function parseStatement()
 	{
 		_CheckSuccess = parsePrintStatement();
 	}
-	return true;
+	else if(match("var_id"))
+	{
+		_CheckSuccess = parseAssignmentStatement();
+	}
+	return _CheckSuccess;
 }
 
 function parsePrintStatement()
@@ -171,6 +177,33 @@ function parsePrintStatement()
 	}
 }
 
+function parseAssignmentStatement()
+{
+	var tokenToAssignTo = _CurrentToken;
+	newTokenSetup();
+	if(match("assignment_op"))
+	{
+		_CheckSuccess = parseExpr();
+		if(_CheckSuccess)
+		{
+			putMessage("-Valid Assignment Statement parsed");
+			return true;
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR invalid assignment statement, invalid expression " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+			_ErrorCount++;
+			return false;
+		}
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid assignment statement, assignment operator missing " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_ErrorCount++;
+		return false;
+	}
+}
+
 function parseExpr()
 {
 	newTokenSetup();
@@ -182,20 +215,28 @@ function parseExpr()
 	{
 		_CheckSuccess = parseStringExpr();
 	}
+	
+	else if(match("var_id"))
+	{
+		_CheckSuccess = parseId();
+	}
 	return true;
 }
 
-function parseIntExpr()
+function parseIntExpr() //bit messier than I would have like but mainly to fix issue with printing the same token twice
 {
-	newTokenSetup(); //get intop, or not. We arrived via a digit
-	if(match("boolop_equal") || match("boolop_not_equal")) // means this is more than just an digit, otherwise, assume it is just a digit, and move back up the recursion
+	_CurrentToken = _TokenList[_Index]; //do not increment in case we only had a digit for this statement
+	_CheckSuccess = false; //most likely unnecessary, but just in case, weird edge case
+	if(match("plus_op")) // means this is more than just an digit, otherwise, assume it is just a digit, and move back up the recursion
 	{
+		putMessage("-Parsing token: " + _CurrentToken.type + " on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_Index++;
 		_CheckSuccess = parseExpr();
-		return _CheckSucces; // should have finished the intExpr here, so, just send the result up. This seems wrong, so we shall see.
+		return _CheckSuccess; // should have finished the intExpr here, so, just send the result up. This seems wrong, so we shall see.
 	}
 	else // just a digit, which is valid and should simply move up.
 	{
-		_Index = _Index - 2; // to offset the call to newTokenSetup(), as it will be on the next statement's first token, and the ++ that happens to _Index when calling it.
+		//_Index = _Index - 1; // to offset the call to newTokenSetup(), as it will be on the next statement's first token, and the ++ that happens to _Index when calling it.
 		return true;
 	}
 }
@@ -203,6 +244,11 @@ function parseIntExpr()
 function parseStringExpr() //string is already defined... so if we reach this point, we have said string... therefore just return true, for now, until the actual statement outputting comes in
 {
 	return match("string"); //could just return true, thought this would make more sense as a placeholder
+}
+
+function parseId() //same as string
+{
+	return match("var_id");
 }
 
 function match(tokenType)
