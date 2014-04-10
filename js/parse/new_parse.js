@@ -48,8 +48,8 @@ function parseProgram()
 	}
 	else
 	{
-		putMessage("~~~PARSE ERROR program block improperly ended on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
-		_ErrorCount++;
+		//putMessage("~~~PARSE ERROR program block improperly ended on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		//_ErrorCount++;
 	}
 }
 
@@ -98,19 +98,33 @@ function parseBlock()
 function parseStatementList()
 {
 	newTokenSetup();
+	_CheckSuccess = true; //work around in cases where a block is empty, so {}.
 	while(!match("right_brace"))
 	{
 		_CheckSuccess = parseStatement();
 		if(_CheckSuccess)
 		{
 			newTokenSetup();
+			_CheckSuccess = true; //work around, as otherwise, if everything went well, it would always return false.
 		}
 		else
 		{
 			putMessage("~~~PARSE ERROR statement improperly parsed on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
 			_ErrorCount++;
+			break;
 		}
 	}
+	
+	if(_CheckSuccess)
+	{
+		return true;
+	}
+	else
+	{
+		return false; //thought about putting some kind of error message, but felt I already was about this.
+	}
+	
+	
 }
 
 function match(tokenType)
