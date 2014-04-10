@@ -138,11 +138,37 @@ function parseStatement()
 function parsePrintStatement()
 {
 	newTokenSetup();
-	if(match("left_paren"))
+	if(match("left_paren")) //left token of print statement
 	{
-		
+		_CheckSuccess = parseExpr();
+		if(_CheckSuccess)
+		{
+			newTokenSetup(); //check for the right token after parsing expr
+			if(match("right_paren"))
+			{
+				putMessage("-Valid Print Statement Parsed");
+				return true;
+			}
+			else
+			{
+				putMessage("~~~PARSE ERROR invalid print statement, right parenthesis expected, but not found " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+				_ErrorCount++;
+				return false;
+			}
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR invalid print statement, expression not parsed properly " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+			_ErrorCount++;
+			return false;
+		}
 	}
-	return true;
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid print statement, left parenthesis not found at line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_ErrorCount++;
+		return false;
+	}
 }
 
 function match(tokenType)
