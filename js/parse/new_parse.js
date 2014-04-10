@@ -64,7 +64,7 @@ function parseBlock()
 			_CheckSuccess = parseStatementList();
 			if(_CheckSuccess)
 			{
-				newTokenSetup();
+				//newTokenSetup();
 				_CheckSuccess = match("right_brace");
 				if(_CheckSuccess)
 				{
@@ -97,7 +97,20 @@ function parseBlock()
 
 function parseStatementList()
 {
-	return true;
+	newTokenSetup();
+	while(!match("right_brace"))
+	{
+		_CheckSuccess = parseStatement();
+		if(_CheckSuccess)
+		{
+			newTokenSetup();
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR statement improperly parsed on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+			_ErrorCount++;
+		}
+	}
 }
 
 function match(tokenType)
@@ -105,9 +118,22 @@ function match(tokenType)
 	return _CurrentToken.type === tokenType;
 }
 
-function newTokenSetup() //gets the new token, adds it to the output, and resets _CheckSuccess, as all of those occur in order.
+function checkTokensRemaining()
 {
-	_CurrentToken = _TokenList[_Index++]; 
-	putMessage("-Parsing token: " + _CurrentToken.type + " on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
-	_CheckSuccess = false;
+	return _Index < _TokenList.length;
+}
+
+function newTokenSetup() //gets the new token, adds it to the output, and resets _CheckSuccess, as all of those occur in order in most of the parse functions.
+{
+	if(checkTokensRemaining)
+	{
+		_CurrentToken = _TokenList[_Index++]; 
+		putMessage("-Parsing token: " + _CurrentToken.type + " on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_CheckSuccess = false;
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR ran out of tokens when a token was needed");
+		_ErrorCount++;
+	}
 }
