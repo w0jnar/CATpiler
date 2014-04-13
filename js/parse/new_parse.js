@@ -142,6 +142,10 @@ function parseStatement()
 	{
 		_CheckSuccess = parseVarDecl();
 	}
+	else if(match("while"))
+	{
+		_CheckSuccess = parseWhileStatement();
+	}
 	return _CheckSuccess;
 }
 
@@ -224,6 +228,13 @@ function parseVarDecl() // we arrive here already knowing a type
 	}
 }
 
+function parseWhileStatement()
+{
+	newTokenSetup();
+	_CheckSuccess = parseBooleanExpr();
+	
+}
+
 function parseExpr()
 {
 	newTokenSetup();
@@ -240,7 +251,17 @@ function parseExpr()
 	{
 		_CheckSuccess = parseId();
 	}
-	return true;
+	else if(match("left_paren") || match("false") || match("true"))
+	{
+		_CheckSuccess = parseBooleanExpr();
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid expression on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_ErrorCount++;
+		return false;
+	}
+	return _CheckSuccess;
 }
 
 function parseIntExpr() //bit messier than I would have like but mainly to fix issue with printing the same token twice
@@ -266,6 +287,69 @@ function parseStringExpr() //string is already defined... so if we reach this po
 	return match("string"); //could just return true, thought this would make more sense as a placeholder
 }
 
+function parseBooleanExpr()
+{
+	//newTokenSetup(); //should be either a left paren, true or false
+	if(match("left_paren"))
+	{
+		_CheckSuccess = parseExpr();
+		if(_CheckSuccess)
+		{
+			newTokenSetup();
+			if(match("boolop_equal") || match("boolop_not_equal"))
+			{
+				//newTokenSetup();
+				_CheckSuccess = parseExpr();
+				if(_CheckSuccess)
+				{
+					newTokenSetup();
+					_CheckSuccess = match("right_paren");
+					if(_CheckSuccess)
+					{
+						putMessage("-Valid Boolean Expression parsed");
+						return true;
+					}
+					else
+					{
+						putMessage("~~~PARSE ERROR invalid boolean expression, right parenthesis not found on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+						_ErrorCount++;
+						return false;
+					}
+				}
+				else
+				{
+					putMessage("~~~PARSE ERROR invalid boolean expression, invalid token on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+					_ErrorCount++;
+					return false;
+				}
+			}
+			else
+			{
+				putMessage("~~~PARSE ERROR invalid boolean expression, invalid boolean operator on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+				_ErrorCount++;
+				return false;
+			}
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR invalid boolean expression, invalid token on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+			_ErrorCount++;
+			return false;
+		}
+	}
+	else if(match("true") || match("false"))
+	{
+		//putMessage("-Valid Boolean Expression parsed");
+		return true;
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid boolean expression, invalid token on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_ErrorCount++;
+		return false;
+	}
+}
+
 function parseId() //same as string
 {
 	return match("var_id");
@@ -288,11 +372,12 @@ function checkTokensRemaining()
 
 function newTokenSetup() //gets the new token, adds it to the output, and resets _CheckSuccess, as all of those occur in order in most of the parse functions.
 {
-	if(checkTokensRemaining)
+	if(checkTokensRemaining())
 	{
 		_CurrentToken = _TokenList[_Index++]; 
 		putMessage("-Parsing token: " + _CurrentToken.type + " on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
 		_CheckSuccess = false;
+		//tokenToString(_CurrentToken);
 	}
 	else
 	{

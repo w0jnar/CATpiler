@@ -276,6 +276,7 @@ function equalSignCheck() //check what an equal sign means.
 	if(nextSymbol === "=")
 	{
 		createToken("==", "boolop_equal");
+		i++;
 	}
 	else
 	{
