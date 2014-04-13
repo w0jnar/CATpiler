@@ -146,6 +146,15 @@ function parseStatement()
 	{
 		_CheckSuccess = parseWhileStatement();
 	}
+	else if(match("if"))
+	{
+		_CheckSuccess = parseIfStatement();
+	}
+	else if(match("left_brace"))
+	{
+		_Index--; //to offset the incrementing that occurs to get here, as parseBlock() looks for the left brace again... which also means the text must be corrected... will fix after it is known to work.
+		_CheckSuccess = parseBlock();
+	}
 	return _CheckSuccess;
 }
 
@@ -250,6 +259,33 @@ function parseWhileStatement()
 	else
 	{
 		putMessage("~~~PARSE ERROR invalid while statement, invalid boolean expression on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_ErrorCount++;
+		return false;
+	}
+}
+
+function parseIfStatement()
+{
+	newTokenSetup();
+	_CheckSuccess = parseBooleanExpr();
+	if(_CheckSuccess)
+	{
+		_CheckSuccess = parseBlock();
+		if(_CheckSuccess)
+		{
+			putMessage("-Valid If Statement parsed");
+			return true;
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR invalid if statement, invalid block on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+			_ErrorCount++;
+			return false;
+		}
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid if statement, invalid boolean expression on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
 		_ErrorCount++;
 		return false;
 	}
