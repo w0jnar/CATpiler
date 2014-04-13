@@ -232,7 +232,27 @@ function parseWhileStatement()
 {
 	newTokenSetup();
 	_CheckSuccess = parseBooleanExpr();
-	
+	if(_CheckSuccess)
+	{
+		_CheckSuccess = parseBlock();
+		if(_CheckSuccess)
+		{
+			putMessage("-Valid While Statement parsed");
+			return true;
+		}
+		else
+		{
+			putMessage("~~~PARSE ERROR invalid while statement, invalid block on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+			_ErrorCount++;
+			return false;
+		}
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid while statement, invalid boolean expression on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_ErrorCount++;
+		return false;
+	}
 }
 
 function parseExpr()
