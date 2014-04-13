@@ -138,6 +138,10 @@ function parseStatement()
 	{
 		_CheckSuccess = parseAssignmentStatement();
 	}
+	else if(matchType())
+	{
+		_CheckSuccess = parseVarDecl();
+	}
 	return _CheckSuccess;
 }
 
@@ -198,7 +202,23 @@ function parseAssignmentStatement()
 	}
 	else
 	{
-		putMessage("~~~PARSE ERROR invalid assignment statement, assignment operator missing " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		putMessage("~~~PARSE ERROR invalid assignment statement, assignment operator missing on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_ErrorCount++;
+		return false;
+	}
+}
+
+function parseVarDecl() // we arrive here already knowing a type
+{
+	newTokenSetup();
+	if(match("var_id"))
+	{
+		putMessage("-Valid Variable Declaration Statement parsed");
+		return true;
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid variable declaration statement, invalid variable token on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
 		_ErrorCount++;
 		return false;
 	}
@@ -254,6 +274,11 @@ function parseId() //same as string
 function match(tokenType)
 {
 	return _CurrentToken.type === tokenType;
+}
+
+function matchType()
+{
+	return ((_CurrentToken.type === "int") || (_CurrentToken.type === "string") || (_CurrentToken.type === "boolean"));
 }
 
 function checkTokensRemaining()
