@@ -2,7 +2,7 @@
 //Alan's test programs
 //
 
-//good code
+//good code, should run perfectly
 
 {}$
 
@@ -115,13 +115,13 @@
  }
 }$
 
-//questionable code
+//questionable code, should issue warnings
 
 {}
 
 {print(2)}$extra code
 
-//bad code
+//bad code, should fail at some point
 
 {"$"}$
 

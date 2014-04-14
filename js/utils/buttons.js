@@ -39,7 +39,7 @@ function buttons()
 	program1Listener.addEventListener("click",
 		function(){
 			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n   int a\n   a = 1\n   {\n      int a\n      a = 2\n      print ( a )\n   }\n\n   string b\n   b = \"alan\"\n\n   if ( ( a == 1 ) ) {\n      print ( b )\n   }\n\n   string c\n   c = \"cat\"\n   b = \"meowington\"\n   print ( b )\n} $";
+			taUserProgamFill.value = "{\n int a\n a = 0\n string z\n z = \"bond\"\n while (a != 9) {\n  if(a != 5) {\n    print(\"bond\")\n  }\n  {\n   a = 1 + a\n   string b\n   b = \"james bond\"\n   print(b)\n  }\n }\n {}\n boolean c\n c = true\n boolean d\n d = (true == (true == false))\n d = (a == b)\n d = (1 == a)\n d = (1 != 1)\n d = (\"string\" == 1)\n d = (a != \"string\")\n if(d == true) {\n   int c\n   c = 1 + d\n   if(c == 1){\n     print(\"ugh\")\n   }\n }\n while (\"string\" == a){\n  while(1 == true){\n   a = 1 + \"string\"\n  }\n }\n}$";
 		},
 		false
 	);
@@ -66,7 +66,7 @@ function buttons()
 	program4Listener.addEventListener("click",
 		function(){
 			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n   while ( ( i == 1 ) )\n   {\n      int a\n   }\n}";
+			taUserProgamFill.value = "{\n   while ( i == 1 )\n   {\n      int a\n   }\n}";
 		},
 		false
 	);
