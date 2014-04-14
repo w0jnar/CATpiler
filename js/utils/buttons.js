@@ -65,8 +65,7 @@ function buttons()
 	var program4Listener = document.getElementById("btnProgram4");
 	program4Listener.addEventListener("click",
 		function(){
-			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n   while ( i == 1 )\n   {\n      int a\n   }\n}";
+			window.open('testprograms.txt','_blank');
 		},
 		false
 	);
