@@ -31,6 +31,7 @@ function parse()
 
 function parseProgram()
 {
+	newTokenSetup();
 	_CheckSuccess = parseBlock();
 	if(_CheckSuccess)
 	{
@@ -55,7 +56,7 @@ function parseProgram()
 
 function parseBlock()
 {
-	newTokenSetup();
+	//newTokenSetup();
 	_CheckSuccess = match("left_brace");
 	if(_CheckSuccess)
 		{
@@ -99,7 +100,7 @@ function parseStatementList()
 {
 	newTokenSetup();
 	_CheckSuccess = true; //work around in cases where a block is empty, so {}.
-	while(!match("right_brace"))
+	while(!match("right_brace") || _ErrorCount != 0)
 	{
 		//alert(_Index);
 		_CheckSuccess = parseStatement();
@@ -117,14 +118,15 @@ function parseStatementList()
 		}
 	}
 	
-	if(_CheckSuccess) //temporarily here.
+	if(_CheckSuccess && _ErrorCount === 0)
 	{
 		return true;
 	}
 	else
 	{
-		return false; //thought about putting some kind of error message, but felt I already was about this, not sure yet.
-	}	
+		putMessage("~~~Parse ending due to Error(s)");
+		return false;
+	}		
 }
 
 function parseStatement()
@@ -152,8 +154,13 @@ function parseStatement()
 	}
 	else if(match("left_brace"))
 	{
-		_Index--; //to offset the incrementing that occurs to get here, as parseBlock() looks for the left brace again... which also means the text must be corrected... will fix after it is known to work.
 		_CheckSuccess = parseBlock();
+	}
+	else
+	{
+		putMessage("~~~PARSE ERROR invalid statement, improper starting token on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		_ErrorCount++;
+		return false;
 	}
 	return _CheckSuccess;
 }
@@ -169,26 +176,26 @@ function parsePrintStatement()
 			newTokenSetup(); //check for the right token after parsing expr
 			if(match("right_paren"))
 			{
-				putMessage("-Valid Print Statement Parsed");
+				putMessage("Valid Print Statement Parsed");
 				return true;
 			}
 			else
 			{
-				putMessage("~~~PARSE ERROR invalid print statement, right parenthesis expected, but not found " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+				putMessage("~~~PARSE ERROR invalid print statement, right parenthesis expected, but not found on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
 				_ErrorCount++;
 				return false;
 			}
 		}
 		else
 		{
-			putMessage("~~~PARSE ERROR invalid print statement, expression not parsed properly " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+			putMessage("~~~PARSE ERROR invalid print statement, expression not parsed properly on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
 			_ErrorCount++;
 			return false;
 		}
 	}
 	else
 	{
-		putMessage("~~~PARSE ERROR invalid print statement, left parenthesis not found at line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+		putMessage("~~~PARSE ERROR invalid print statement, left parenthesis not found on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
 		_ErrorCount++;
 		return false;
 	}
@@ -203,12 +210,12 @@ function parseAssignmentStatement()
 		_CheckSuccess = parseExpr();
 		if(_CheckSuccess)
 		{
-			putMessage("-Valid Assignment Statement parsed");
+			putMessage("Valid Assignment Statement parsed");
 			return true;
 		}
 		else
 		{
-			putMessage("~~~PARSE ERROR invalid assignment statement, invalid expression " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
+			putMessage("~~~PARSE ERROR invalid assignment statement, invalid expression on line " + _CurrentToken.lineNumber + ", character " + _CurrentToken.position);
 			_ErrorCount++;
 			return false;
 		}
@@ -226,7 +233,7 @@ function parseVarDecl() // we arrive here already knowing a type
 	newTokenSetup();
 	if(match("var_id"))
 	{
-		putMessage("-Valid Variable Declaration Statement parsed");
+		putMessage("Valid Variable Declaration Statement parsed");
 		return true;
 	}
 	else
@@ -243,10 +250,11 @@ function parseWhileStatement()
 	_CheckSuccess = parseBooleanExpr();
 	if(_CheckSuccess)
 	{
+		newTokenSetup();
 		_CheckSuccess = parseBlock();
 		if(_CheckSuccess)
 		{
-			putMessage("-Valid While Statement parsed");
+			putMessage("Valid While Statement parsed");
 			return true;
 		}
 		else
@@ -270,10 +278,11 @@ function parseIfStatement()
 	_CheckSuccess = parseBooleanExpr();
 	if(_CheckSuccess)
 	{
+		newTokenSetup();
 		_CheckSuccess = parseBlock();
 		if(_CheckSuccess)
 		{
-			putMessage("-Valid If Statement parsed");
+			putMessage("Valid If Statement parsed");
 			return true;
 		}
 		else
@@ -362,7 +371,7 @@ function parseBooleanExpr()
 					_CheckSuccess = match("right_paren");
 					if(_CheckSuccess)
 					{
-						putMessage("-Valid Boolean Expression parsed");
+						putMessage("Valid Boolean Expression parsed");
 						return true;
 					}
 					else
