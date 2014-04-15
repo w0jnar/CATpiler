@@ -25,4 +25,5 @@ var _CurrentToken;
 var _Index = 0;
 
 //CST
-var json ={};
+var _CSTjson ={};
+var _NonTokenNodeCount = 0;
