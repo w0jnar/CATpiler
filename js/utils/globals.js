@@ -6,7 +6,6 @@
 var _LineNumber = 1;
 var _EOF = "$";
 var _EOFCount = 0;
-//var _CurrentToken = "";
 var _ErrorCount = 0;
 var _WarningCount = 0;
 var _TokenList = [];
@@ -19,14 +18,11 @@ var wsMatch = new RegExp("\\s");
 var letterMatch = new RegExp("^[a-z]+$");
 var stringMatchRegEx = new RegExp("^[a-z ]+$");
 var _CharacterGet = true;
-// //Parse
-// var _CurrentDashes = "-";
-// var _Index = 0;
-// var _CurrentBlock = [];
-// var _SymbolTable = [];
-// var _SymbolTotal = 1;
-// _DeclarationFlag = false;
+
 //Parse
 var _CheckSuccess = false;
 var _CurrentToken;
 var _Index = 0;
+
+//CST
+var json ={};

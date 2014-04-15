@@ -13,6 +13,10 @@
 		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600" rel="stylesheet" type="text/css" />
 		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
 		
+		<!--Jit css files-->
+		<link type="text/css" href="css/jit/base.css" rel="stylesheet" />
+		<link type="text/css" href="css/jit/Spacetree.css" rel="stylesheet" />
+		
 		<!--Telephasic scripts-->
 		<script src="js/telephasic/jquery.min.js"></script>
 		<script src="js/telephasic/jquery.dropotron.min.js"></script>
@@ -34,12 +38,15 @@
 		<script src="js/lexical/token.js"></script>
 		<!--CATpiler Parse Scripts-->
 		<script src="js/parse/new_parse.js"></script>
-		<script src="js/parse/symbolTable.js"></script>
 		<!--CATpiler Compiler Scripts-->
 		<script src="js/compiler/compiler.js"></script>
 		
+		<!--Jit js-->
+		<script language="javascript" type="text/javascript" src="js/jit/jit.js"></script>
+		<script language="javascript" type="text/javascript" src="js/jit/spaceTreeAnimate.js"></script>
+		
 	</head>
-	<body class="left-sidebar" onload = "buttons()">
+	<body class="left-sidebar" onload = "buttons();">
 		<!-- Header Wrapper -->
 			<div id="header-wrapper">					
 				<!-- Header -->
@@ -99,6 +106,16 @@
 											id  ="taOutput"
 											readonly
 											></textarea>
+								</article>
+								
+								<article id="content">
+									<header>
+										<span>Concrete Syntax Tree</span>
+									</header>
+									<div id="infovis"></div>
+									<div class="invisible">
+										<input type="radio" id="s-normal" name="selection" checked="checked" value="normal"/> <!-- this is necessary for the library as it is needed deep within the jit library, but, seeing as I did not want to change it, but needed it, it is invisible-->
+									</div>
 								</article>
 						</div>
 					</div>

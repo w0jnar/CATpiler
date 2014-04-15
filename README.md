@@ -9,3 +9,5 @@ See http://labouseur.com/courses/compilers/ for details.
 A live version of the project can be found [here](http://w0jnar.github.io/CATpiler/). I recommend using Google Chrome to view it. 
 
 The original version of the template used for the page comes from [here](http://html5up.net/). 
+
+The original version of the tree building library used for this project comes from [here](http://philogb.github.io/jit/index.html). 
