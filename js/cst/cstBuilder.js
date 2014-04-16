@@ -200,7 +200,7 @@ function parseStringExprTree()
 function parseBooleanExprTree()
 {
 	var booleanExprChildrenString = "";
-	tokenToString(_CurrentToken);
+	//tokenToString(_CurrentToken);
 	if(match("left_paren"))
 	{
 		putMessage("--Building Left Parenthesis Node");
