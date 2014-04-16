@@ -27,11 +27,13 @@ function init(){
         //id of viz container element
         injectInto: 'infovis',
         //set duration for the animation
-        duration: 800,
+        duration: 500,
         //set animation transition type
         transition: $jit.Trans.Quart.easeInOut,
         //set distance between node and its children
-        levelDistance: 50,
+        levelDistance: 30,
+		constrained: false,
+		levelsToShow: 100,
         //enable panning
         Navigation: {
           enable:true,
@@ -42,7 +44,7 @@ function init(){
         //nodes or edges
         Node: {
             height: 35,
-            width: 95,
+            width: 105,
             type: 'rectangle',
             color: '#DDD',
 			align:"center",  
@@ -71,13 +73,7 @@ function init(){
         onCreateLabel: function(label, node){
             label.id = node.id;            
             label.innerHTML = node.name;
-            label.onclick = function(){
-            	if(normal.checked) {
-            	  st.onClick(node.id);
-            	} else {
-                st.setRoot(node.id, 'animate');
-            	}
-            };
+            
             //set label styles
             var style = label.style;
             style.width = 60 + 'px';
