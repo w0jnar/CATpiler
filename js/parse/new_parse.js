@@ -311,14 +311,13 @@ function parseExpr()
 	{
 		_CheckSuccess = parseStringExpr();
 	}
-	
-	else if(match("var_id"))
-	{
-		_CheckSuccess = parseId();
-	}
 	else if(match("left_paren") || match("false") || match("true"))
 	{
 		_CheckSuccess = parseBooleanExpr();
+	}
+	else if(match("var_id"))
+	{
+		_CheckSuccess = parseId();
 	}
 	else
 	{

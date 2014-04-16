@@ -88,8 +88,18 @@ function parseExprTree()
 	var exprChildrenString = "";
 	if(match("digit"))
 	{
-		putMessage("-IntExpr Node");
+		putMessage("--Building IntExpr Node");
 		exprChildrenString = parseToNode("IntExpr", parseIntExprTree());
+	}
+	else if(match("string"))
+	{
+		putMessage("--Building StringExpr Node");
+		exprChildrenString = parseToNode("StringExpr", parseStringExprTree());
+	}
+	else if(match("left_paren") || match("false") || match("true"))
+	{
+		putMessage("--Building BooleanExpr Node");
+		exprChildrenString = parseToNode("BooleanExpr", parseBooleanExprTree());
 	}
 	return exprChildrenString;
 }
@@ -110,7 +120,65 @@ function parseIntExprTree()
 	return intExprChildrenString;
 }
 
+function parseStringExprTree()
+{
+	putMessage("--Building CharList Node");
+	var charListNode = parseToNode("CharList", parseStringTree());
+	return charListNode;
+}
+
+function parseBooleanExprTree()
+{
+	var booleanExprChildrenString = "";
+	if(match("left_paren"))
+	{
+		putMessage("--Building Left Parenthesis Node");
+		var leftParenNode = tokenToNode();
+		var leftExprChildrenString = parseToNode("Expr", parseExprTree());
+		if(match("boolop_equal"))
+		{
+			putMessage("--Building Boolean Operator Equal Node");
+		}
+		else if(match("boolop_not_equal"))
+		{
+			putMessage("--Building Boolean Operator Not Equal Node");
+		}
+		var boolOpChildrenString = parseToNode("BoolOp", parseBoolOpTree());
+		var rightExprChildrenString = parseToNode("Expr", parseExprTree());
+		putMessage("--Building Right Parenthesis Node");
+		var rightParenNode = tokenToNode();
+		booleanExprChildrenString = leftParenNode + ", " + leftExprChildrenString + ", " + boolOpChildrenString + ", " + rightExprChildrenString + ", " + rightParenNode;
+	}
+	else if(match("true") || match("false")) //realistically could be else, just figured it made more sense to keep it.
+	{
+		putMessage("--Building BoolVal Node");
+		booleanExprChildrenString = parseToNode("BoolVal", parseBoolValTree());
+	}
+	return booleanExprChildrenString;
+}
+
 function parseDigitTree()
+{
+	return tokenToNode();
+}
+
+function parseStringTree() //this is because spaces and JIT do not like each other.
+{
+	var string = tokenToNode();
+	var stringJSON = JSON.parse(string);
+	var newString = stringJSON.name.toString().replace(/ /g, "&nbsp;");
+	newString = "\"" + newString + "\"";
+	//alert(unique.name);
+	stringJSON.name = newString;
+	return JSON.stringify(stringJSON);
+}
+
+function parseBoolOpTree()
+{
+	return tokenToNode();
+}
+
+function parseBoolValTree()
 {
 	return tokenToNode();
 }
@@ -139,6 +207,7 @@ function parseToNode(type, children)
 	return string;
 }
 
+//currently not used, hopefully never used.
 function addChild(string)
 {
 	var location = string.indexOf("\"children\":[{"); //check if this is the first child or not, if this returns -1, there are no children yet.
