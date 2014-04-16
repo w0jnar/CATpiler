@@ -42,6 +42,7 @@ function parseStatementListTree()
 {
 	putMessage("--Building StatementList Node");
 	_CurrentToken = _TokenList[_Index];
+	//tokenToString(_CurrentToken);
 	var statementListChildrenString = "";
 	if(!match("right_brace")) //check if we are at the right brace yet, otherwise, we are at a statement.
 	{
@@ -70,6 +71,26 @@ function parseStatementTree()
 		putMessage("--Building Assignment Statement Node");
 		statementChildrenString = parseToNode("AssignmentStatement", parseAssignmentStatementTree());
 	}
+	else if(matchType())
+	{
+		putMessage("--Building Variable Declaration Statement Node");
+		statementChildrenString = parseToNode("VarDeclStatement", parseVarDeclStatementTree());
+	}
+	else if(match("while"))
+	{
+		putMessage("--Building While Node");
+		statementChildrenString = parseToNode("WhileStatement", parseWhileStatementTree());
+	}
+	else if(match("if"))
+	{
+		putMessage("--Building If Node");
+		statementChildrenString = parseToNode("IfStatement", parseIfStatementTree());
+	}
+	else if(match("left_brace"))
+	{
+		statementChildrenString = parseToNode("Block", parseBlockTree());
+	}
+	//alert(statementChildrenString.length);
 	return statementChildrenString;
 }
 
@@ -94,6 +115,33 @@ function parseAssignmentStatementTree()
 	var exprChildrenString = parseToNode("Expr", parseExprTree());
 	var assignmentStatementChildrenString = idChildrenString + ", " + assignmentNode + ", " + exprChildrenString;
 	return assignmentStatementChildrenString; 
+}
+
+function parseVarDeclStatementTree()
+{
+	putMessage("--Building Type Node");
+	var typeNode = tokenToNode();
+	var idChildrenString = parseToNode("Id", parseIdTree());
+	var varDeclStatementChildrenString = typeNode + ", " + idChildrenString;
+	return varDeclStatementChildrenString; 
+}
+
+function parseWhileStatementTree()
+{
+	var whileNode = tokenToNode();
+	var boolExprString = parseToNode("BooleanExpr", parseBooleanExprTree());
+	var blockString = parseToNode("Block", parseBlockTree());
+	var whileStatementString = whileNode + ", " + boolExprString + ", " + blockString;
+	return whileStatementString;
+}
+
+function parseIfStatementTree()
+{
+	var ifNode = tokenToNode();
+	var boolExprString = parseToNode("BooleanExpr", parseBooleanExprTree());
+	var blockString = parseToNode("Block", parseBlockTree());
+	var ifStatementString = ifNode + ", " + boolExprString + ", " + blockString;
+	return ifStatementString;
 }
 
 function parseExprTree()
@@ -169,7 +217,7 @@ function parseBooleanExprTree()
 		var rightParenNode = tokenToNode();
 		booleanExprChildrenString = leftParenNode + ", " + leftExprChildrenString + ", " + boolOpChildrenString + ", " + rightExprChildrenString + ", " + rightParenNode;
 	}
-	else if(match("true") || match("false")) //realistically could be else, just figured it made more sense to keep it.
+	else// if(match("true") || match("false")) //realistically could be else, just figured it made more sense to keep it.
 	{
 		putMessage("--Building BoolVal Node");
 		booleanExprChildrenString = parseToNode("BoolVal", parseBoolValTree());
@@ -221,12 +269,14 @@ function parseBoolOpTree()
 
 function parseBoolValTree()
 {
+	//tokenToString(_CurrentToken);
 	return tokenToNode();
 }
 
 function tokenToNode()
 {
 	_CurrentToken = _TokenList[_Index++];
+	//tokenToString(_CurrentToken);
 	var id = _CurrentToken.lineNumber.toString() + "_" + _CurrentToken.position.toString(); //node id's have to be unique, therefore, we use line number and position to define the id's, as every token should have a unique position.
 	var name = _CurrentToken.value.toString();
 	var string = '{"id":"node'+ id + '","name":"' + spacer(name) + name + '","data":{},"children":[]}';
