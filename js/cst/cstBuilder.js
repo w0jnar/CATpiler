@@ -129,6 +129,7 @@ function parseVarDeclStatementTree()
 function parseWhileStatementTree()
 {
 	var whileNode = tokenToNode();
+	_CurrentToken = _TokenList[_Index];
 	var boolExprString = parseToNode("BooleanExpr", parseBooleanExprTree());
 	var blockString = parseToNode("Block", parseBlockTree());
 	var whileStatementString = whileNode + ", " + boolExprString + ", " + blockString;
@@ -138,6 +139,7 @@ function parseWhileStatementTree()
 function parseIfStatementTree()
 {
 	var ifNode = tokenToNode();
+	_CurrentToken = _TokenList[_Index];
 	var boolExprString = parseToNode("BooleanExpr", parseBooleanExprTree());
 	var blockString = parseToNode("Block", parseBlockTree());
 	var ifStatementString = ifNode + ", " + boolExprString + ", " + blockString;
@@ -198,6 +200,7 @@ function parseStringExprTree()
 function parseBooleanExprTree()
 {
 	var booleanExprChildrenString = "";
+	tokenToString(_CurrentToken);
 	if(match("left_paren"))
 	{
 		putMessage("--Building Left Parenthesis Node");
@@ -217,7 +220,7 @@ function parseBooleanExprTree()
 		var rightParenNode = tokenToNode();
 		booleanExprChildrenString = leftParenNode + ", " + leftExprChildrenString + ", " + boolOpChildrenString + ", " + rightExprChildrenString + ", " + rightParenNode;
 	}
-	else// if(match("true") || match("false")) //realistically could be else, just figured it made more sense to keep it.
+	else if(match("true") || match("false")) //realistically could be else, just figured it made more sense to keep it.
 	{
 		putMessage("--Building BoolVal Node");
 		booleanExprChildrenString = parseToNode("BoolVal", parseBoolValTree());
