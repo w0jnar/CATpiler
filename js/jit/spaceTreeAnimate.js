@@ -44,7 +44,7 @@ function init(){
         //nodes or edges
         Node: {
             height: 35,
-            width: 105,
+            width: 150,
             type: 'rectangle',
             color: '#DDD',
 			align:"center",  

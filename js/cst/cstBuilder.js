@@ -65,6 +65,11 @@ function parseStatementTree()
 		putMessage("--Building Print Statement Node");
 		statementChildrenString = parseToNode("PrintStatement", parsePrintStatementTree());
 	}
+	else if(match("var_id"))
+	{
+		putMessage("--Building Assignment Statement Node");
+		statementChildrenString = parseToNode("AssignmentStatement", parseAssignmentStatementTree());
+	}
 	return statementChildrenString;
 }
 
@@ -78,7 +83,17 @@ function parsePrintStatementTree()
 	putMessage("--Building Right Parenthesis Node");
 	var rightParenNode = tokenToNode();
 	var printStatementChildrenString = printNode + ", " + leftParenNode + ", " + exprChildrenString + ", " + rightParenNode;
-	return printStatementChildrenString
+	return printStatementChildrenString;
+}
+
+function parseAssignmentStatementTree()
+{
+	var idChildrenString = parseToNode("Id", parseIdTree());
+	putMessage("--Building Assignment Op Node");
+	var assignmentNode = tokenToNode();
+	var exprChildrenString = parseToNode("Expr", parseExprTree());
+	var assignmentStatementChildrenString = idChildrenString + ", " + assignmentNode + ", " + exprChildrenString;
+	return assignmentStatementChildrenString; 
 }
 
 function parseExprTree()
@@ -100,6 +115,11 @@ function parseExprTree()
 	{
 		putMessage("--Building BooleanExpr Node");
 		exprChildrenString = parseToNode("BooleanExpr", parseBooleanExprTree());
+	}
+	else if(match("var_id"))
+	{
+		putMessage("--Building Id Node");
+		exprChildrenString = parseToNode("Id", parseIdTree());
 	}
 	return exprChildrenString;
 }
@@ -157,6 +177,13 @@ function parseBooleanExprTree()
 	return booleanExprChildrenString;
 }
 
+function parseIdTree()
+{
+	putMessage("--Building Char Node");
+	var idChildrenString = parseToNode("Char", parseCharTree());
+	return idChildrenString;
+}
+
 function parseDigitTree()
 {
 	return tokenToNode();
@@ -166,11 +193,25 @@ function parseStringTree() //this is because spaces and JIT do not like each oth
 {
 	var string = tokenToNode();
 	var stringJSON = JSON.parse(string);
-	var newString = stringJSON.name.toString().replace(/ /g, "&nbsp;");
+	
+	var newString = stringJSON.name.toString(); //remove the spacer to preserve the original string, 
+	while(newString.substr(0, _Spacer.length) === _Spacer)
+	{
+		newString = newString.substr(_Spacer.length, newString.length);
+	}
+	
+	//var newString = stringJSON.name.toString().replace(/ /g, "&nbsp;");
+	var newString = newString.replace(/ /g, "&nbsp;");  //then convert it,
 	newString = "\"" + newString + "\"";
+	newString = spacer(newString) + newString; //then add the new spacer.
 	//alert(unique.name);
 	stringJSON.name = newString;
 	return JSON.stringify(stringJSON);
+}
+
+function parseCharTree()
+{
+	return tokenToNode();
 }
 
 function parseBoolOpTree()
@@ -188,7 +229,7 @@ function tokenToNode()
 	_CurrentToken = _TokenList[_Index++];
 	var id = _CurrentToken.lineNumber.toString() + "_" + _CurrentToken.position.toString(); //node id's have to be unique, therefore, we use line number and position to define the id's, as every token should have a unique position.
 	var name = _CurrentToken.value.toString();
-	var string = '{"id":"node'+ id + '","name":"' + name + '","data":{},"children":[]}';
+	var string = '{"id":"node'+ id + '","name":"' + spacer(name) + name + '","data":{},"children":[]}';
 	//var string = '{"id":"node","name":"name","data":{},"children":[{"id": "node46","name":"4.6","data": {},"children":[]}, {"id": "node23","name":"2.6","data": {},"children":[]}]}';
 	//alert(string);
 	//return JSON.parse(string);
@@ -200,12 +241,35 @@ function parseToNode(type, children)
 	var id = _NonTokenNodeCount.toString(); //node id's have to be unique, therefore, we use line number and position to define the id's, as every token should have a unique position.
 	_NonTokenNodeCount++;
 	var name = type;
-	var string = '{"id":"node'+ id + '","name":"' + name + '","data":{},"children":[' + children + ']}';
+	var string = '{"id":"node'+ id + '","name":"' + spacer(name) + name + '","data":{},"children":[' + children + ']}';
 	//var string = '{"id":"node","name":"name","data":{},"children":[{"id": "node46","name":"4.6","data": {},"children":[]}, {"id": "node23","name":"2.6","data": {},"children":[]}]}';
 	//alert(string);
 	//return JSON.parse(string);
 	return string;
 }
+
+function spacer(name) //adds a spacer for nicer node allignment.
+{
+	var spaceString = "";
+	if(name.length < _NameLengthMax)
+	{
+		var size = _SpacerSize - name.length;
+		for(var i = 0; i < size; i++)
+		{
+			spaceString = spaceString + _Spacer;
+		}
+		if(name.length === 1)
+		{
+			spaceString = spaceString + _Spacer;
+		}
+	}
+	else
+	{
+		spaceString = _Spacer;
+	}
+	return spaceString;
+}
+
 
 //currently not used, hopefully never used.
 function addChild(string)

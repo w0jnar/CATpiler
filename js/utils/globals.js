@@ -27,3 +27,6 @@ var _Index = 0;
 //CST
 var _CSTjson ={};
 var _NonTokenNodeCount = 0;
+var _Spacer = "&nbsp;";
+var _NameLengthMax = 19;
+var _SpacerSize = 24;
