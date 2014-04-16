@@ -41,10 +41,12 @@ function init(){
         //set overridable=true for styling individual
         //nodes or edges
         Node: {
-            height: 20,
-            width: 60,
+            height: 35,
+            width: 95,
             type: 'rectangle',
-            color: '#aaa',
+            color: '#DDD',
+			align:"center",  
+			//autoHeight: true,    
             overridable: true
         },
         
@@ -84,7 +86,7 @@ function init(){
             style.color = '#333';
             style.fontSize = '0.8em';
             style.textAlign= 'center';
-            style.paddingTop = '3px';
+            style.paddingTop = '0px';
         },
         
         //This method is called right before plotting
@@ -107,7 +109,7 @@ function init(){
                     node.eachSubnode(function(n) { count++; });
                     //assign a node color based on
                     //how many children it has
-                    node.data.$color = ['#aaa', '#baa', '#caa', '#daa', '#eaa', '#faa'][count];                    
+                    node.data.$color = ['#DDD', '#DDD', '#DDD', '#DDD', '#DDD', '#DDD'][count];                    
                 }
             }
         },

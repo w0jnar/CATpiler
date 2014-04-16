@@ -12,16 +12,49 @@ function buildCST()
 	// _CurrentToken = _TokenList[_Index++];
 	// _CSTjson = addChild(_CSTjson);
 	// _CSTjson = JSON.parse(_CSTjson);
+	putMessage("-Program Node");
 	var programJSONstring = parseToNode("Program", parseProgramTree())
 	_CSTjson = JSON.parse(programJSONstring);
 }
 
 function parseProgramTree()
 {
+	putMessage("-Block Node");
 	var blockJSONString = parseToNode("Block", parseBlockTree()); //parses the total block of the tree.
-	var eofNode = tokenToNode(); //at this point, should be finished with the entire program and should be at the end of file.
+	putMessage("-End of File Node");
+	var eofNode = tokenToNode(); //at this point, should be finished with the entire program other than the end of file token.
 	var programsChildrenString = blockJSONString + ", " + eofNode;
 	return programsChildrenString;
+}
+
+function parseBlockTree()
+{
+	putMessage("-Left Bracket Node");
+	var leftBracketNode = tokenToNode();
+	putMessage("-Statement List Node");
+	var statementListJSONString = parseToNode("StatementList", parseStatementListTree()); //parses the total block of the tree.
+	putMessage("-Right Bracket Node");
+	var rightBracketNode = tokenToNode();
+	var blocksChildrenString = leftBracketNode + ", " + statementListJSONString + ", " + rightBracketNode;
+	return blocksChildrenString;
+}
+
+function parseStatementListTree()
+{
+	putMessage("-StatementList Node");
+	_CurrentToken = _TokenList[_Index];
+	var StatementListChildrenString = "";
+	if(!match("right_brace"))
+	{
+		var StatementNode = parseToNode("Statement", parseStatementTree());
+		var StatementListNode = parseToNode("StatementList", parseStatementListTree());
+		StatementListChildrenString = StatementNode + ", " + StatementListNode;
+	}
+	else
+	{
+		StatementListChildrenString = parseToNode(String.fromCharCode(949), ""); //epsilon
+	}
+	return StatementListChildrenString;
 }
 
 function tokenToNode()

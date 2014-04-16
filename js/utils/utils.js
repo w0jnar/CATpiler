@@ -20,4 +20,10 @@ function reset()
 	_Index = 0;
 	
 	_CSTjson ={};
+	clearDiv("infovis");
+}
+
+function clearDiv(divID)
+{
+	document.getElementById(divID).innerHTML = "";
 }
