@@ -27,8 +27,8 @@ function compile() //figured editing this was easier/cleaner than going back and
 			putMessage("So please wait, and complain to the JIT library writer if it is not fast enough.");
 			init('infovisAST', _ASTjson);
 			
-			putMessage("");
-			generateSymbolTable();
+			//putMessage("");
+			//generateSymbolTable();
 		}
 	}
 }
