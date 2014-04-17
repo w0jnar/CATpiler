@@ -8,6 +8,15 @@
 	outline:grey solid thin;
 }
 
+#infovisAST {
+
+    width:700px;
+    height:800px;
+
+    overflow:hidden;
+	outline:grey solid thin;
+}
+
 /*TOOLTIPS*/
 .tip {
     color: #111;

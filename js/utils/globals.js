@@ -30,3 +30,6 @@ var _NonTokenNodeCount = 0;
 var _Spacer = "&nbsp;";
 var _NameLengthMax = 19;
 var _SpacerSize = 24;
+
+//AST
+var _ASTjson ={};

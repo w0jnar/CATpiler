@@ -40,6 +40,8 @@
 		<script src="js/parse/new_parse.js"></script>
 		<!--CATpiler CST Scripts-->
 		<script src="js/cst/cstBuilder.js"></script>
+		<!--CATpiler AST Scripts-->
+		<script src="js/ast/astBuilder.js"></script>
 		<!--CATpiler Compiler Scripts-->
 		<script src="js/compiler/compiler.js"></script>
 		
@@ -118,6 +120,13 @@
 									<div class="invisible">
 										<input type="radio" id="s-normal" name="selection" checked="checked" value="normal"/> <!-- this is necessary for the library as it is needed deep within the jit library, but, seeing as I did not want to change it, but needed it, it is invisible-->
 									</div>
+								</article>
+								
+								<article id="content">
+									<header>
+										<span>Abstract Syntax Tree</span>
+									</header>
+									<div id="infovisAST"></div>
 								</article>
 						</div>
 					</div>

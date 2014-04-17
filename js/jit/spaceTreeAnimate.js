@@ -17,15 +17,15 @@ var labelType, useGradients, nativeTextSupport, animate;
 
 
 
-function init(){
+function init(divName, treeJSON){
     //init data
-    var json = _CSTjson;
+    var json = treeJSON;
     //end
     //init Spacetree
     //Create a new ST instance
     var st = new $jit.ST({
         //id of viz container element
-        injectInto: 'infovis',
+        injectInto: divName,
         //set duration for the animation
         duration: 500,
         //set animation transition type

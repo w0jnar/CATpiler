@@ -4,7 +4,7 @@
 
 function buildCST()
 {
-	putMessage("Now building Concrete Syntax Tree");
+	putMessage("Now Building Concrete Syntax Tree from Tokens");
 	_Index = 0;
 	//tokenToNode();
 	//_CSTjson = JSON.parse(tokenToNode());
@@ -13,7 +13,7 @@ function buildCST()
 	// _CSTjson = addChild(_CSTjson);
 	// _CSTjson = JSON.parse(_CSTjson);
 	putMessage("--Building Program Node");
-	var programJSONstring = parseToNode("Program", parseProgramTree())
+	var programJSONstring = parseToNode("Program", parseProgramTree());
 	_CSTjson = JSON.parse(programJSONstring);
 }
 
@@ -182,8 +182,9 @@ function parseIntExprTree()
 	var intExprChildrenString = digitNode;
 	if(match("plus_op")) //more than just a digit
 	{
-		putMessage("--Building Plus Op Node");
-		var plusOpNode = tokenToNode();
+		putMessage("--Building Int Op Node");
+		putMessage("--Building Plus Node Node");
+		var plusOpNode = parseToNode("IntOp", tokenToNode());
 		var exprChildrenString = parseToNode("Expr", parseExprTree());
 		intExprChildrenString = intExprChildrenString + ", " + plusOpNode + ", " + exprChildrenString;
 	}

@@ -20,8 +20,10 @@ function reset()
 	_Index = 0;
 	
 	_CSTjson ={};
+	_ASTjson ={};
 	_NonTokenNodeCount = 0;
 	clearDiv("infovis");
+	clearDiv("infovisAST");
 }
 
 function clearDiv(divID)
