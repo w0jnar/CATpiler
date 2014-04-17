@@ -55,6 +55,11 @@ function parseASTStatementTree()
 		putMessage("--Building Assignment Node");
 		statementChildrenString = parseToNode("assignment", parseASTAssignmentTree());
 	}
+	else if(matchType())
+	{
+		putMessage("--Building Variable Declaration Node");
+		statementChildrenString = parseToNode("varDecl", parseASTVarDeclTree());
+	}
 	else if(match("left_brace"))
 	{
 		putMessage("--Building Statement Block Node");
@@ -79,6 +84,14 @@ function parseASTAssignmentTree()
 	_Index++; //to pass over the assignment operator.
 	var assignmentNode = parseToNode("=", (idChildrenString + ", " + parseASTExprTree()));
 	return assignmentNode; 
+}
+
+function parseASTVarDeclTree()
+{
+	var typeChildrenString = astTokenToNode();
+	var idChildrenString = astTokenToNode();
+	var varDeclChildren = typeChildrenString + ", " + idChildrenString;
+	return varDeclChildren; 
 }
 
 function parseASTExprTree()
