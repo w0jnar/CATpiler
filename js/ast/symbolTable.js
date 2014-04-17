@@ -57,14 +57,23 @@ function checkPrint(currentNode)
 			putMessage("~~~SYMBOL TABLE ERROR symbol used without being declared ended on line " + nodeLocation[0] + ", character " + nodeLocation[1]);
 			_ErrorCount++;
 		}
-		else //not sure
+		else
 		{
-			
+			var tableIndex = -1;
+			for(var i = 0; i < _SymbolTable.length; i++)
+			{	
+				if(id === _SymbolTable[i].id && _CurrentScope >= _SymbolTable[i].scope)
+				{
+					tableIndex = i;
+				}
+			}
+			_SymbolTable[tableIndex].used = true;
+			putMessage("Var Id " + _SymbolTable[tableIndex].id+ "is (or was) in use, line " + _SymbolTable[tableIndex] + ", character " + );
 		}
 	}
 	else
 	{
-		alert("MEOW");
+		//alert("MEOW");
 	}
 }
 
