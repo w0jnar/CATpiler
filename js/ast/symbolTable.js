@@ -68,7 +68,7 @@ function checkPrint(currentNode)
 				}
 			}
 			_SymbolTable[tableIndex].used = true;
-			putMessage("Var Id " + _SymbolTable[tableIndex].id+ "is (or was) in use, line " + _SymbolTable[tableIndex] + ", character " + );
+			putMessage("Var Id " + _SymbolTable[tableIndex].id + "is (or was) in use, line " + _SymbolTable[tableIndex].lineNumber + ", character " + _SymbolTable[tableIndex].position);
 		}
 	}
 	else
