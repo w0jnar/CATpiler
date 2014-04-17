@@ -111,7 +111,7 @@ function parseAssignmentStatementTree()
 {
 	var idChildrenString = parseToNode("Id", parseIdTree());
 	putMessage("--Building Assignment Op Node");
-	var assignmentNode = tokenToNode();
+	var assignmentNode = parseToNode("assignOp", tokenToNode());
 	var exprChildrenString = parseToNode("Expr", parseExprTree());
 	var assignmentStatementChildrenString = idChildrenString + ", " + assignmentNode + ", " + exprChildrenString;
 	return assignmentStatementChildrenString; 
