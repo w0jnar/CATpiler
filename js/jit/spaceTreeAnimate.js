@@ -31,7 +31,7 @@ function init(divName, treeJSON){
         //set animation transition type
         transition: $jit.Trans.Quart.easeInOut,
         //set distance between node and its children
-        levelDistance: 30,
+        levelDistance: 40,
 		constrained: false,
 		levelsToShow: 100,
         //enable panning

@@ -3,6 +3,9 @@
 //
 
 //admittedly, most of this will be cstBuilder, but there will be some modifications.
+//also, there is very clear repetition in terms of similar structured functions.
+//these are mainly to clarify what is going on, as though I could change them all to one function,
+//it would seem a lot like using "magic numbers."
 
 function buildAST()
 {
@@ -60,6 +63,16 @@ function parseASTStatementTree()
 		putMessage("--Building Variable Declaration Node");
 		statementChildrenString = parseToNode("varDecl", parseASTVarDeclTree());
 	}
+	else if(match("while"))
+	{
+		putMessage("--Building While Node");
+		statementChildrenString = parseToNode("while", parseASTWhileTree());
+	}
+	else if(match("if"))
+	{
+		putMessage("--Building If Node");
+		statementChildrenString = parseToNode("if", parseASTIfTree());
+	}
 	else if(match("left_brace"))
 	{
 		putMessage("--Building Statement Block Node");
@@ -94,14 +107,38 @@ function parseASTVarDeclTree()
 	return varDeclChildren; 
 }
 
+function parseASTWhileTree()
+{
+	var whileNode = tokenToNode();
+	_CurrentToken = _TokenList[_Index];
+	var boolASTExprString = parseASTBooleanExprTree();
+	var blockString = parseToNode("stmtBlock", parseASTBlockTree());
+	var astWhileString = boolASTExprString + ", " + blockString;
+	return astWhileString;
+}
+
+function parseASTIfTree()
+{
+	var ifNode = tokenToNode();
+	_CurrentToken = _TokenList[_Index];
+	var boolASTExprString = parseASTBooleanExprTree();
+	var blockString = parseToNode("stmtBlock", parseASTBlockTree());
+	var astIfString = boolASTExprString + ", " + blockString;
+	return astIfString;
+}
+
 function parseASTExprTree()
 {
 	_CurrentToken = _TokenList[_Index];
+	//tokenToString(_CurrentToken);
 	var exprChildrenString = "";
 	if(match("digit"))
 	{
-		//alert("meow");
 		exprChildrenString = parseASTIntExprTree();
+	}
+	else if(match("left_paren") || match("false") || match("true"))
+	{
+		exprChildrenString = parseASTBooleanExprTree();
 	}
 	else if(match("var_id"))
 	{
@@ -131,6 +168,36 @@ function parseASTIntExprTree()
 	return intExprChildrenString;
 }
 
+function parseASTBooleanExprTree()
+{
+	var booleanExprChildrenString = "";
+	if(match("left_paren"))
+	{
+		var leftParenNode = tokenToNode();
+		var leftExprChildrenString = parseASTExprTree();
+		//alert(leftExprChildrenString);
+		//tokenToString(_CurrentToken);
+		//_Index++;
+		_CurrentToken = _TokenList[_Index++];
+		//tokenToString(_CurrentToken);
+		if(match("boolop_equal"))
+		{
+			var booleanExprChildrenString = parseToNode("==", (leftExprChildrenString + ", " + parseASTExprTree()));
+		}
+		else if(match("boolop_not_equal"))
+		{
+			var booleanExprChildrenString = parseToNode("!=", (leftExprChildrenString + ", " + parseASTExprTree()));
+		}
+		var rightParenNode = tokenToNode();
+	}
+	else if(match("true") || match("false")) //realistically could be else, just figured it made more sense to keep it.
+	{
+		booleanExprChildrenString = parseASTBoolValTree();
+	}
+	//alert(booleanExprChildrenString);
+	return booleanExprChildrenString;
+}
+
 function parseASTDigitTree()
 {
 	return astTokenToNode();
@@ -157,6 +224,11 @@ function parseASTStringTree() //this is because spaces and JIT do not like each 
 }
 
 function parseASTIdTree()
+{
+	return astTokenToNode();
+}
+
+function parseASTBoolValTree()
 {
 	return astTokenToNode();
 }

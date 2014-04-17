@@ -334,7 +334,7 @@ function addChild(string)
 		var location = string.indexOf("\"children\":[") + 12; //the location of the children list start, plus how many characters to offset by for the child
 		var newNodeString = tokenToNode();
 		var newJSONstring = string.substr(0, location) + newNodeString + string.substr(location, string.length);
-		alert(newJSONstring);
+		//alert(newJSONstring);
 	}
 	else //there is already a child. Not sure if necessary if built recursively.
 	{
