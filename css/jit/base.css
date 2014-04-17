@@ -1,8 +1,8 @@
 
 #infovis {
 
-    width:700px;
-    height:800px;
+    width:1100px;
+    height:1000px;
 
     overflow:hidden;
 	outline:grey solid thin;
@@ -10,8 +10,8 @@
 
 #infovisAST {
 
-    width:700px;
-    height:800px;
+    width:1100px;
+    height:1000px;
 
     overflow:hidden;
 	outline:grey solid thin;
