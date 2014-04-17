@@ -33,3 +33,9 @@ var _SpacerSize = 24;
 
 //AST
 var _ASTjson ={};
+
+//SymbolTable
+var _SymbolTable = [];
+var _CurrentScope = 0;
+var _NodeLength = 4;
+var _ASToffset = 3;

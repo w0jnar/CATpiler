@@ -24,6 +24,9 @@ function reset()
 	_NonTokenNodeCount = 0;
 	clearDiv("infovis");
 	clearDiv("infovisAST");
+	
+	_SymbolTable = [];
+	_CurrentScope = 0;
 }
 
 function clearDiv(divID)
