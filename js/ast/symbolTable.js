@@ -56,8 +56,29 @@ function checkExpr(currentNode)
 	var currentName = nameCleaning(currentNode.name); //pulls the name of the current node, which would be the type of expression.
 	if(currentName.match(/\d/))  //expression is just an int.
 	{
-		//alert("Meow!"); //not sure what to put here for now.
+		//alert("int!");
+		return currentName; //this looks better in terms of assignment and boolean expressions. 
 	}
+	else if(currentName.match(/^\"/))  //expression is a string. We are only matching the first character, but at this point, if it starts with a quote, it is a valid string.
+	{
+		//alert("string!");
+		return currentName;
+	}
+	else if(currentName.match(/\+/))
+	{
+		//alert("Meow!");
+		checkIntExpr(currentNode); //pass the entire node as it contains both of the children to do the Int Expression comparison elsewhere.
+	}
+}
+
+function checkIntExpr(currentNode)
+{
+	var leftExpr = currentNode.children[0]; 
+	var rightExpr = currentNode.children[1]; 
+	var leftName = nameCleaning(leftExpr.name);
+	var rightName = nameCleaning(rightExpr.name);
+	alert(leftName);
+	alert(rightName);
 }
 
 function isId(potentialId)
