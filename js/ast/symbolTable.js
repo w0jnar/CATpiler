@@ -17,6 +17,7 @@ function generateSymbolTable()
 		var currentName = _ASTjson.children[i].name; //gets the name of the current node.
 		_ASTjson.children[i].name = nameCleaning(currentName); //cleans it up and restores it in the json.
 		currentName = _ASTjson.children[i].name; //gets it back to use in comparisons.
+		//alert(currentName);
 		if(currentName === "print")
 		{
 			//alert(JSON.stringify(_ASTjson.children[i]));
@@ -43,38 +44,10 @@ function generateSymbolTable()
 
 function checkPrint(currentNode)
 {
-	var potentialId = nameCleaning(currentNode.children[0].name);
-	//alert(potentialId);
-	//alert(currentNode.children[0].id);
-	if(isId(potentialId)) //check if the the expr for this print statement is an id
-	{
-		//var scopeLocation = -1;
-		if(!scopeContainsId(potentialId))
-		{
-			var nodeLocation = currentNode.children[0].id.slice(_NodeLength, currentNode.children[0].id.length - _ASToffset); //breaks down the id to pull out the line number location.
-			//alert(nodeLocation);
-			nodeLocation = nodeLocation.split("_");
-			putMessage("~~~SYMBOL TABLE ERROR symbol used without being declared ended on line " + nodeLocation[0] + ", character " + nodeLocation[1]);
-			_ErrorCount++;
-		}
-		else
-		{
-			var tableIndex = -1;
-			for(var i = 0; i < _SymbolTable.length; i++)
-			{	
-				if(id === _SymbolTable[i].id && _CurrentScope >= _SymbolTable[i].scope)
-				{
-					tableIndex = i;
-				}
-			}
-			_SymbolTable[tableIndex].used = true;
-			putMessage("Var Id " + _SymbolTable[tableIndex].id + "is (or was) in use, line " + _SymbolTable[tableIndex].lineNumber + ", character " + _SymbolTable[tableIndex].position);
-		}
-	}
-	else
-	{
-		//alert("MEOW");
-	}
+	var currentExpr = currentNode.children[0];
+	alert(nameCleaning(currentExpr.name));
+	alert(JSON.stringify(currentExpr));
+	alert("Line: " + nodeLocation(currentExpr)[0] + ", character: " + nodeLocation(currentExpr)[1]);
 }
 
 function isId(potentialId)
@@ -142,3 +115,9 @@ function createScopeElement(node)
 	_SymbolTable.push(currentScopeElement);
 }
 
+function nodeLocation(node)
+{
+	var nodeLocation = node.id.slice(_NodeLength, node.id.length - _ASToffset); //breaks down the id to pull out the line number location.
+	nodeLocation = nodeLocation.split("_");
+	return nodeLocation;
+}
