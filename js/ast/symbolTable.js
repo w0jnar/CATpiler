@@ -44,10 +44,20 @@ function generateSymbolTable()
 
 function checkPrint(currentNode)
 {
-	var currentExpr = currentNode.children[0];
-	alert(nameCleaning(currentExpr.name));
-	alert(JSON.stringify(currentExpr));
-	alert("Line: " + nodeLocation(currentExpr)[0] + ", character: " + nodeLocation(currentExpr)[1]);
+	var currentExpr = currentNode.children[0]; //gets the first child of the print statement, in this case the expression.
+	//alert(nameCleaning(currentExpr.name));
+	//alert(JSON.stringify(currentExpr));
+	//alert("Line: " + nodeLocation(currentExpr)[0] + ", character: " + nodeLocation(currentExpr)[1]);
+	checkExpr(currentExpr);
+}
+
+function checkExpr(currentNode)
+{
+	var currentName = nameCleaning(currentNode.name); //pulls the name of the current node, which would be the type of expression.
+	if(currentName.match(/\d/))  //expression is just an int.
+	{
+		//alert("Meow!"); //not sure what to put here for now.
+	}
 }
 
 function isId(potentialId)

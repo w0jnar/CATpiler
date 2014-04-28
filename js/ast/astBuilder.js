@@ -7,6 +7,9 @@
 //these are mainly to clarify what is going on, as though I could change them all to one function,
 //it would seem a lot like using "magic numbers."
 
+//also, considered building the CST and the AST into parse, but it just made thinks seem convoluted and quite confusing.
+//it could most likely be done, but it would just get messy and not as simply stated.
+
 function buildAST()
 {
 	putMessage("Now Building Concrete Syntax Tree from Tokens");
