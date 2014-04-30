@@ -57,28 +57,63 @@ function checkExpr(currentNode)
 	if(currentName.match(/\d/))  //expression is just an int.
 	{
 		//alert("int!");
-		return currentName; //this looks better in terms of assignment and boolean expressions. 
+		//build an array to return
+		var returnList = [];
+		returnList.push("digit");
+		returnList.push(parseInt(currentName));
+		//return currentName; //this looks better in terms of assignment and boolean expressions. 
+		return returnList;
 	}
 	else if(currentName.match(/^\"/))  //expression is a string. We are only matching the first character, but at this point, if it starts with a quote, it is a valid string.
 	{
 		//alert("string!");
-		return currentName;
+		var returnList = [];
+		returnList.push("string");
+		returnList.push(currentName);
+		//return currentName; //this looks better in terms of assignment and boolean expressions. 
+		return returnList;
 	}
 	else if(currentName.match(/\+/))
 	{
 		//alert("Meow!");
-		checkIntExpr(currentNode); //pass the entire node as it contains both of the children to do the Int Expression comparison elsewhere.
+		return checkIntExpr(currentNode); //pass the entire node as it contains both of the children to do the Int Expression comparison elsewhere.
+	}
+	else
+	{
+		alert("critical error"); //has not happened yet.
 	}
 }
 
 function checkIntExpr(currentNode)
 {
-	var leftExpr = currentNode.children[0]; 
+	var leftExpr = currentNode.children[0]; //left had to be an int for this to be an int expression, therefore, only have to check right.
 	var rightExpr = currentNode.children[1]; 
 	var leftName = nameCleaning(leftExpr.name);
 	var rightName = nameCleaning(rightExpr.name);
-	alert(leftName);
-	alert(rightName);
+	//alert(leftName);
+	//alert(rightName);
+	var rightList = checkExpr(rightExpr); //get the type of the right expression and the value, if applicable.
+	var rightType = rightList[_TypeConstant];
+	if(rightType === "digit") //we have digits on both sides of the int expression.
+	{
+		var sum = parseInt(leftName) + rightList[_ValueConstant];
+		//alert(sum);
+		var returnList = [];
+		returnList.push("digit");
+		returnList.push(sum);
+		return returnList;
+	}
+	else if(rightType === "bad type") //to remove printing the same error multiple times in one statement.
+	{
+		return _ErrorList;
+	}
+	else
+	{
+		var nodeLocationList = nodeLocation(rightExpr);
+		putMessage("~~~SYMBOL TABLE ERROR Invalid Int Expression on line " + nodeLocationList[0] + ", character " + nodeLocationList[1]);
+		_ErrorCount++;
+		return _ErrorList;
+	}
 }
 
 function isId(potentialId)

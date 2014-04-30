@@ -39,3 +39,8 @@ var _SymbolTable = [];
 var _CurrentScope = 0;
 var _NodeLength = 4;
 var _ASToffset = 3;
+
+var _TypeConstant = 0;
+var _ValueConstant = 1;
+
+var _ErrorList = ["bad type", "undefined"];
