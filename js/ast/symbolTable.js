@@ -13,7 +13,7 @@ function generateSymbolTable()
 	putMessage("Now Building Symbol Table");
 	_ASTjson.name = nameCleaning(_ASTjson.name) ; //should be the opening brace/stmtBlock.
 	putMessage("Opening Scope 0");
-	_SymbolTable[_CurrentScope] = new Scope(0);
+	_SymbolTable[_CurrentScope] = new Scope(-1);
 	for(var i = 0; i < _ASTjson.children.length; i++)
 	{
 		var currentName = _ASTjson.children[i].name; //gets the name of the current node.
@@ -32,6 +32,10 @@ function generateSymbolTable()
 		else if(currentName === "stmtBlock")
 		{
 			checkNewScope(_ASTjson.children[i], 0);
+		}
+		else if(currentName === "assignment")
+		{
+			checkAssignment(_ASTjson.children[i]);
 		}
 		
 		if(_ErrorCount > 0)
@@ -81,6 +85,53 @@ function checkVarDecl(currentNode)
 	}
 }
 
+function checkAssignment(currentNode)
+{
+	var valueToAssignNode = currentNode.children[0].children[1];
+	var idNode = currentNode.children[0].children[0]; //get the child node, aka the identifier.
+	var idName = nameCleaning(idNode.name);
+	var checkIfIdExists = currentScopeChain(idName);
+	var scope = checkIfIdExists[0];
+	var locationInScope = checkIfIdExists[1];
+	var nodeLocationList = nodeLocation(idNode);
+	if(scope === -1 && locationInScope === -1) //error, as not declared.
+	{
+		putMessage("~~~SYMBOL TABLE ERROR Invalid Var Assignment, id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is not declared in this scope, or any parent scopes");
+		_ErrorCount++;
+	}
+	else //now we have to check if the types match.
+	{
+		var idCopy = _SymbolTable[scope].table[locationInScope]; //id to modify in the symbol table.
+		var valueToAssignEval = checkExpr(valueToAssignNode);
+		var valueToAssignType = valueToAssignEval[_TypeConstant];
+		var valueToAssignValue = valueToAssignEval[_ValueConstant];
+		if(valueToAssignType === idCopy.dataType) //it is of the right type
+		{
+			if(scope !== _CurrentScopeId) //it is initialized, just in a parent scope, therefore, create a new node in the current scope.
+			{
+				createScopeElement(idNode, idCopy.dataType); //create a new node at the current location, as a copy would not be in the right spot.
+				var currentLocation = _SymbolTable[_CurrentScopeId].table.length - 1;
+				_SymbolTable[_CurrentScopeId].table[currentLocation].value = valueToAssignValue;
+				_SymbolTable[_CurrentScopeId].table[currentLocation].initialized = true;
+			}
+			else //it is in the current scope, already initialized.
+			{
+				_SymbolTable[scope].table[locationInScope].value = valueToAssignValue;
+				_SymbolTable[scope].table[locationInScope].initialized = true;
+			}
+			putMessage("---id " + idName + " on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + ", has been assigned the value " + valueToAssignValue);
+		
+		}
+		else
+		{
+			var nodeLocationList = nodeLocation(idNode);
+			putMessage("~~~SYMBOL TABLE ERROR Invalid Var Assignment, id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + ", types differ");
+			_ErrorCount++;
+		}
+	}
+}
+
+
 function checkNewScope(currentNode, parent)
 {
 	putMessage("Opening New Scope, Scope level " + ++_CurrentScope);
@@ -104,6 +155,10 @@ function checkNewScope(currentNode, parent)
 		{
 			checkNewScope(currentNode.children[i], _CurrentScopeId);
 		}
+		else if(currentName === "assignment")
+		{
+			checkAssignment(currentNode.children[i]);
+		}
 		
 		if(_ErrorCount > 0)
 		{
@@ -113,9 +168,10 @@ function checkNewScope(currentNode, parent)
 	//checkIfScopeIsClean();
 	if(_ErrorCount === 0)
 	{
-		_CurrentScopeId = parent;
 		putMessage("Closing Scope, Scope level "+ _CurrentScope--);
 		//printScope();
+		
+		_CurrentScopeId = parent;
 	}
 }
 
@@ -200,6 +256,37 @@ function currentScopeIdCheck(id)
 	return checkReturn;
 }
 
+function currentScopeChain(idName)
+{
+	var scopeId = _CurrentScopeId;
+	var location;
+	while(scopeId !== -1) //the parent value of the first scope, aka, there is nothing higher.
+	{
+		for(var i = 0; i < _SymbolTable[scopeId].table.length; i++)
+		{
+			if(idName === _SymbolTable[scopeId].table[i].id)
+			{
+				location = [scopeId, i];
+			}
+		}
+		
+		if(location === undefined) //it was not found in the current scope, therefore we must go to the parent.
+		{
+			scopeId = _SymbolTable[scopeId].parent;
+		}
+		else
+		{
+			scopeId = -1;
+		}
+	}
+	
+	if(location === undefined) //if it is still undefined after going through the scopes, it does not exist, therefore we have an error.
+	{
+		location = [-1, -1];
+	}
+	return location;
+}
+
 function nameCleaning(name) //clean up the mess made by making the formatting nice for the AST.
 {
 	var newString = name;
@@ -221,6 +308,8 @@ function ScopeElement()
 	this.value;
 	this.initialized = false;
 	this.used = false;
+	this.redeclared = false;
+	this.undeclared = false;
 }
 
 function createScopeElement(node, type)
@@ -230,9 +319,9 @@ function createScopeElement(node, type)
 	currentScopeElement.id = nameCleaning(node.name);
 	currentScopeElement.lineNumber = nodeLocationList[0];
 	currentScopeElement.linePosition = nodeLocationList[1];
-	currentScopeElement.type = type;
-	currentScopeElement.scope = _CurrentScope;
-	putMessage("---Symbol Created with ID of " + currentScopeElement.id + ", type " + currentScopeElement.type);
+	currentScopeElement.dataType = type;
+	currentScopeElement.scope = _CurrentScopeId;
+	putMessage("---Symbol Created with ID of " + currentScopeElement.id + ", type " + currentScopeElement.dataType);
 	_SymbolTable[_CurrentScopeId].table.push(currentScopeElement);
 }
 
@@ -251,7 +340,17 @@ function Scope(parent)
 
 function checkIfScopeIsClean()
 {
-	return _CurrentScope;
+	var currentScopeList = _SymbolTable[_CurrentScopeId].table;
+	for(var i = 0; i < currentScopeList.length; i++)
+	{
+		var nodeLocationList = nodeLocation(idNode);
+		if(currentScopeList[i].undeclared) //might become part of assignment
+		{
+			putMessage("~~~SYMBOL TABLE ERROR id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is was not declared");
+			_ErrorCount++;
+		}
+	}
+	return checkReturn;
 }
 
 
