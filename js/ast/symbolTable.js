@@ -12,6 +12,8 @@ function generateSymbolTable()
 	_WarningCount = 0;
 	putMessage("Now Building Symbol Table");
 	_ASTjson.name = nameCleaning(_ASTjson.name) ; //should be the opening brace/stmtBlock.
+	putMessage("Opening Scope 0");
+	_SymbolTable[_CurrentScope] = [];
 	for(var i = 0; i < _ASTjson.children.length; i++)
 	{
 		var currentName = _ASTjson.children[i].name; //gets the name of the current node.
@@ -22,6 +24,11 @@ function generateSymbolTable()
 		{
 			//alert(JSON.stringify(_ASTjson.children[i]));
 			checkPrint(_ASTjson.children[i]);
+		}
+		else if(currentName === "varDecl")
+		{
+			//alert(JSON.stringify(_ASTjson.children[i]));
+			checkVarDecl(_ASTjson.children[i]);
 		}
 		
 		if(_ErrorCount > 0)
@@ -54,12 +61,13 @@ function checkPrint(currentNode)
 function checkExpr(currentNode)
 {
 	var currentName = nameCleaning(currentNode.name); //pulls the name of the current node, which would be the type of expression.
+	//alert(currentName);
 	if(currentName.match(/\d/))  //expression is just an int.
 	{
 		//alert("int!");
 		//build an array to return
 		var returnList = [];
-		returnList.push("digit");
+		returnList.push("int");
 		returnList.push(parseInt(currentName));
 		//return currentName; //this looks better in terms of assignment and boolean expressions. 
 		return returnList;
@@ -94,12 +102,12 @@ function checkIntExpr(currentNode)
 	//alert(rightName);
 	var rightList = checkExpr(rightExpr); //get the type of the right expression and the value, if applicable.
 	var rightType = rightList[_TypeConstant];
-	if(rightType === "digit") //we have digits on both sides of the int expression.
+	if(rightType === "int") //we have digits on both sides of the int expression.
 	{
 		var sum = parseInt(leftName) + rightList[_ValueConstant];
 		//alert(sum);
 		var returnList = [];
-		returnList.push("digit");
+		returnList.push("int");
 		returnList.push(sum);
 		return returnList;
 	}
@@ -115,6 +123,85 @@ function checkIntExpr(currentNode)
 		return _ErrorList;
 	}
 }
+
+function checkVarDecl(currentNode)
+{
+	var idNode = currentNode.children[1]; //get the child node, aka the identifier.
+	var idName = nameCleaning(idNode.name);
+	var checkIfIdExists = currentScopeIdCheck(idName);
+	if(checkIfIdExists)
+	{
+		var nodeLocationList = nodeLocation(idNode);
+		putMessage("~~~SYMBOL TABLE ERROR Invalid Var Decl, id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is already declared in this scope");
+		_ErrorCount++;
+	}
+	else
+	{
+		var typeNode = currentNode.children[0];
+		var type = nameCleaning(typeNode.name); //get the type
+		createScopeElement(idNode, type);
+	}
+}
+
+function currentScopeIdCheck(id)
+{
+	var currentScopeIdList = _SymbolTable[_CurrentScope];
+	var checkReturn = false;
+	for(var i = 0; i < currentScopeIdList.length; i++)
+	{
+		if(id === currentScopeIdList[i].id)
+		{
+			checkReturn = true;
+		}
+	}
+	return checkReturn;
+}
+
+function nameCleaning(name) //clean up the mess made by making the formatting nice for the AST.
+{
+	var newString = name;
+	while(newString.substr(0, _Spacer.length) === _Spacer)
+	{
+		newString = newString.substr(_Spacer.length, newString.length);
+	}
+	var newString = newString.replace(/&nbsp;/g, " ");
+	return newString;
+}
+
+function ScopeElement()
+{
+	this.id;
+	this.lineNumber = 0;
+	this.position = 0;
+	this.scope;
+	this.dataType;
+	this.value;
+	this.initialized = false;
+	this.used = false;
+}
+
+function createScopeElement(node, type)
+{
+	var currentScopeElement = new ScopeElement();
+	var nodeLocationList = nodeLocation(node);
+	currentScopeElement.id = nameCleaning(node.name);
+	currentScopeElement.lineNumber = nodeLocationList[0];
+	currentScopeElement.linePosition = nodeLocationList[1];
+	currentScopeElement.type = type;
+	currentScopeElement.scope = _CurrentScope;
+	putMessage("---Symbol Created with ID of " + currentScopeElement.id + ", type " + currentScopeElement.type);
+	_SymbolTable[_CurrentScope].push(currentScopeElement);
+}
+
+function nodeLocation(node)
+{
+	var nodeLocation = node.id.slice(_NodeLength, node.id.length - _ASToffset); //breaks down the id to pull out the line number location.
+	nodeLocation = nodeLocation.split("_");
+	return nodeLocation;
+}
+
+
+//not currently in use
 
 function isId(potentialId)
 {
@@ -143,47 +230,4 @@ function scopeContainsId(id)
 	{
 		return false;
 	}
-}
-
-function nameCleaning(name) //clean up the mess made by making the formatting nice for the AST.
-{
-	var newString = name;
-	while(newString.substr(0, _Spacer.length) === _Spacer)
-	{
-		newString = newString.substr(_Spacer.length, newString.length);
-	}
-	var newString = newString.replace(/&nbsp;/g, " ");
-	return newString;
-}
-
-function ScopeElement()
-{
-	this.id;
-	this.lineNumber = 0;
-	this.position = 0;
-	this.scope;
-	this.dataType;
-	this.value;
-	this.initialized = false;
-	this.used = false;
-}
-
-function createScopeElement(node)
-{
-	var currentScopeElement = new ScopeElement();
-	var nodeLocation = node.id.slice(_NodeLength, node.id.length - _ASToffset); //breaks down the id to pull out the line number location.
-	nodeLocation = nodeLocation.split("_");
-	currentScopeElement.id = node.name;
-	currentScopeElement.lineNumber = nodeLocation[0];
-	currentScopeElement.linePosition = nodeLocation[1];
-	currentScopeElement.scope = _CurrentScope;
-	putMessage("---Symbol Created with ID of " + currentScopeElement.id);
-	_SymbolTable.push(currentScopeElement);
-}
-
-function nodeLocation(node)
-{
-	var nodeLocation = node.id.slice(_NodeLength, node.id.length - _ASToffset); //breaks down the id to pull out the line number location.
-	nodeLocation = nodeLocation.split("_");
-	return nodeLocation;
 }
