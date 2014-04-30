@@ -13,22 +13,25 @@ function generateSymbolTable()
 	putMessage("Now Building Symbol Table");
 	_ASTjson.name = nameCleaning(_ASTjson.name) ; //should be the opening brace/stmtBlock.
 	putMessage("Opening Scope 0");
-	_SymbolTable[_CurrentScope] = [];
+	_SymbolTable[_CurrentScope] = new Scope();
 	for(var i = 0; i < _ASTjson.children.length; i++)
 	{
 		var currentName = _ASTjson.children[i].name; //gets the name of the current node.
 		_ASTjson.children[i].name = nameCleaning(currentName); //cleans it up and restores it in the json.
 		currentName = _ASTjson.children[i].name; //gets it back to use in comparisons.
 		//alert(currentName);
+		//alert(JSON.stringify(_ASTjson.children[i]));
 		if(currentName === "print")
 		{
-			//alert(JSON.stringify(_ASTjson.children[i]));
 			checkPrint(_ASTjson.children[i]);
 		}
 		else if(currentName === "varDecl")
 		{
-			//alert(JSON.stringify(_ASTjson.children[i]));
 			checkVarDecl(_ASTjson.children[i]);
+		}
+		else if(currentName === "stmtBlock")
+		{
+			checkNewScope(_ASTjson.children[i]);
 		}
 		
 		if(_ErrorCount > 0)
@@ -38,6 +41,7 @@ function generateSymbolTable()
 		
 		
 	}
+	putMessage("Closing Scope 0");
 	if(_ErrorCount > 0)
 	{
 			putMessage("Symbol Table could not be generated due to error");
@@ -56,6 +60,56 @@ function checkPrint(currentNode)
 	//alert(JSON.stringify(currentExpr));
 	//alert("Line: " + nodeLocation(currentExpr)[0] + ", character: " + nodeLocation(currentExpr)[1]);
 	checkExpr(currentExpr);
+}
+
+function checkVarDecl(currentNode)
+{
+	var idNode = currentNode.children[1]; //get the child node, aka the identifier.
+	var idName = nameCleaning(idNode.name);
+	var checkIfIdExists = currentScopeIdCheck(idName);
+	if(checkIfIdExists)
+	{
+		var nodeLocationList = nodeLocation(idNode);
+		putMessage("~~~SYMBOL TABLE ERROR Invalid Var Decl, id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is already declared in this scope");
+		_ErrorCount++;
+	}
+	else
+	{
+		var typeNode = currentNode.children[0];
+		var type = nameCleaning(typeNode.name); //get the type
+		createScopeElement(idNode, type);
+	}
+}
+
+function checkNewScope(currentNode)
+{
+	putMessage("Opening New Scope, Scope level " + ++_CurrentScope);
+	var newScopeLocation = _SymbolTable.length;
+	_SymbolTable[newScopeLocation] = new Scope();
+	for(var i = 0; i < currentNode.children.length; i++)
+	{
+		var currentName = nameCleaning(currentNode.children[i].name); //gets the name of the current node.
+		//alert(currentName);
+		if(currentName === "print")
+		{
+			checkPrint(currentNode.children[i]);
+		}
+		else if(currentName === "varDecl")
+		{
+			checkVarDecl(currentNode.children[i]);
+		}
+		else if(currentName === "stmtBlock")
+		{
+			checkNewScope(currentNode.children[i]);
+		}
+		
+		if(_ErrorCount > 0)
+		{
+			break;
+		}
+	}
+	putMessage("Closing Scope, Scope level "+ _CurrentScope--);
+	//_CurrentScope--;
 }
 
 function checkExpr(currentNode)
@@ -88,7 +142,7 @@ function checkExpr(currentNode)
 	}
 	else
 	{
-		alert("critical error"); //has not happened yet.
+		alert("critical error"); //has not happened yet...
 	}
 }
 
@@ -124,31 +178,13 @@ function checkIntExpr(currentNode)
 	}
 }
 
-function checkVarDecl(currentNode)
-{
-	var idNode = currentNode.children[1]; //get the child node, aka the identifier.
-	var idName = nameCleaning(idNode.name);
-	var checkIfIdExists = currentScopeIdCheck(idName);
-	if(checkIfIdExists)
-	{
-		var nodeLocationList = nodeLocation(idNode);
-		putMessage("~~~SYMBOL TABLE ERROR Invalid Var Decl, id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is already declared in this scope");
-		_ErrorCount++;
-	}
-	else
-	{
-		var typeNode = currentNode.children[0];
-		var type = nameCleaning(typeNode.name); //get the type
-		createScopeElement(idNode, type);
-	}
-}
-
 function currentScopeIdCheck(id)
 {
-	var currentScopeIdList = _SymbolTable[_CurrentScope];
+	var currentScopeIdList = _SymbolTable[_CurrentScope].table;
 	var checkReturn = false;
 	for(var i = 0; i < currentScopeIdList.length; i++)
 	{
+		//alert(currentScopeIdList[i].id);
 		if(id === currentScopeIdList[i].id)
 		{
 			checkReturn = true;
@@ -190,7 +226,7 @@ function createScopeElement(node, type)
 	currentScopeElement.type = type;
 	currentScopeElement.scope = _CurrentScope;
 	putMessage("---Symbol Created with ID of " + currentScopeElement.id + ", type " + currentScopeElement.type);
-	_SymbolTable[_CurrentScope].push(currentScopeElement);
+	_SymbolTable[_CurrentScope].table.push(currentScopeElement);
 }
 
 function nodeLocation(node)
@@ -198,6 +234,12 @@ function nodeLocation(node)
 	var nodeLocation = node.id.slice(_NodeLength, node.id.length - _ASToffset); //breaks down the id to pull out the line number location.
 	nodeLocation = nodeLocation.split("_");
 	return nodeLocation;
+}
+
+function Scope()
+{
+	this.parent = _CurrentScope;
+	this.table = [];
 }
 
 
