@@ -13,7 +13,7 @@ function generateSymbolTable()
 	putMessage("Now Building Symbol Table");
 	_ASTjson.name = nameCleaning(_ASTjson.name) ; //should be the opening brace/stmtBlock.
 	putMessage("Opening Scope 0");
-	_SymbolTable[_CurrentScope] = new Scope();
+	_SymbolTable[_CurrentScope] = new Scope(0);
 	for(var i = 0; i < _ASTjson.children.length; i++)
 	{
 		var currentName = _ASTjson.children[i].name; //gets the name of the current node.
@@ -31,7 +31,7 @@ function generateSymbolTable()
 		}
 		else if(currentName === "stmtBlock")
 		{
-			checkNewScope(_ASTjson.children[i]);
+			checkNewScope(_ASTjson.children[i], 0);
 		}
 		
 		if(_ErrorCount > 0)
@@ -81,12 +81,14 @@ function checkVarDecl(currentNode)
 	}
 }
 
-function checkNewScope(currentNode)
+function checkNewScope(currentNode, parent)
 {
 	putMessage("Opening New Scope, Scope level " + ++_CurrentScope);
 	var newScopeLocation = _SymbolTable.length;
-	_SymbolTable[newScopeLocation] = new Scope();
-	for(var i = 0; i < currentNode.children.length; i++)
+	_CurrentScopeId = newScopeLocation;
+	_SymbolTable[newScopeLocation] = new Scope(parent);
+	_CurrentScopeId = newScopeLocation;
+	for(var i = 0; i < currentNode.children.length; i++) //admittedly, could probably combined this with the code from generateSymbolTable(), but it started getting messy. Future goal possibly.
 	{
 		var currentName = nameCleaning(currentNode.children[i].name); //gets the name of the current node.
 		//alert(currentName);
@@ -100,7 +102,7 @@ function checkNewScope(currentNode)
 		}
 		else if(currentName === "stmtBlock")
 		{
-			checkNewScope(currentNode.children[i]);
+			checkNewScope(currentNode.children[i], _CurrentScopeId);
 		}
 		
 		if(_ErrorCount > 0)
@@ -108,8 +110,13 @@ function checkNewScope(currentNode)
 			break;
 		}
 	}
-	putMessage("Closing Scope, Scope level "+ _CurrentScope--);
-	//_CurrentScope--;
+	//checkIfScopeIsClean();
+	if(_ErrorCount === 0)
+	{
+		_CurrentScopeId = parent;
+		putMessage("Closing Scope, Scope level "+ _CurrentScope--);
+		//printScope();
+	}
 }
 
 function checkExpr(currentNode)
@@ -180,7 +187,7 @@ function checkIntExpr(currentNode)
 
 function currentScopeIdCheck(id)
 {
-	var currentScopeIdList = _SymbolTable[_CurrentScope].table;
+	var currentScopeIdList = _SymbolTable[_CurrentScopeId].table;
 	var checkReturn = false;
 	for(var i = 0; i < currentScopeIdList.length; i++)
 	{
@@ -226,7 +233,7 @@ function createScopeElement(node, type)
 	currentScopeElement.type = type;
 	currentScopeElement.scope = _CurrentScope;
 	putMessage("---Symbol Created with ID of " + currentScopeElement.id + ", type " + currentScopeElement.type);
-	_SymbolTable[_CurrentScope].table.push(currentScopeElement);
+	_SymbolTable[_CurrentScopeId].table.push(currentScopeElement);
 }
 
 function nodeLocation(node)
@@ -236,10 +243,15 @@ function nodeLocation(node)
 	return nodeLocation;
 }
 
-function Scope()
+function Scope(parent)
 {
-	this.parent = _CurrentScope;
+	this.parent = parent;
 	this.table = [];
+}
+
+function checkIfScopeIsClean()
+{
+	return _CurrentScope;
 }
 
 

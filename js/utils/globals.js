@@ -44,3 +44,5 @@ var _TypeConstant = 0;
 var _ValueConstant = 1;
 
 var _ErrorList = ["bad type", "undefined"];
+
+var _CurrentScopeId = 0;

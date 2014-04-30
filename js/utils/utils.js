@@ -27,6 +27,7 @@ function reset()
 	
 	_SymbolTable = [];
 	_CurrentScope = 0;
+	_CurrentScopeId = 0;
 }
 
 function clearDiv(divID)
