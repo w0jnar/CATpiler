@@ -43,14 +43,14 @@ function generateSymbolTable()
 			break;
 		}	
 	}
-	printScope();
-	putMessage("---Closing Scope 0");
 	if(_ErrorCount > 0)
 	{
 			putMessage("---Symbol Table could not be generated due to error");
 	}
 	else
 	{
+		printScope();
+		putMessage("---Closing Scope 0");
 		putMessage("---Symbol Table complete!");
 	}
 	//alert(JSON.stringify(_ASTjson));
@@ -106,18 +106,18 @@ function checkAssignment(currentNode)
 		var valueToAssignValue = valueToAssignEval[_ValueConstant];
 		if(valueToAssignType === idCopy.dataType) //it is of the right type
 		{
-			if(scope !== _CurrentScopeId) //it is initialized, just in a parent scope, therefore, create a new node in the current scope.
-			{
-				createScopeElement(idNode, idCopy.dataType); //create a new node at the current location, as a copy would not be in the right spot.
-				var currentLocation = _SymbolTable[_CurrentScopeId].table.length - 1;
-				_SymbolTable[_CurrentScopeId].table[currentLocation].value = valueToAssignValue;
-				_SymbolTable[_CurrentScopeId].table[currentLocation].initialized = true;
-			}
-			else //it is in the current scope, already initialized.
-			{
+			// if(scope !== _CurrentScopeId) //it is initialized, just in a parent scope, therefore, create a new node in the current scope.
+			// {
+				// createScopeElement(idNode, idCopy.dataType); //create a new node at the current location, as a copy would not be in the right spot.
+				// var currentLocation = _SymbolTable[_CurrentScopeId].table.length - 1;
+				// _SymbolTable[_CurrentScopeId].table[currentLocation].value = valueToAssignValue;
+				// _SymbolTable[_CurrentScopeId].table[currentLocation].initialized = true;
+			// }
+			// else //it is in the current scope, already initialized.
+			// {
 				_SymbolTable[scope].table[locationInScope].value = valueToAssignValue;
 				_SymbolTable[scope].table[locationInScope].initialized = true;
-			}
+			// }
 			putMessage("---id " + idName + " on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + ", has been assigned the value " + valueToAssignValue);
 		
 		}
@@ -255,23 +255,18 @@ function checkId(currentNode)  //find the id in the scope (if possible) upon bei
 		putMessage("~~~SYMBOL TABLE ERROR Invalid id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is not declared in this scope, or any parent scopes");
 		_ErrorCount++;
 	}
-	else //it exists, now we need to check if it is intialized, otherwise, error out.
+	else //it exists, now we need to check if it is initialized, otherwise, error out.
 	{
 		var idCopy = _SymbolTable[scope].table[locationInScope]; //get the correct id from the symbol table.
-		if(idCopy.initialized) //id is initialized, therefore we are good to go.
+		if(!idCopy.initialized) //id is initialized, therefore we are good to go.
 		{
-			//_SymbolTable[scope].table[locationInScope].used = true;
-			var returnList = [];
-			returnList.push(idCopy.dataType);
-			returnList.push(idCopy.value);
-			return returnList;
+			putMessage("~~~WARNING id " + idCopy.id + " on line " + idCopy.lineNumber + ", character " + idCopy.linePosition + " was not initialized");
 		}
-		else
-		{
-			putMessage("~~~SYMBOL TABLE ERROR Invalid id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is not initialized");
-			_ErrorCount++;
-			return _ErrorList;
-		}
+		//_SymbolTable[scope].table[locationInScope].used = true;
+		var returnList = [];
+		returnList.push(idCopy.dataType);
+		returnList.push(idCopy.value);
+		return returnList;
 	}
 }
 
@@ -391,8 +386,8 @@ function printScope() //prints the scope just before closing it.
 			var nodeLocationList = nodeLocation(idNode);
 			if(idNode.initialized === false) //they were not initialized.
 			{
-				putMessage("~~~WARNING id " + idNode.id + " on line " + idNode.lineNumber + ", character " + idNode.linePosition + " was not intialized and is unused");
-				warningCount++; //in this case a warning count
+				putMessage("~~~WARNING id " + idNode.id + " on line " + idNode.lineNumber + ", character " + idNode.linePosition + " was not initialized and is unused");
+				warningCount++;
 			}
 		}
 		if(warningCount === 0)
