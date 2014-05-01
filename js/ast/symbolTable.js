@@ -12,7 +12,7 @@ function generateSymbolTable()
 	_WarningCount = 0;
 	putMessage("Now Building Symbol Table");
 	_ASTjson.name = nameCleaning(_ASTjson.name) ; //should be the opening brace/stmtBlock.
-	putMessage("Opening Scope 0");
+	putMessage("---Opening Scope 0");
 	_SymbolTable[_CurrentScope] = new Scope(-1);
 	for(var i = 0; i < _ASTjson.children.length; i++)
 	{
@@ -41,18 +41,17 @@ function generateSymbolTable()
 		if(_ErrorCount > 0)
 		{
 			break;
-		}
-		
-		
+		}	
 	}
-	putMessage("Closing Scope 0");
+	printScope();
+	putMessage("---Closing Scope 0");
 	if(_ErrorCount > 0)
 	{
-			putMessage("Symbol Table could not be generated due to error");
+			putMessage("---Symbol Table could not be generated due to error");
 	}
 	else
 	{
-		putMessage("Symbol Table complete!");
+		putMessage("---Symbol Table complete!");
 	}
 	//alert(JSON.stringify(_ASTjson));
 }
@@ -134,7 +133,7 @@ function checkAssignment(currentNode)
 
 function checkNewScope(currentNode, parent)
 {
-	putMessage("Opening New Scope, Scope level " + ++_CurrentScope);
+	putMessage("---Opening New Scope, Scope level " + ++_CurrentScope);
 	var newScopeLocation = _SymbolTable.length;
 	_CurrentScopeId = newScopeLocation;
 	_SymbolTable[newScopeLocation] = new Scope(parent);
@@ -165,11 +164,10 @@ function checkNewScope(currentNode, parent)
 			break;
 		}
 	}
-	//checkIfScopeIsClean();
 	if(_ErrorCount === 0)
 	{
-		putMessage("Closing Scope, Scope level "+ _CurrentScope--);
-		//printScope();
+		printScope();
+		putMessage("---Closing Scope, Scope level "+ _CurrentScope--);
 		
 		_CurrentScopeId = parent;
 	}
@@ -202,6 +200,10 @@ function checkExpr(currentNode)
 	{
 		//alert("Meow!");
 		return checkIntExpr(currentNode); //pass the entire node as it contains both of the children to do the Int Expression comparison elsewhere.
+	}
+	else if(isId(currentName))
+	{
+		return checkId(currentNode);
 	}
 	else
 	{
@@ -241,6 +243,43 @@ function checkIntExpr(currentNode)
 	}
 }
 
+function checkId(currentNode)  //find the id in the scope (if possible) upon being called, then return the id's value and type if possible, else error.
+{
+	var idName = nameCleaning(currentNode.name);
+	var checkIfIdExists = currentScopeChain(idName); //check if the id exists within the scope, as we need it to progress.
+	var scope = checkIfIdExists[0];
+	var locationInScope = checkIfIdExists[1];
+	var nodeLocationList = nodeLocation(currentNode);
+	if(scope === -1 && locationInScope === -1) //error, as not declared.
+	{
+		putMessage("~~~SYMBOL TABLE ERROR Invalid id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is not declared in this scope, or any parent scopes");
+		_ErrorCount++;
+	}
+	else //it exists, now we need to check if it is intialized, otherwise, error out.
+	{
+		var idCopy = _SymbolTable[scope].table[locationInScope]; //get the correct id from the symbol table.
+		if(idCopy.initialized) //id is initialized, therefore we are good to go.
+		{
+			//_SymbolTable[scope].table[locationInScope].used = true;
+			var returnList = [];
+			returnList.push(idCopy.dataType);
+			returnList.push(idCopy.value);
+			return returnList;
+		}
+		else
+		{
+			putMessage("~~~SYMBOL TABLE ERROR Invalid id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is not initialized");
+			_ErrorCount++;
+			return _ErrorList;
+		}
+	}
+}
+
+function isId(potentialId)
+{
+	return (potentialId.match(/[a-z]/) && potentialId.length === 1);
+}
+
 function currentScopeIdCheck(id)
 {
 	var currentScopeIdList = _SymbolTable[_CurrentScopeId].table;
@@ -262,7 +301,7 @@ function currentScopeChain(idName)
 	var location;
 	while(scopeId !== -1) //the parent value of the first scope, aka, there is nothing higher.
 	{
-		for(var i = 0; i < _SymbolTable[scopeId].table.length; i++)
+		for(var i = 0; i < _SymbolTable[scopeId].table.length; i++) //considered switching the order, but figured an id would never appear within the same scope twice.
 		{
 			if(idName === _SymbolTable[scopeId].table[i].id)
 			{
@@ -307,9 +346,6 @@ function ScopeElement()
 	this.dataType;
 	this.value;
 	this.initialized = false;
-	this.used = false;
-	this.redeclared = false;
-	this.undeclared = false;
 }
 
 function createScopeElement(node, type)
@@ -338,28 +374,46 @@ function Scope(parent)
 	this.table = [];
 }
 
-function checkIfScopeIsClean()
+function printScope() //prints the scope just before closing it.
 {
+	putMessage("---About to close scope, checking if any ids were not initialized");
 	var currentScopeList = _SymbolTable[_CurrentScopeId].table;
-	for(var i = 0; i < currentScopeList.length; i++)
+	if(currentScopeList.length === 0)
 	{
-		var nodeLocationList = nodeLocation(idNode);
-		if(currentScopeList[i].undeclared) //might become part of assignment
+		putMessage("---There were no ids in the soon to be closed scope");
+	}
+	else
+	{
+		var warningCount = 0;
+		for(var i = 0; i < currentScopeList.length; i++)
 		{
-			putMessage("~~~SYMBOL TABLE ERROR id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is was not declared");
-			_ErrorCount++;
+			var idNode = currentScopeList[i];
+			var nodeLocationList = nodeLocation(idNode);
+			if(idNode.initialized === false) //they were not initialized.
+			{
+				putMessage("~~~WARNING id " + idNode.id + " on line " + idNode.lineNumber + ", character " + idNode.linePosition + " was not intialized and is unused");
+				warningCount++; //in this case a warning count
+			}
+		}
+		if(warningCount === 0)
+		{
+			putMessage("---All ids initialized!");
+		}
+		//warningCount = 0;
+		
+		putMessage("---Now printing ids from the scope");
+		for(var i = 0; i < currentScopeList.length; i++)
+		{
+			var idNode = currentScopeList[i];
+			//var nodeLocationList = nodeLocation(idNode);
+			putMessage("-id: " + idNode.id + ", type: " + idNode.dataType + ", value: " + idNode.value);
 		}
 	}
-	return checkReturn;
 }
 
 
 //not currently in use
 
-function isId(potentialId)
-{
-	return (potentialId.match(/[a-z]/) && potentialId.length === 1);
-}
 
 function scopeContainsId(id)
 {
