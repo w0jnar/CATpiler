@@ -12,7 +12,7 @@ function generateSymbolTable()
 	_WarningCount = 0;
 	putMessage("Now Building Symbol Table");
 	_ASTjson.name = nameCleaning(_ASTjson.name) ; //should be the opening brace/stmtBlock.
-	putMessage("---Opening Scope 0");
+	putMessage("---Opening Scope, Scope level 0");
 	_SymbolTable[_CurrentScope] = new Scope(-1);
 	for(var i = 0; i < _ASTjson.children.length; i++)
 	{
@@ -50,7 +50,7 @@ function generateSymbolTable()
 	else
 	{
 		printScope();
-		putMessage("---Closing Scope 0");
+		putMessage("---Closing Scope, Scope level 0");
 		putMessage("---Symbol Table complete!");
 	}
 	//alert(JSON.stringify(_ASTjson));
@@ -187,6 +187,10 @@ function checkExpr(currentNode)
 		//return currentName; //this looks better in terms of assignment and boolean expressions. 
 		return returnList;
 	}
+	else if(currentName === "==" || currentName === "!=" || currentName === "false" || currentName === "true")
+	{
+		return checkBooleanExpr(currentNode);
+	}
 	else if(currentName.match(/^\"/))  //expression is a string. We are only matching the first character, but at this point, if it starts with a quote, it is a valid string.
 	{
 		//alert("string!");
@@ -207,8 +211,56 @@ function checkExpr(currentNode)
 	}
 	else
 	{
-		alert("critical error"); //has not happened yet...
+		alert("critical error"); //should more or less just say, "something something, in development" but for now, this shall remain. Should never be reached.
 	}
+}
+
+function checkBooleanExpr(currentNode)
+{
+	var currentName = nameCleaning(currentNode.name); //figure out which kind of boolean expression we have.
+	if(currentName === "false" || currentName === "true")
+	{
+		var returnBoolean = currentName;
+	}
+	else //either "==" or "!="
+	{
+		var leftExpr = currentNode.children[0]; //either way, going to need to get the types and values of the left and right side, so doing now.
+		var rightExpr = currentNode.children[1]; 
+		var leftList = checkExpr(leftExpr);
+		var rightList = checkExpr(rightExpr);
+		var leftType = leftList[_TypeConstant];
+		var rightType = rightList[_TypeConstant];
+		var leftValue = leftList[_ValueConstant];
+		var rightValue = rightList[_ValueConstant];
+		
+		if(leftType !== rightType) //check if we can even compare them.
+		{
+			if(currentName === "==")
+			{
+				var returnBoolean = "false";
+			}
+			else
+			{
+				var returnBoolean = "true";
+			}
+		}
+		else if(currentName === "==")
+		{
+			var returnBoolean = (leftValue === rightValue).toString();
+		}
+		else if(currentName === "!=")
+		{
+			var returnBoolean = (leftValue !== rightValue).toString();
+		}
+		else
+		{
+			putMessage("You've met with a terrible fate, haven't you?");
+		}
+	}
+	var returnList = [];
+	returnList.push("boolean");
+	returnList.push(returnBoolean);
+	return returnList;
 }
 
 function checkIntExpr(currentNode)
