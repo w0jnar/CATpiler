@@ -319,17 +319,43 @@ Lexing Character
 ---Token number 56 created
 ---Token Created of Type: var_id, value d
 Lexing Character
--Found: d
+-Found: i
+---i Found, checking next symbol
+---n Found, checking next symbol
+---t Found, checking next symbol
+-Word Found: int
+-Checking if Keyword
 ---Token number 57 created
+---Token Created of Type: int
+Lexing Character
+-Found: b
+---Token number 58 created
+---Token Created of Type: var_id, value b
+Lexing Character
+-Found: b
+---Token number 59 created
+---Token Created of Type: var_id, value b
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 60 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: 7
+---Token number 61 created
+---Token Created of Type: digit, value 7
+Lexing Character
+-Found: d
+---Token number 62 created
 ---Token Created of Type: var_id, value d
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 58 created
+---Token number 63 created
 ---Token Created of Type: assignment_op
 Lexing Character
 -Found: (
----Token number 59 created
+---Token number 64 created
 ---Token Created of Type: left_paren
 Lexing Character
 -Found: t
@@ -339,16 +365,16 @@ Lexing Character
 ---e Found, checking next symbol
 -Word Found: true
 -Checking if Keyword
----Token number 60 created
+---Token number 65 created
 ---Token Created of Type: true
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 61 created
+---Token number 66 created
 ---Token Created of Type: boolop_equal
 Lexing Character
 -Found: (
----Token number 62 created
+---Token number 67 created
 ---Token Created of Type: left_paren
 Lexing Character
 -Found: t
@@ -358,12 +384,12 @@ Lexing Character
 ---e Found, checking next symbol
 -Word Found: true
 -Checking if Keyword
----Token number 63 created
+---Token number 68 created
 ---Token Created of Type: true
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 64 created
+---Token number 69 created
 ---Token Created of Type: boolop_equal
 Lexing Character
 -Found: f
@@ -374,163 +400,163 @@ Lexing Character
 ---e Found, checking next symbol
 -Word Found: false
 -Checking if Keyword
----Token number 65 created
+---Token number 70 created
 ---Token Created of Type: false
 Lexing Character
 -Found: )
----Token number 66 created
+---Token number 71 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: )
----Token number 67 created
+---Token number 72 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: d
----Token number 68 created
+---Token number 73 created
 ---Token Created of Type: var_id, value d
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 69 created
+---Token number 74 created
 ---Token Created of Type: assignment_op
 Lexing Character
 -Found: (
----Token number 70 created
+---Token number 75 created
 ---Token Created of Type: left_paren
 Lexing Character
 -Found: a
----Token number 71 created
+---Token number 76 created
 ---Token Created of Type: var_id, value a
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 72 created
+---Token number 77 created
 ---Token Created of Type: boolop_equal
 Lexing Character
 -Found: b
----Token number 73 created
+---Token number 78 created
 ---Token Created of Type: var_id, value b
 Lexing Character
 -Found: )
----Token number 74 created
----Token Created of Type: right_paren
-Lexing Character
--Found: d
----Token number 75 created
----Token Created of Type: var_id, value d
-Lexing Character
--Found: =
---"=" Found, checking next character
----Token number 76 created
----Token Created of Type: assignment_op
-Lexing Character
--Found: (
----Token number 77 created
----Token Created of Type: left_paren
-Lexing Character
--Found: 1
----Token number 78 created
----Token Created of Type: digit, value 1
-Lexing Character
--Found: =
---"=" Found, checking next character
 ---Token number 79 created
----Token Created of Type: boolop_equal
+---Token Created of Type: right_paren
 Lexing Character
--Found: a
+-Found: d
 ---Token number 80 created
----Token Created of Type: var_id, value a
+---Token Created of Type: var_id, value d
 Lexing Character
--Found: )
+-Found: =
+--"=" Found, checking next character
 ---Token number 81 created
----Token Created of Type: right_paren
+---Token Created of Type: assignment_op
 Lexing Character
--Found: d
+-Found: (
 ---Token number 82 created
----Token Created of Type: var_id, value d
+---Token Created of Type: left_paren
 Lexing Character
--Found: =
---"=" Found, checking next character
+-Found: 1
 ---Token number 83 created
----Token Created of Type: assignment_op
+---Token Created of Type: digit, value 1
 Lexing Character
--Found: (
+-Found: =
+--"=" Found, checking next character
 ---Token number 84 created
----Token Created of Type: left_paren
-Lexing Character
--Found: 1
----Token number 85 created
----Token Created of Type: digit, value 1
-Lexing Character
--Found: !
---"!" Found, checking next character
----Token number 86 created
----Token Created of Type: boolop_not_equal
-Lexing Character
--Found: 1
----Token number 87 created
----Token Created of Type: digit, value 1
-Lexing Character
--Found: )
----Token number 88 created
----Token Created of Type: right_paren
-Lexing Character
--Found: d
----Token number 89 created
----Token Created of Type: var_id, value d
-Lexing Character
--Found: =
---"=" Found, checking next character
----Token number 90 created
----Token Created of Type: assignment_op
-Lexing Character
--Found: (
----Token number 91 created
----Token Created of Type: left_paren
-Lexing Character
--Found: "
----s Found, checking next symbol
----t Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----g Found, checking next symbol
----Token number 92 created
----Token Created of Type: string, value "string"
-Lexing Character
--Found: =
---"=" Found, checking next character
----Token number 93 created
 ---Token Created of Type: boolop_equal
 Lexing Character
--Found: 1
----Token number 94 created
----Token Created of Type: digit, value 1
+-Found: a
+---Token number 85 created
+---Token Created of Type: var_id, value a
 Lexing Character
 -Found: )
----Token number 95 created
+---Token number 86 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: d
----Token number 96 created
+---Token number 87 created
 ---Token Created of Type: var_id, value d
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 97 created
+---Token number 88 created
 ---Token Created of Type: assignment_op
 Lexing Character
 -Found: (
----Token number 98 created
+---Token number 89 created
 ---Token Created of Type: left_paren
 Lexing Character
--Found: a
----Token number 99 created
----Token Created of Type: var_id, value a
+-Found: 1
+---Token number 90 created
+---Token Created of Type: digit, value 1
 Lexing Character
 -Found: !
 --"!" Found, checking next character
+---Token number 91 created
+---Token Created of Type: boolop_not_equal
+Lexing Character
+-Found: 1
+---Token number 92 created
+---Token Created of Type: digit, value 1
+Lexing Character
+-Found: )
+---Token number 93 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: d
+---Token number 94 created
+---Token Created of Type: var_id, value d
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 95 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: (
+---Token number 96 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: "
+---s Found, checking next symbol
+---t Found, checking next symbol
+---r Found, checking next symbol
+---i Found, checking next symbol
+---n Found, checking next symbol
+---g Found, checking next symbol
+---Token number 97 created
+---Token Created of Type: string, value "string"
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 98 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: z
+---Token number 99 created
+---Token Created of Type: var_id, value z
+Lexing Character
+-Found: )
 ---Token number 100 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: d
+---Token number 101 created
+---Token Created of Type: var_id, value d
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 102 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: (
+---Token number 103 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: z
+---Token number 104 created
+---Token Created of Type: var_id, value z
+Lexing Character
+-Found: !
+--"!" Found, checking next character
+---Token number 105 created
 ---Token Created of Type: boolop_not_equal
 Lexing Character
 -Found: "
@@ -540,11 +566,53 @@ Lexing Character
 ---i Found, checking next symbol
 ---n Found, checking next symbol
 ---g Found, checking next symbol
----Token number 101 created
+---Token number 106 created
 ---Token Created of Type: string, value "string"
 Lexing Character
 -Found: )
----Token number 102 created
+---Token number 107 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: d
+---Token number 108 created
+---Token Created of Type: var_id, value d
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 109 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: (
+---Token number 110 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: "
+---s Found, checking next symbol
+---t Found, checking next symbol
+---r Found, checking next symbol
+---i Found, checking next symbol
+---n Found, checking next symbol
+---g Found, checking next symbol
+---Token number 111 created
+---Token Created of Type: string, value "string"
+Lexing Character
+-Found: !
+--"!" Found, checking next character
+---Token number 112 created
+---Token Created of Type: boolop_not_equal
+Lexing Character
+-Found: "
+---s Found, checking next symbol
+---t Found, checking next symbol
+---r Found, checking next symbol
+---i Found, checking next symbol
+---n Found, checking next symbol
+---g Found, checking next symbol
+---Token number 113 created
+---Token Created of Type: string, value "string"
+Lexing Character
+-Found: )
+---Token number 114 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: i
@@ -552,20 +620,20 @@ Lexing Character
 ---f Found, checking next symbol
 -Word Found: if
 -Checking if Keyword
----Token number 103 created
+---Token number 115 created
 ---Token Created of Type: if
 Lexing Character
 -Found: (
----Token number 104 created
+---Token number 116 created
 ---Token Created of Type: left_paren
 Lexing Character
 -Found: d
----Token number 105 created
+---Token number 117 created
 ---Token Created of Type: var_id, value d
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 106 created
+---Token number 118 created
 ---Token Created of Type: boolop_equal
 Lexing Character
 -Found: t
@@ -575,15 +643,15 @@ Lexing Character
 ---e Found, checking next symbol
 -Word Found: true
 -Checking if Keyword
----Token number 107 created
+---Token number 119 created
 ---Token Created of Type: true
 Lexing Character
 -Found: )
----Token number 108 created
+---Token number 120 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: {
----Token number 109 created
+---Token number 121 created
 ---Token Created of Type: left_brace
 Lexing Character
 -Found: i
@@ -592,65 +660,65 @@ Lexing Character
 ---t Found, checking next symbol
 -Word Found: int
 -Checking if Keyword
----Token number 110 created
+---Token number 122 created
 ---Token Created of Type: int
 Lexing Character
 -Found: c
----Token number 111 created
+---Token number 123 created
 ---Token Created of Type: var_id, value c
 Lexing Character
 -Found: c
----Token number 112 created
+---Token number 124 created
 ---Token Created of Type: var_id, value c
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 113 created
+---Token number 125 created
 ---Token Created of Type: assignment_op
 Lexing Character
 -Found: 1
----Token number 114 created
+---Token number 126 created
 ---Token Created of Type: digit, value 1
 Lexing Character
 -Found: +
----Token number 115 created
+---Token number 127 created
 ---Token Created of Type: plus_op
 Lexing Character
--Found: d
----Token number 116 created
----Token Created of Type: var_id, value d
+-Found: b
+---Token number 128 created
+---Token Created of Type: var_id, value b
 Lexing Character
 -Found: i
 ---i Found, checking next symbol
 ---f Found, checking next symbol
 -Word Found: if
 -Checking if Keyword
----Token number 117 created
+---Token number 129 created
 ---Token Created of Type: if
 Lexing Character
 -Found: (
----Token number 118 created
+---Token number 130 created
 ---Token Created of Type: left_paren
 Lexing Character
 -Found: c
----Token number 119 created
+---Token number 131 created
 ---Token Created of Type: var_id, value c
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 120 created
+---Token number 132 created
 ---Token Created of Type: boolop_equal
 Lexing Character
 -Found: 1
----Token number 121 created
+---Token number 133 created
 ---Token Created of Type: digit, value 1
 Lexing Character
 -Found: )
----Token number 122 created
+---Token number 134 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: {
----Token number 123 created
+---Token number 135 created
 ---Token Created of Type: left_brace
 Lexing Character
 -Found: p
@@ -661,30 +729,30 @@ Lexing Character
 ---t Found, checking next symbol
 -Word Found: print
 -Checking if Keyword
----Token number 124 created
+---Token number 136 created
 ---Token Created of Type: print
 Lexing Character
 -Found: (
----Token number 125 created
+---Token number 137 created
 ---Token Created of Type: left_paren
 Lexing Character
 -Found: "
 ---u Found, checking next symbol
 ---g Found, checking next symbol
 ---h Found, checking next symbol
----Token number 126 created
+---Token number 138 created
 ---Token Created of Type: string, value "ugh"
 Lexing Character
 -Found: )
----Token number 127 created
+---Token number 139 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: }
----Token number 128 created
+---Token number 140 created
 ---Token Created of Type: right_brace
 Lexing Character
 -Found: }
----Token number 129 created
+---Token number 141 created
 ---Token Created of Type: right_brace
 Lexing Character
 -Found: w
@@ -695,11 +763,11 @@ Lexing Character
 ---e Found, checking next symbol
 -Word Found: while
 -Checking if Keyword
----Token number 130 created
+---Token number 142 created
 ---Token Created of Type: while
 Lexing Character
 -Found: (
----Token number 131 created
+---Token number 143 created
 ---Token Created of Type: left_paren
 Lexing Character
 -Found: "
@@ -709,24 +777,24 @@ Lexing Character
 ---i Found, checking next symbol
 ---n Found, checking next symbol
 ---g Found, checking next symbol
----Token number 132 created
+---Token number 144 created
 ---Token Created of Type: string, value "string"
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 133 created
+---Token number 145 created
 ---Token Created of Type: boolop_equal
 Lexing Character
--Found: a
----Token number 134 created
----Token Created of Type: var_id, value a
+-Found: z
+---Token number 146 created
+---Token Created of Type: var_id, value z
 Lexing Character
 -Found: )
----Token number 135 created
+---Token number 147 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: {
----Token number 136 created
+---Token number 148 created
 ---Token Created of Type: left_brace
 Lexing Character
 -Found: w
@@ -737,20 +805,20 @@ Lexing Character
 ---e Found, checking next symbol
 -Word Found: while
 -Checking if Keyword
----Token number 137 created
+---Token number 149 created
 ---Token Created of Type: while
 Lexing Character
 -Found: (
----Token number 138 created
+---Token number 150 created
 ---Token Created of Type: left_paren
 Lexing Character
--Found: 1
----Token number 139 created
----Token Created of Type: digit, value 1
+-Found: d
+---Token number 151 created
+---Token Created of Type: var_id, value d
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 140 created
+---Token number 152 created
 ---Token Created of Type: boolop_equal
 Lexing Character
 -Found: t
@@ -760,58 +828,52 @@ Lexing Character
 ---e Found, checking next symbol
 -Word Found: true
 -Checking if Keyword
----Token number 141 created
+---Token number 153 created
 ---Token Created of Type: true
 Lexing Character
 -Found: )
----Token number 142 created
+---Token number 154 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: {
----Token number 143 created
+---Token number 155 created
 ---Token Created of Type: left_brace
 Lexing Character
 -Found: a
----Token number 144 created
+---Token number 156 created
 ---Token Created of Type: var_id, value a
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 145 created
+---Token number 157 created
 ---Token Created of Type: assignment_op
 Lexing Character
 -Found: 1
----Token number 146 created
+---Token number 158 created
 ---Token Created of Type: digit, value 1
 Lexing Character
 -Found: +
----Token number 147 created
+---Token number 159 created
 ---Token Created of Type: plus_op
 Lexing Character
--Found: "
----s Found, checking next symbol
----t Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----g Found, checking next symbol
----Token number 148 created
----Token Created of Type: string, value "string"
+-Found: b
+---Token number 160 created
+---Token Created of Type: var_id, value b
 Lexing Character
 -Found: }
----Token number 149 created
+---Token number 161 created
 ---Token Created of Type: right_brace
 Lexing Character
 -Found: }
----Token number 150 created
+---Token number 162 created
 ---Token Created of Type: right_brace
 Lexing Character
 -Found: }
----Token number 151 created
+---Token number 163 created
 ---Token Created of Type: right_brace
 Lexing Character
 -Found: $
----Token number 152 created
+---Token number 164 created
 ---Token Created of Type: end_of_file
 No Lexical Errors Found! Nice!
 ~~~Ending Lexical Analysis
@@ -819,245 +881,735 @@ No Lexical Errors Found! Nice!
 ~~~Starting Parse
 -Parsing token: left_brace on line 1, character 1
 -Parsing Block
--Parsing token: int on line 2, character 2
+-Parsing token: int on line 2, character 5
 -Beginning Parse of a Statement
--Parsing token: var_id on line 2, character 5
+-Parsing token: var_id on line 2, character 8
 Valid Variable Declaration Statement parsed
--Parsing token: var_id on line 3, character 2
+-Parsing token: var_id on line 3, character 5
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 3, character 4
--Parsing token: digit on line 3, character 6
+-Parsing token: assignment_op on line 3, character 7
+-Parsing token: digit on line 3, character 9
 Valid Assignment Statement parsed
--Parsing token: string on line 4, character 2
+-Parsing token: string on line 4, character 5
 -Beginning Parse of a Statement
--Parsing token: var_id on line 4, character 8
+-Parsing token: var_id on line 4, character 11
 Valid Variable Declaration Statement parsed
--Parsing token: var_id on line 5, character 2
+-Parsing token: var_id on line 5, character 5
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 5, character 4
--Parsing token: string on line 5, character 6
+-Parsing token: assignment_op on line 5, character 7
+-Parsing token: string on line 5, character 9
 Valid Assignment Statement parsed
--Parsing token: while on line 6, character 2
+-Parsing token: while on line 6, character 5
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 6, character 7
--Parsing token: var_id on line 6, character 8
--Parsing token: boolop_not_equal on line 6, character 10
--Parsing token: digit on line 6, character 12
--Parsing token: right_paren on line 6, character 13
+-Parsing token: left_paren on line 6, character 10
+-Parsing token: var_id on line 6, character 11
+-Parsing token: boolop_not_equal on line 6, character 13
+-Parsing token: digit on line 6, character 15
+-Parsing token: right_paren on line 6, character 16
 Valid Boolean Expression parsed
--Parsing token: left_brace on line 6, character 15
+-Parsing token: left_brace on line 6, character 18
 -Parsing Block
--Parsing token: if on line 7, character 3
+-Parsing token: if on line 7, character 9
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 7, character 4
--Parsing token: var_id on line 7, character 5
--Parsing token: boolop_not_equal on line 7, character 7
--Parsing token: digit on line 7, character 9
--Parsing token: right_paren on line 7, character 10
+-Parsing token: left_paren on line 7, character 10
+-Parsing token: var_id on line 7, character 11
+-Parsing token: boolop_not_equal on line 7, character 13
+-Parsing token: digit on line 7, character 15
+-Parsing token: right_paren on line 7, character 16
 Valid Boolean Expression parsed
--Parsing token: left_brace on line 7, character 12
+-Parsing token: left_brace on line 7, character 18
 -Parsing Block
--Parsing token: print on line 8, character 5
+-Parsing token: print on line 8, character 13
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 8, character 9
--Parsing token: string on line 8, character 10
--Parsing token: right_paren on line 8, character 16
+-Parsing token: left_paren on line 8, character 17
+-Parsing token: string on line 8, character 18
+-Parsing token: right_paren on line 8, character 24
 Valid Print Statement Parsed
--Parsing token: right_brace on line 9, character 3
+-Parsing token: right_brace on line 9, character 9
 -Finished Parsing Block
 Valid If Statement parsed
--Parsing token: left_brace on line 10, character 3
+-Parsing token: left_brace on line 10, character 9
 -Beginning Parse of a Statement
 -Parsing Block
--Parsing token: var_id on line 11, character 4
+-Parsing token: var_id on line 11, character 13
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 11, character 6
--Parsing token: digit on line 11, character 8
--Parsing token: plus_op on line 11, character 10
--Parsing token: var_id on line 11, character 12
+-Parsing token: assignment_op on line 11, character 15
+-Parsing token: digit on line 11, character 17
+-Parsing token: plus_op on line 11, character 19
+-Parsing token: var_id on line 11, character 21
 Valid Assignment Statement parsed
--Parsing token: string on line 12, character 4
+-Parsing token: string on line 12, character 13
 -Beginning Parse of a Statement
--Parsing token: var_id on line 12, character 10
+-Parsing token: var_id on line 12, character 19
 Valid Variable Declaration Statement parsed
--Parsing token: var_id on line 13, character 4
+-Parsing token: var_id on line 13, character 13
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 13, character 6
--Parsing token: string on line 13, character 8
+-Parsing token: assignment_op on line 13, character 15
+-Parsing token: string on line 13, character 17
 Valid Assignment Statement parsed
--Parsing token: print on line 14, character 4
+-Parsing token: print on line 14, character 13
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 14, character 8
--Parsing token: var_id on line 14, character 9
--Parsing token: right_paren on line 14, character 10
+-Parsing token: left_paren on line 14, character 17
+-Parsing token: var_id on line 14, character 18
+-Parsing token: right_paren on line 14, character 19
 Valid Print Statement Parsed
--Parsing token: right_brace on line 15, character 3
+-Parsing token: right_brace on line 15, character 9
 -Finished Parsing Block
--Parsing token: right_brace on line 16, character 2
+-Parsing token: right_brace on line 16, character 5
 -Finished Parsing Block
 Valid While Statement parsed
--Parsing token: left_brace on line 17, character 2
+-Parsing token: left_brace on line 17, character 5
 -Beginning Parse of a Statement
 -Parsing Block
--Parsing token: right_brace on line 17, character 3
+-Parsing token: right_brace on line 17, character 6
 -Finished Parsing Block
--Parsing token: boolean on line 18, character 2
+-Parsing token: boolean on line 18, character 5
 -Beginning Parse of a Statement
--Parsing token: var_id on line 18, character 9
+-Parsing token: var_id on line 18, character 12
 Valid Variable Declaration Statement parsed
--Parsing token: var_id on line 19, character 2
+-Parsing token: var_id on line 19, character 5
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 19, character 4
--Parsing token: true on line 19, character 6
+-Parsing token: assignment_op on line 19, character 7
+-Parsing token: true on line 19, character 9
 Valid Assignment Statement parsed
--Parsing token: boolean on line 20, character 2
+-Parsing token: boolean on line 20, character 5
 -Beginning Parse of a Statement
--Parsing token: var_id on line 20, character 9
+-Parsing token: var_id on line 20, character 12
 Valid Variable Declaration Statement parsed
--Parsing token: var_id on line 21, character 2
+-Parsing token: int on line 21, character 5
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 21, character 4
--Parsing token: left_paren on line 21, character 6
--Parsing token: true on line 21, character 7
--Parsing token: boolop_equal on line 21, character 11
--Parsing token: left_paren on line 21, character 13
--Parsing token: true on line 21, character 14
--Parsing token: boolop_equal on line 21, character 18
--Parsing token: false on line 21, character 20
--Parsing token: right_paren on line 21, character 24
+-Parsing token: var_id on line 21, character 8
+Valid Variable Declaration Statement parsed
+-Parsing token: var_id on line 22, character 5
+-Beginning Parse of a Statement
+-Parsing token: assignment_op on line 22, character 7
+-Parsing token: digit on line 22, character 9
+Valid Assignment Statement parsed
+-Parsing token: var_id on line 23, character 5
+-Beginning Parse of a Statement
+-Parsing token: assignment_op on line 23, character 7
+-Parsing token: left_paren on line 23, character 9
+-Parsing token: true on line 23, character 10
+-Parsing token: boolop_equal on line 23, character 14
+-Parsing token: left_paren on line 23, character 16
+-Parsing token: true on line 23, character 17
+-Parsing token: boolop_equal on line 23, character 21
+-Parsing token: false on line 23, character 23
+-Parsing token: right_paren on line 23, character 27
 Valid Boolean Expression parsed
--Parsing token: right_paren on line 21, character 25
+-Parsing token: right_paren on line 23, character 28
 Valid Boolean Expression parsed
 Valid Assignment Statement parsed
--Parsing token: var_id on line 22, character 2
+-Parsing token: var_id on line 24, character 5
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 22, character 4
--Parsing token: left_paren on line 22, character 6
--Parsing token: var_id on line 22, character 7
--Parsing token: boolop_equal on line 22, character 9
--Parsing token: var_id on line 22, character 11
--Parsing token: right_paren on line 22, character 12
+-Parsing token: assignment_op on line 24, character 7
+-Parsing token: left_paren on line 24, character 9
+-Parsing token: var_id on line 24, character 10
+-Parsing token: boolop_equal on line 24, character 12
+-Parsing token: var_id on line 24, character 14
+-Parsing token: right_paren on line 24, character 15
 Valid Boolean Expression parsed
 Valid Assignment Statement parsed
--Parsing token: var_id on line 23, character 2
+-Parsing token: var_id on line 25, character 5
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 23, character 4
--Parsing token: left_paren on line 23, character 6
--Parsing token: digit on line 23, character 7
--Parsing token: boolop_equal on line 23, character 9
--Parsing token: var_id on line 23, character 11
--Parsing token: right_paren on line 23, character 12
+-Parsing token: assignment_op on line 25, character 7
+-Parsing token: left_paren on line 25, character 9
+-Parsing token: digit on line 25, character 10
+-Parsing token: boolop_equal on line 25, character 12
+-Parsing token: var_id on line 25, character 14
+-Parsing token: right_paren on line 25, character 15
 Valid Boolean Expression parsed
 Valid Assignment Statement parsed
--Parsing token: var_id on line 24, character 2
+-Parsing token: var_id on line 26, character 5
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 24, character 4
--Parsing token: left_paren on line 24, character 6
--Parsing token: digit on line 24, character 7
--Parsing token: boolop_not_equal on line 24, character 9
--Parsing token: digit on line 24, character 11
--Parsing token: right_paren on line 24, character 12
+-Parsing token: assignment_op on line 26, character 7
+-Parsing token: left_paren on line 26, character 9
+-Parsing token: digit on line 26, character 10
+-Parsing token: boolop_not_equal on line 26, character 12
+-Parsing token: digit on line 26, character 14
+-Parsing token: right_paren on line 26, character 15
 Valid Boolean Expression parsed
 Valid Assignment Statement parsed
--Parsing token: var_id on line 25, character 2
+-Parsing token: var_id on line 27, character 5
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 25, character 4
--Parsing token: left_paren on line 25, character 6
--Parsing token: string on line 25, character 7
--Parsing token: boolop_equal on line 25, character 16
--Parsing token: digit on line 25, character 18
--Parsing token: right_paren on line 25, character 19
+-Parsing token: assignment_op on line 27, character 7
+-Parsing token: left_paren on line 27, character 9
+-Parsing token: string on line 27, character 10
+-Parsing token: boolop_equal on line 27, character 19
+-Parsing token: var_id on line 27, character 21
+-Parsing token: right_paren on line 27, character 22
 Valid Boolean Expression parsed
 Valid Assignment Statement parsed
--Parsing token: var_id on line 26, character 2
+-Parsing token: var_id on line 28, character 5
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 26, character 4
--Parsing token: left_paren on line 26, character 6
--Parsing token: var_id on line 26, character 7
--Parsing token: boolop_not_equal on line 26, character 9
--Parsing token: string on line 26, character 11
--Parsing token: right_paren on line 26, character 19
+-Parsing token: assignment_op on line 28, character 7
+-Parsing token: left_paren on line 28, character 9
+-Parsing token: var_id on line 28, character 10
+-Parsing token: boolop_not_equal on line 28, character 12
+-Parsing token: string on line 28, character 14
+-Parsing token: right_paren on line 28, character 22
 Valid Boolean Expression parsed
 Valid Assignment Statement parsed
--Parsing token: if on line 27, character 2
+-Parsing token: var_id on line 29, character 5
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 27, character 3
--Parsing token: var_id on line 27, character 4
--Parsing token: boolop_equal on line 27, character 6
--Parsing token: true on line 27, character 8
--Parsing token: right_paren on line 27, character 11
+-Parsing token: assignment_op on line 29, character 7
+-Parsing token: left_paren on line 29, character 9
+-Parsing token: string on line 29, character 10
+-Parsing token: boolop_not_equal on line 29, character 19
+-Parsing token: string on line 29, character 21
+-Parsing token: right_paren on line 29, character 29
 Valid Boolean Expression parsed
--Parsing token: left_brace on line 27, character 13
+Valid Assignment Statement parsed
+-Parsing token: if on line 30, character 5
+-Beginning Parse of a Statement
+-Parsing token: left_paren on line 30, character 7
+-Parsing token: var_id on line 30, character 8
+-Parsing token: boolop_equal on line 30, character 10
+-Parsing token: true on line 30, character 12
+-Parsing token: right_paren on line 30, character 15
+Valid Boolean Expression parsed
+-Parsing token: left_brace on line 30, character 17
 -Parsing Block
--Parsing token: int on line 28, character 4
+-Parsing token: int on line 31, character 9
 -Beginning Parse of a Statement
--Parsing token: var_id on line 28, character 7
+-Parsing token: var_id on line 31, character 12
 Valid Variable Declaration Statement parsed
--Parsing token: var_id on line 29, character 4
+-Parsing token: var_id on line 32, character 9
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 29, character 6
--Parsing token: digit on line 29, character 8
--Parsing token: plus_op on line 29, character 10
--Parsing token: var_id on line 29, character 12
+-Parsing token: assignment_op on line 32, character 11
+-Parsing token: digit on line 32, character 13
+-Parsing token: plus_op on line 32, character 15
+-Parsing token: var_id on line 32, character 17
 Valid Assignment Statement parsed
--Parsing token: if on line 30, character 4
+-Parsing token: if on line 33, character 9
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 30, character 5
--Parsing token: var_id on line 30, character 6
--Parsing token: boolop_equal on line 30, character 8
--Parsing token: digit on line 30, character 10
--Parsing token: right_paren on line 30, character 11
+-Parsing token: left_paren on line 33, character 11
+-Parsing token: var_id on line 33, character 12
+-Parsing token: boolop_equal on line 33, character 14
+-Parsing token: digit on line 33, character 16
+-Parsing token: right_paren on line 33, character 17
 Valid Boolean Expression parsed
--Parsing token: left_brace on line 30, character 12
+-Parsing token: left_brace on line 33, character 19
 -Parsing Block
--Parsing token: print on line 31, character 6
+-Parsing token: print on line 34, character 13
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 31, character 10
--Parsing token: string on line 31, character 11
--Parsing token: right_paren on line 31, character 16
+-Parsing token: left_paren on line 34, character 17
+-Parsing token: string on line 34, character 18
+-Parsing token: right_paren on line 34, character 23
 Valid Print Statement Parsed
--Parsing token: right_brace on line 32, character 4
+-Parsing token: right_brace on line 35, character 9
 -Finished Parsing Block
 Valid If Statement parsed
--Parsing token: right_brace on line 33, character 2
+-Parsing token: right_brace on line 36, character 5
 -Finished Parsing Block
 Valid If Statement parsed
--Parsing token: while on line 34, character 2
+-Parsing token: while on line 37, character 5
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 34, character 7
--Parsing token: string on line 34, character 8
--Parsing token: boolop_equal on line 34, character 17
--Parsing token: var_id on line 34, character 19
--Parsing token: right_paren on line 34, character 20
+-Parsing token: left_paren on line 37, character 10
+-Parsing token: string on line 37, character 11
+-Parsing token: boolop_equal on line 37, character 20
+-Parsing token: var_id on line 37, character 22
+-Parsing token: right_paren on line 37, character 23
 Valid Boolean Expression parsed
--Parsing token: left_brace on line 34, character 21
+-Parsing token: left_brace on line 37, character 25
 -Parsing Block
--Parsing token: while on line 35, character 3
+-Parsing token: while on line 38, character 9
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 35, character 7
--Parsing token: digit on line 35, character 8
--Parsing token: boolop_equal on line 35, character 10
--Parsing token: true on line 35, character 12
--Parsing token: right_paren on line 35, character 15
+-Parsing token: left_paren on line 38, character 14
+-Parsing token: var_id on line 38, character 15
+-Parsing token: boolop_equal on line 38, character 17
+-Parsing token: true on line 38, character 19
+-Parsing token: right_paren on line 38, character 22
 Valid Boolean Expression parsed
--Parsing token: left_brace on line 35, character 16
+-Parsing token: left_brace on line 38, character 24
 -Parsing Block
--Parsing token: var_id on line 36, character 4
+-Parsing token: var_id on line 39, character 13
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 36, character 6
--Parsing token: digit on line 36, character 8
--Parsing token: plus_op on line 36, character 10
--Parsing token: string on line 36, character 12
+-Parsing token: assignment_op on line 39, character 15
+-Parsing token: digit on line 39, character 17
+-Parsing token: plus_op on line 39, character 19
+-Parsing token: var_id on line 39, character 21
 Valid Assignment Statement parsed
--Parsing token: right_brace on line 37, character 3
+-Parsing token: right_brace on line 40, character 9
 -Finished Parsing Block
 Valid While Statement parsed
--Parsing token: right_brace on line 38, character 2
+-Parsing token: right_brace on line 41, character 5
 -Finished Parsing Block
 Valid While Statement parsed
--Parsing token: right_brace on line 39, character 1
+-Parsing token: right_brace on line 42, character 1
 -Finished Parsing Block
--Parsing token: end_of_file on line 39, character 2
+-Parsing token: end_of_file on line 42, character 2
 -Program parsing ended.
 No Parse Errors Found! Nice!
 ~~~Ending Parse
+
+Now Building Concrete Syntax Tree from Tokens
+--Building Program Node
+--Building Block Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Variable Declaration Statement Node
+--Building Type Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building StatementList Node
+--Building Statement Node
+--Building Variable Declaration Statement Node
+--Building Type Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building StatementList Node
+--Building Statement Node
+--Building While Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Right Parenthesis Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building If Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Right Parenthesis Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Print Statement Node
+--Building Print Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Int Op Node
+--Building Plus Node Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Variable Declaration Statement Node
+--Building Type Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building StatementList Node
+--Building Statement Node
+--Building Print Statement Node
+--Building Print Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Variable Declaration Statement Node
+--Building Type Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building BoolVal Node
+--Building StatementList Node
+--Building Statement Node
+--Building Variable Declaration Statement Node
+--Building Type Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Variable Declaration Statement Node
+--Building Type Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building BoolVal Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building BoolVal Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building BoolVal Node
+--Building Right Parenthesis Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Boolean Operator Equal Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Boolean Operator Not Equal Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Statement Node
+--Building If Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building BoolVal Node
+--Building Right Parenthesis Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Variable Declaration Statement Node
+--Building Type Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Int Op Node
+--Building Plus Node Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building If Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Right Parenthesis Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Print Statement Node
+--Building Print Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building While Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Right Parenthesis Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building While Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building BoolVal Node
+--Building Right Parenthesis Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Int Op Node
+--Building Plus Node Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building End of File Node
+
+Now Building Abstract Syntax Tree from Tokens
+--Building Statement Block Node
+--Building Variable Declaration Node
+--Building Assignment Node
+--Building Variable Declaration Node
+--Building Assignment Node
+--Building While Node
+--Building If Node
+--Building Print Node
+--Building Statement Block Node
+--Building Assignment Node
+--Building Variable Declaration Node
+--Building Assignment Node
+--Building Print Node
+--Building Statement Block Node
+--Building Variable Declaration Node
+--Building Assignment Node
+--Building Variable Declaration Node
+--Building Variable Declaration Node
+--Building Assignment Node
+--Building Assignment Node
+--Building Assignment Node
+--Building Assignment Node
+--Building Assignment Node
+--Building Assignment Node
+--Building Assignment Node
+--Building Assignment Node
+--Building If Node
+--Building Variable Declaration Node
+--Building Assignment Node
+--Building If Node
+--Building Print Node
+--Building While Node
+--Building While Node
+--Building Assignment Node
+
+Now Building Symbol Table
+---Opening Scope, Scope level 0
+---Symbol Created with ID of a, type int
+---id a on line 3, character 5, has been assigned the value 0
+---Symbol Created with ID of z, type string
+---id z on line 5, character 5, has been assigned the value "bond"
+---Opening New Scope, Scope level 1
+---Opening New Scope, Scope level 2
+---About to close scope, checking if any ids were not initialized
+---There were no ids in the soon to be closed scope
+---Closing Scope, Scope level 2
+---Opening New Scope, Scope level 2
+---id a on line 11, character 13, has been assigned the value 1
+---Symbol Created with ID of b, type string
+---id b on line 13, character 13, has been assigned the value "james bond"
+---About to close scope, checking if any ids were not initialized
+---All ids initialized!
+---Now printing ids from the scope
+-id: b, type: string, value: "james bond"
+---Closing Scope, Scope level 2
+---About to close scope, checking if any ids were not initialized
+---There were no ids in the soon to be closed scope
+---Closing Scope, Scope level 1
+---Opening New Scope, Scope level 1
+---About to close scope, checking if any ids were not initialized
+---There were no ids in the soon to be closed scope
+---Closing Scope, Scope level 1
+---Symbol Created with ID of c, type boolean
+---id c on line 19, character 5, has been assigned the value true
+---Symbol Created with ID of d, type boolean
+---Symbol Created with ID of b, type int
+---id b on line 22, character 5, has been assigned the value 7
+---id d on line 23, character 5, has been assigned the value false
+---id d on line 24, character 5, has been assigned the value false
+---id d on line 25, character 5, has been assigned the value true
+---id d on line 26, character 5, has been assigned the value false
+---id d on line 27, character 5, has been assigned the value false
+---id d on line 28, character 5, has been assigned the value true
+---id d on line 29, character 5, has been assigned the value false
+---Opening New Scope, Scope level 1
+---Symbol Created with ID of c, type int
+---id c on line 32, character 9, has been assigned the value 8
+---Opening New Scope, Scope level 2
+---About to close scope, checking if any ids were not initialized
+---There were no ids in the soon to be closed scope
+---Closing Scope, Scope level 2
+---About to close scope, checking if any ids were not initialized
+---All ids initialized!
+---Now printing ids from the scope
+-id: c, type: int, value: 8
+---Closing Scope, Scope level 1
+---Opening New Scope, Scope level 1
+---Opening New Scope, Scope level 2
+---id a on line 39, character 13, has been assigned the value 8
+---About to close scope, checking if any ids were not initialized
+---There were no ids in the soon to be closed scope
+---Closing Scope, Scope level 2
+---About to close scope, checking if any ids were not initialized
+---There were no ids in the soon to be closed scope
+---Closing Scope, Scope level 1
+---About to close scope, checking if any ids were not initialized
+~~~WARNING id c on line 18, character 12 is unused
+---Now printing ids from the scope
+-id: a, type: int, value: 8
+-id: z, type: string, value: "bond"
+-id: c, type: boolean, value: true
+-id: d, type: boolean, value: false
+-id: b, type: int, value: 7
+---Closing Scope, Scope level 0
+---Symbol Table complete!
+
+Now Displaying CST.
+
+Now Displaying AST.
+Note for both CST and AST display:
+Depending on how large the program is, the Tree may seem unresponsive
+Also, I recommend dragging on the labels

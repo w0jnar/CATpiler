@@ -11,14 +11,14 @@ function generateSymbolTable()
 {
 	_WarningCount = 0;
 	putMessage("Now Building Symbol Table");
-	_ASTjson.name = nameCleaning(_ASTjson.name) ; //should be the opening brace/stmtBlock.
+	//_ASTjson.name = nameCleaning(_ASTjson.name) ; //should be the opening brace/stmtBlock.
 	putMessage("---Opening Scope, Scope level 0");
 	_SymbolTable[_CurrentScope] = new Scope(-1);
 	for(var i = 0; i < _ASTjson.children.length; i++)
 	{
-		var currentName = _ASTjson.children[i].name; //gets the name of the current node.
-		_ASTjson.children[i].name = nameCleaning(currentName); //cleans it up and restores it in the json.
-		currentName = _ASTjson.children[i].name; //gets it back to use in comparisons.
+		var currentName = nameCleaning(_ASTjson.children[i].name); //gets the name of the current node.
+		//_ASTjson.children[i].name = nameCleaning(currentName); //cleans it up and restores it in the json.
+		//currentName = _ASTjson.children[i].name; //gets it back to use in comparisons.
 		//alert(currentName);
 		//alert(JSON.stringify(_ASTjson.children[i]));
 		if(currentName === "print")
@@ -325,6 +325,7 @@ function checkId(currentNode)  //find the id in the scope (if possible) upon bei
 	{
 		putMessage("~~~SYMBOL TABLE ERROR Invalid id on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " is not declared in this scope, or any parent scopes");
 		_ErrorCount++;
+		return _ErrorList;
 	}
 	else //it exists, now we need to check if it is initialized, otherwise, error out.
 	{
@@ -333,7 +334,7 @@ function checkId(currentNode)  //find the id in the scope (if possible) upon bei
 		{
 			putMessage("~~~WARNING id " + idCopy.id + " on line " + idCopy.lineNumber + ", character " + idCopy.linePosition + " was not initialized");
 		}
-		//_SymbolTable[scope].table[locationInScope].used = true;
+		_SymbolTable[scope].table[locationInScope].isUsed = true;
 		var returnList = [];
 		returnList.push(idCopy.dataType);
 		returnList.push(idCopy.value);
@@ -412,6 +413,7 @@ function ScopeElement()
 	this.dataType;
 	this.value;
 	this.initialized = false;
+	this.isUsed = false;
 }
 
 function createScopeElement(node, type)
@@ -455,9 +457,9 @@ function printScope() //prints the scope just before closing it.
 		{
 			var idNode = currentScopeList[i];
 			var nodeLocationList = nodeLocation(idNode);
-			if(idNode.initialized === false) //they were not initialized.
+			if(idNode.isUsed === false) //they were not initialized.
 			{
-				putMessage("~~~WARNING id " + idNode.id + " on line " + idNode.lineNumber + ", character " + idNode.linePosition + " was not initialized and is unused");
+				putMessage("~~~WARNING id " + idNode.id + " on line " + idNode.lineNumber + ", character " + idNode.linePosition + " is unused");
 				warningCount++;
 			}
 		}

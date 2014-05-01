@@ -1,188 +1,256 @@
 //
-//Alan's test programs
+//Alan's project 2 test programs
 //
 
-//good code, should run perfectly
+//good code
 
-{}$
-
-{{{{{{}}}}}}$
-
-{print(a)}$
-
-{print(2)}$
-
-{print("a")}$
-
-{print(false)}$
-
-{print("inta")}$
-
-{a=1}$
-
-{a = 1}$
-
-{a = 1 + 2 + 3 + 4   +   5}$
-
-{a = 4 + a}$
-
-{int a}$
-
-{string a}$
-
-{boolean a}$
+{{{{{}}}}{}}$
 
 {
  int a
- a = a
+ boolean b
+ string c
+ a = 5
+ b = true
+ c = "inta"
+ print(c)
+ print(b)
+ print(a)
+ print(5 + a)
+}$
+
+{
+ int a
+ {
+  boolean b
+  {
+   string c
+   { a = 5
+   b = false
+   c = "inta"
+  }
+  print(c)
+ }
+ print(b)
+ }
+ print(a)
+}$
+
+{
+ print("")
+ {}
+ int a
+ a = 0
+ a = 3 + a
+ int b
+ b = 8
+ {
+  {
+   print("inta is not int a")
+   print(1 + 2 + 3 + 4 + 5 + 4 + 3 + 2 + 1)
+   print(a)
+  }
+  int a
+  a = 7
+  string b
+  b = "one string"
+  print(b)
+ }
+}$
+
+{
+ int a
+ a = 6
+ {
+  string a
+  a = "a string"
+  string b
+  b = a
+  print(b)
+ }
+ print(a)
+}$
+
+{
+ int a
  string b
+ b = "bee"
+ {
+  int b
+  b = 1
+  a = b
+  print(b)
+  print(a)
+ }
+ print(b)
+}$
+
+{
+    int a
+    a = 0
+    string z
+    z = "bond"
+    while (a != 9) {
+        if(a != 5) {
+            print("bond")
+        }
+        {
+            a = 1 + a
+            string b
+            b = "james bond"
+            print(b)
+        }
+    }
+    {}
+    boolean c
+    c = true
+    boolean d
+	int b
+	b = 7
+    d = (true == (true == false))
+    d = (a == b)
+    d = (1 == a)
+    d = (1 != 1)
+    d = ("string" == z)
+    d = (z != "string")
+    d = ("string" != "string")
+    if (d == true) {
+        int c
+        c = 1 + b
+        if (c == 1) {
+            print("ugh")
+        }
+    }
+    while ("string" == z) {
+        while (d == true) {
+            a = 1 + b
+        }
+    }
+}$
+
+//questionable code
+
+{
+ int a
+ int b
+ b = 2
+ print(b)
+}$
+
+{
+ int a
+ int b
+ b = a
+}$
+
+{
+ int a
+ {
+  a = 5
+  string a
+ }
+}$
+
+{
+ string c
+ c = "initialized but unused"
+}$
+
+//bad code
+
+{{{{}}}$
+
+string 1
+$
+
+{
+ int a
+ a = $
+}$
+
+{
+ int a
+ a = "not an int"
+}$
+
+{
+ a = 0
+}$
+
+{
+ int a
+ int a
+}$
+
+{
+ int a
+ boolean a
+}$
+
+{
+ int a
+ string b
+ b = a
+}$
+
+{
+ int a
+ {
+  int b
+  b = 2
+ }
  a = b
 }$
 
-{int a a=a string b a=b}$
-
-{{{{{{a=1+2+3+4+5{print(4+a)}}}}}}}$
-
-{
- a=1+2+3+4+5
- print(a)
- print(7)
- print(7+a)
- print("")
- print("aa")
- print("inta")
- print(1+2+3+4+5)
- print(false)
- print(true)
-}$
-
 {
  int a
- a = 1
  {
-  int a
-  a = 2
-  print(a)
+  string a
+  int b
+  b = a
  }
- string b
- b = "alan"
- if(a == 1) {
-   print(b)
- }
- string c
- c = "james"
- b = "blackstone"
- print(b)
-} $
+}$
+
+{
+ string a
+ a = "alan"
+ int b
+ b = 9
+ int a
+ a = b
+}$
 
 {
  int a
- a = 0
- string z
- z = "bond"
- while (a != 9) {
-  if(a != 5) {
-    print("bond")
-  }
+ {
+  int b
   {
-   a = 1 + a
-   string b
-   b = "james bond"
-   print(b)
-  }
- }
- {}
- boolean c
- c = true
- boolean d
- d = (true == (true == false))
- d = (a == b)
- d = (1 == a)
- d = (1 != 1)
- d = ("string" == 1)
- d = (a != "string")
- if(d == true) {
-   int c
-   c = 1 + d
-   if(c == 1){
-     print("ugh")
+   string c
+   {
+    a = 5
+	b = 6
+	c = "inta"
    }
- }
- while ("string" == a){
-  while(1 == true){
-   a = 1 + "string"
+   print(c)
   }
  }
-}$
-
-//questionable code, should issue warnings
-
-{}
-
-{print(2)}$extra code
-
-//bad code, should fail at some point
-
-{"$"}$
-
-{"no spaces"}$
-
-{"two 
-lines"}$
-
-{a=12}$
-
-{print(007)}$
-
-{print("007")}$
-
-{int A}$
-
-{thisisnotalexeme}$
-
-{1 = 2}$
-
-{a}$
-
-{print(a+4)}$
-
-{{{{{a=1+2+3+4+5{print(4+a)}}}}}}}$
-
-print(a){print(a)}$
-
-{print(a$}$
-
-{string 1}$
-
-{
- ~!@#%^&*_+{}|:<>?[];',./
- bool ean d
+ print(b)
+ print(a)
 }$
 
 {
- while "a" {
-  print("a")
+ while "not a bool" {
+  print("oh my")
  }
  print("done")
 }$
 
 {
- int a
- a == 6
+ boolean b
+ b = "false"
 }$
 
 {
  int a
- a = 1
- if(a == 1{
-   print(while(a == 5){})
- }$
-}
-
-{
- int a
- print (a)
-}
-{
- a = 0
+ a = 2 + "what"
 }$
