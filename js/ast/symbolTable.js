@@ -37,6 +37,10 @@ function generateSymbolTable()
 		{
 			checkAssignment(_ASTjson.children[i]);
 		}
+		else if(currentName === "if" || currentName === "while")
+		{
+			checkWhileIf(_ASTjson.children[i]);
+		}
 		
 		if(_ErrorCount > 0)
 		{
@@ -158,6 +162,10 @@ function checkNewScope(currentNode, parent)
 		{
 			checkAssignment(currentNode.children[i]);
 		}
+		else if(currentName === "if" || currentName === "while")
+		{
+			checkWhileIf(currentNode.children[i]);
+		}
 		
 		if(_ErrorCount > 0)
 		{
@@ -170,6 +178,21 @@ function checkNewScope(currentNode, parent)
 		putMessage("---Closing Scope, Scope level "+ _CurrentScope--);
 		
 		_CurrentScopeId = parent;
+	}
+}
+
+function checkWhileIf(currentNode)
+{
+	var BooleanExprNode = currentNode.children[0];
+	var BooleanExprNodeList = checkExpr(BooleanExprNode);
+	var BooleanExprType = BooleanExprNodeList[_TypeConstant];
+	if(BooleanExprType === "boolean") //mostly unnecessary testing because of parse, but rather have a single extra check just in case.
+	{
+		checkNewScope(currentNode.children[1], _CurrentScopeId);
+	}
+	else
+	{
+		putMessage("You've met with a terrible fate, haven't you?");
 	}
 }
 
@@ -211,7 +234,7 @@ function checkExpr(currentNode)
 	}
 	else
 	{
-		alert("critical error"); //should more or less just say, "something something, in development" but for now, this shall remain. Should never be reached.
+		putMessage("You've met with a terrible fate, haven't you?"); //should more or less just say, "something something, in development" but for now, this shall remain. Should never be reached.
 	}
 }
 
@@ -235,14 +258,10 @@ function checkBooleanExpr(currentNode)
 		
 		if(leftType !== rightType) //check if we can even compare them.
 		{
-			if(currentName === "==")
-			{
-				var returnBoolean = "false";
-			}
-			else
-			{
-				var returnBoolean = "true";
-			}
+			var nodeLocationList = nodeLocation(currentNode);
+			putMessage("~~~SYMBOL TABLE ERROR Invalid Boolean Expression, on line " + nodeLocationList[0] + ", character " + nodeLocationList[1] + " types do not match");
+			_ErrorCount++;
+			return _ErrorList;
 		}
 		else if(currentName === "==")
 		{
