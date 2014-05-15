@@ -28,6 +28,10 @@ function reset()
 	_SymbolTable = [];
 	_CurrentScope = 0;
 	_CurrentScopeId = 0;
+	
+	_GeneratedCode = [];
+	_Heap = [];
+	_HeapPointer = _ProgramSize;
 }
 
 function clearDiv(divID)

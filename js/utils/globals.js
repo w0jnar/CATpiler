@@ -46,3 +46,9 @@ var _ValueConstant = 1;
 var _ErrorList = ["bad type", "undefined"];
 
 var _CurrentScopeId = 0;
+
+//Code Generation 
+var _ProgramSize = 255;
+var _GeneratedCode = [];
+var _Heap = [];
+var _HeapPointer = _ProgramSize;
