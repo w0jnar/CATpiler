@@ -59,6 +59,11 @@ function expressionInfo(expressionNode)
 	{
 		returnArray = ["digit", currentExpression];
 	}
+	else if(currentExpression.match(/\+/))
+	{
+		returnArray = ["digit", checkIntExpr(expressionNode)[1]];
+		//alert(checkIntExpr(expressionNode)[1]);
+	}
 	return returnArray;
 }
 
