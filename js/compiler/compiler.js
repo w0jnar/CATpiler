@@ -37,10 +37,11 @@ function compile() //figured editing this was easier/cleaner than going back and
 				putMessage("");
 				putMessage("Now Displaying AST.");
 				init('infovisAST', _ASTjson);
+				putMessage("");
 				putMessage("Note for both CST and AST display:");
 				putMessage("Depending on how large the program is, the Tree may seem unresponsive");
 				putMessage("Also, I recommend dragging on the labels");
-				
+				putMessage("");
 				generateCode();
 			}
 		}

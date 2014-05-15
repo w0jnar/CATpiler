@@ -4,7 +4,7 @@
 
 function generateCode()
 {
-	putMessage("Now Starting Code Generation from AST");
+	putMessage("~~~Now Starting Code Generation from AST");
 	jsonCleaning(_ASTjson);
 	alert(JSON.stringify(_ASTjson));
 }

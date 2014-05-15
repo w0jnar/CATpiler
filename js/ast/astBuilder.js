@@ -12,11 +12,12 @@
 
 function buildAST()
 {
-	putMessage("Now Building Abstract Syntax Tree from Tokens");
+	putMessage("~~~Now Building Abstract Syntax Tree from Tokens");
 	_Index = 0;
 	putMessage("--Building Statement Block Node");
 	var programJSONstring = parseToNode("stmtBlock", parseASTBlockTree());
 	_ASTjson = JSON.parse(programJSONstring);
+	putMessage("~~~Ending AST Building");
 }
 
 function parseASTBlockTree()

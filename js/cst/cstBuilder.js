@@ -4,7 +4,7 @@
 
 function buildCST()
 {
-	putMessage("Now Building Concrete Syntax Tree from Tokens");
+	putMessage("~~~Now Building Concrete Syntax Tree from Tokens");
 	_Index = 0;
 	//tokenToNode();
 	//_CSTjson = JSON.parse(tokenToNode());
@@ -15,6 +15,7 @@ function buildCST()
 	putMessage("--Building Program Node");
 	var programJSONstring = parseToNode("Program", parseProgramTree());
 	_CSTjson = JSON.parse(programJSONstring);
+	putMessage("~~~Ending CST Building");
 }
 
 function parseProgramTree()

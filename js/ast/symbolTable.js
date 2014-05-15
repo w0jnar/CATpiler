@@ -10,7 +10,7 @@
 function generateSymbolTable()
 {
 	_WarningCount = 0;
-	putMessage("Now Building Symbol Table");
+	putMessage("~~~Now Building Symbol Table");
 	//_ASTjson.name = nameCleaning(_ASTjson.name) ; //should be the opening brace/stmtBlock.
 	putMessage("---Opening Scope, Scope level 0");
 	_SymbolTable[_CurrentScope] = new Scope(-1);
@@ -55,7 +55,7 @@ function generateSymbolTable()
 	{
 		printScope();
 		putMessage("---Closing Scope, Scope level 0");
-		putMessage("---Symbol Table complete!");
+		putMessage("~~~Symbol Table complete!");
 	}
 	//alert(JSON.stringify(_ASTjson));
 }
