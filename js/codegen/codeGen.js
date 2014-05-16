@@ -85,7 +85,7 @@ function generateVarDecl(varDeclNode)
 
 function generateAssignment(equalNode)
 {
-	var currentTemp = getTemp(equalNode.children[0].name, _CurrentScope);
+	var currentTemp = getTemp(equalNode.children[0].name, _CurrentScopeId);
 	var valueToStore = expressionInfo(equalNode.children[1])[1];
 	if(valueToStore.length === 1)
 	{
@@ -119,7 +119,7 @@ function generatePrint(printChildNode)
 	// }
 	if(isId(printChildNode.name) && checkId(printChildNode)[0] === "int")
 	{
-		var currentTemp = getTemp(printChildNode.name, _CurrentScope);
+		var currentTemp = getTemp(printChildNode.name, _CurrentScopeId);
 		_GeneratedCode[_Index++] = "AC";
 		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
 		_GeneratedCode[_Index++] = "XX";
@@ -129,7 +129,7 @@ function generatePrint(printChildNode)
 	}
 	else if(isId(printChildNode.name) && checkId(printChildNode)[0] === "string")
 	{
-		var currentTemp = getTemp(printChildNode.name, _CurrentScope);
+		var currentTemp = getTemp(printChildNode.name, _CurrentScopeId);
 		_GeneratedCode[_Index++] = "AC";
 		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
 		_GeneratedCode[_Index++] = "XX";
@@ -294,35 +294,35 @@ function getTemp(varName, scope)
 		// alert(parentTempArray[2]);
 		// alert(parentTempArray[3]);
 		
-		//store acc in memory
-		var temp = new actualTemp(" ");
-		createTemp(temp);
-		var tempToStoreAcc = getTemp(temp.name, _CurrentScopeId);
-		_GeneratedCode[_Index++] = "8D";
-		_GeneratedCode[_Index++] = tempToStoreAcc[_TempIndex];
-		_GeneratedCode[_Index++] = "XX";
+		// //store acc in memory
+		// var temp = new actualTemp(" ");
+		// createTemp(temp);
+		// var tempToStoreAcc = getTemp(temp.name, _CurrentScopeId);
+		// _GeneratedCode[_Index++] = "8D";
+		// _GeneratedCode[_Index++] = tempToStoreAcc[_TempIndex];
+		// _GeneratedCode[_Index++] = "XX";
 		
-		//load the current value of the id from the parent scope in the acc
-		_GeneratedCode[_Index++] = "AD";
-		_GeneratedCode[_Index++] = parentTempArray[_TempIndex];
-		_GeneratedCode[_Index++] = "XX";
+		// //load the current value of the id from the parent scope in the acc
+		// _GeneratedCode[_Index++] = "AD";
+		// _GeneratedCode[_Index++] = parentTempArray[_TempIndex];
+		// _GeneratedCode[_Index++] = "XX";
 		
-		//store the acc at the new location for the current scope
-		var tempOfId = new actualTemp(varName);
-		createTemp(tempOfId);
-		var newTempOfId = getTemp(tempOfId.name, _CurrentScopeId);
-		_GeneratedCode[_Index++] = "8D";
-		_GeneratedCode[_Index++] = newTempOfId[_TempIndex];
-		_GeneratedCode[_Index++] = "XX";
+		// //store the acc at the new location for the current scope
+		// var tempOfId = new actualTemp(varName);
+		// createTemp(tempOfId);
+		// var newTempOfId = getTemp(tempOfId.name, _CurrentScopeId);
+		// _GeneratedCode[_Index++] = "8D";
+		// _GeneratedCode[_Index++] = newTempOfId[_TempIndex];
+		// _GeneratedCode[_Index++] = "XX";
 		
-		//restore the accumulator
-		_GeneratedCode[_Index++] = "AD";
-		_GeneratedCode[_Index++] = tempToStoreAcc[_TempIndex];
-		_GeneratedCode[_Index++] = "XX";
+		// //restore the accumulator
+		// _GeneratedCode[_Index++] = "AD";
+		// _GeneratedCode[_Index++] = tempToStoreAcc[_TempIndex];
+		// _GeneratedCode[_Index++] = "XX";
 		for(var i = 0; i < _StaticData.length; i++)
 		{
 			var currentTemp = _StaticData[i];
-			if(currentTemp[_VarIndex] === varName && currentTemp[_ScopeIndex] === scope)
+			if(currentTemp[_VarIndex] === varName && currentTemp[_ScopeIndex] === tempArray[0])
 			{
 				tempIndex = i;
 			}
