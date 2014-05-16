@@ -34,7 +34,7 @@ function generateFromNode(jsonNode)
 function generatePrint(printChildNode)
 {
 	var expressionArray = expressionInfo(printChildNode);//alert(typeof printChildNode.name);
-	if(expressionArray[0] === "digit")
+	if(expressionArray[0] === "int")
 	{
 		_GeneratedCode[_Index++] = "A0";
 		if(expressionArray[1].toString(16).length === 1)
@@ -57,12 +57,18 @@ function expressionInfo(expressionNode)
 	var returnArray = [];
 	if(currentExpression.match(/\d/))
 	{
-		returnArray = ["digit", currentExpression];
+		returnArray = ["int", currentExpression];
 	}
 	else if(currentExpression.match(/\+/))
 	{
-		returnArray = ["digit", checkIntExpr(expressionNode)[1]];
+		returnArray = checkIntExpr(expressionNode);
 		//alert(checkIntExpr(expressionNode)[1]);
+	}
+	else if(currentExpression.match(/[a-z]/))
+	{
+		returnArray = checkId(expressionNode);
+		//alert(returnArray[0]);
+		//alert(returnArray[1]);
 	}
 	return returnArray;
 }
