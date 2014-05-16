@@ -19,6 +19,7 @@ function generateCode()
 	var currentTemp;
 	var currentReplace;
 	var currentTempString;
+	putMessage("-Backpatching");
 	for(var i = 0; i < _StaticData.length; i++)
 	{
 		_GeneratedCode[_Index++] = "00";
@@ -38,18 +39,46 @@ function generateCode()
 		}
 	}
 	
-	
-	
-	
-	
-	var codeSize = _GeneratedCode.length;
-	for(var i = 0; i <= (_ProgramSize - codeSize - _Heap.length); i++)
+	putMessage("-Checking if code is valid");
+	if((_GeneratedCode.length + _Heap.length) <= (_ProgramSize + 1))
 	{
-		_GeneratedCode[_Index++] = "00";
+		putMessage("Code is valid!");
+		putMessage("-Filling space with \"00\" as needed");
+		var codeSize = _GeneratedCode.length;
+		for(var i = 0; i <= (_ProgramSize - codeSize - _Heap.length); i++)
+		{
+			_GeneratedCode[_Index++] = "00";
+		}
+		putMessage("-Joining Heap to Code");
+		_GeneratedCode = _GeneratedCode.concat(_Heap);
+		//alert(_GeneratedCode.length);
+		putMessage("~~~Ending Code Generation");
+		putMessage("-Output code:");
+		//putMessage(_GeneratedCode.join(" "));
+		for(var i = 0; i < _GeneratedCode.length; i+=16)
+		{
+			putMessage(_GeneratedCode[i] + " " + _GeneratedCode[i + 1] + " " 
+											   + _GeneratedCode[i + 2] + " " 
+											   + _GeneratedCode[i + 3] + " " 
+											   + _GeneratedCode[i + 4] + " "
+											   + _GeneratedCode[i + 5] + " " 
+											   + _GeneratedCode[i + 6] + " " 
+											   + _GeneratedCode[i + 7] + "   "
+											   + _GeneratedCode[i + 8] + " " 
+											   + _GeneratedCode[i + 9] + " " 
+											   + _GeneratedCode[i + 10] + " " 
+											   + _GeneratedCode[i + 11] + " "
+											   + _GeneratedCode[i + 12] + " " 
+											   + _GeneratedCode[i + 13] + " " 
+											   + _GeneratedCode[i + 14] + " "
+											   + _GeneratedCode[i + 15]);
+		}
+		window.prompt("Output code (can also be copied from output):", _GeneratedCode.join(" "));
 	}
-	_GeneratedCode = _GeneratedCode.concat(_Heap);
-	//alert(_GeneratedCode.length);
-	putMessage(_GeneratedCode.join(" "));
+	else
+	{
+		putMessage("~~~CODE GENERATION ERROR too much code for supported operation");
+	}
 }
 
 function generateFromNode(jsonNode)
@@ -75,6 +104,7 @@ function generateFromNode(jsonNode)
 
 function generateVarDecl(varDeclNode)
 {
+	putMessage("-Generating Variable Declaration Code");
 	createTemp(varDeclNode.children[1]);
 	_GeneratedCode[_Index++] = "A9";
 	_GeneratedCode[_Index++] = "00";
@@ -85,6 +115,7 @@ function generateVarDecl(varDeclNode)
 
 function generateAssignment(equalNode)
 {
+	putMessage("-Generating Assignment Code");
 	var currentTemp = getTemp(equalNode.children[0].name, _CurrentScopeId);
 	var valueToStore = expressionInfo(equalNode.children[1])[1];
 	if(valueToStore.match(/^\"/)) //if the value is from an id and is a string literal
@@ -105,6 +136,7 @@ function generateAssignment(equalNode)
 
 function generatePrint(printChildNode)
 {
+	putMessage("-Generating Print Code");
 	var expressionArray = expressionInfo(printChildNode);//alert(typeof printChildNode.name);
 	//alert(expressionArray[0]);
 	if(isId(printChildNode.name) && checkId(printChildNode)[0] === "int")
@@ -117,7 +149,7 @@ function generatePrint(printChildNode)
 		_GeneratedCode[_Index++] = "01";
 		_GeneratedCode[_Index++] = "FF";
 	}
-	else if(isId(printChildNode.name) && checkId(printChildNode)[0] === "string")
+	else if(isId(printChildNode.name) && checkId(printChildNode)[0] === "string") //string id
 	{
 		var currentTemp = getTemp(printChildNode.name, _CurrentScopeId);
 		_GeneratedCode[_Index++] = "AC";
@@ -127,7 +159,7 @@ function generatePrint(printChildNode)
 		_GeneratedCode[_Index++] = "02";
 		_GeneratedCode[_Index++] = "FF";
 	}
-	else if(expressionArray[0] === "digit")
+	else if(expressionArray[0] === "digit") //digit constant
 	{
 		_GeneratedCode[_Index++] = "A0";
 		if(expressionArray[1].toString(16).length === 1)
@@ -142,7 +174,7 @@ function generatePrint(printChildNode)
 		_GeneratedCode[_Index++] = "01";
 		_GeneratedCode[_Index++] = "FF";
 	}
-	else if(expressionArray[0] === "string")
+	else if(expressionArray[0] === "string") //string constant
 	{
 		_GeneratedCode[_Index++] = "A0";
 		_GeneratedCode[_Index++] = expressionArray[1];
@@ -193,6 +225,7 @@ function expressionInfo(expressionNode)
 
 function createTemp(node)
 {
+	putMessage("-Creating Temporary Variable " + node.name);
 	var tempName;
 	if(_CurrentTemp === 0)
 	{
@@ -209,12 +242,14 @@ function createTemp(node)
 
 function allocateHeap(string)
 {
+	
 	var stringWithoutQuotes = string.slice(1, string.length);
 	stringWithoutQuotes = stringWithoutQuotes.slice(0, stringWithoutQuotes.length - 1);
 	//alert(stringWithoutQuotes);
 	var heapCheck = existInHeap(stringWithoutQuotes);
 	if(!heapCheck[0]) //if it does not exist in the heap
 	{
+		putMessage("-Allocating Heap Space for String " + string);
 		_Heap.unshift("00");
 		var stringArray = [];
 		for(var i = 0; i < stringWithoutQuotes.length; i++)
