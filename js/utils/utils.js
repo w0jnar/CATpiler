@@ -36,6 +36,7 @@ function reset()
 	_JumpTable = [];
 	_CurrentTemp = 0;
 	_Offset = 0;
+	_LastScopeIdStack = [];
 }
 
 function clearDiv(divID)

@@ -61,3 +61,4 @@ var _TempIndex = 0;
 var _VarIndex = 1;
 var _ScopeIndex = 2;
 var _OffsetIndex = 3;
+var _LastScopeIdStack = [];

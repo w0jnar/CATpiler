@@ -102,7 +102,28 @@ function generateAssignment(equalNode)
 function generatePrint(printChildNode)
 {
 	var expressionArray = expressionInfo(printChildNode);//alert(typeof printChildNode.name);
-	if(expressionArray[0] === "digit")
+	//alert(expressionArray[0]);
+	if(isId(printChildNode.name) && checkId(printChildNode)[0] === "int")
+	{
+		var currentTemp = getTemp(printChildNode.name, _CurrentScopeId);
+		_GeneratedCode[_Index++] = "AC";
+		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = "01";
+		_GeneratedCode[_Index++] = "FF";
+	}
+	else if(isId(printChildNode.name) && checkId(printChildNode)[0] === "string")
+	{
+		var currentTemp = getTemp(printChildNode.name, _CurrentScopeId);
+		_GeneratedCode[_Index++] = "AC";
+		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = "02";
+		_GeneratedCode[_Index++] = "FF";
+	}
+	else if(expressionArray[0] === "digit")
 	{
 		_GeneratedCode[_Index++] = "A0";
 		if(expressionArray[1].toString(16).length === 1)
@@ -125,38 +146,19 @@ function generatePrint(printChildNode)
 		_GeneratedCode[_Index++] = "02";
 		_GeneratedCode[_Index++] = "FF";
 	}
-	else if(isId(printChildNode.name) && checkId(printChildNode)[0] === "int")
-	{
-		var currentTemp = getTemp(printChildNode.name, _CurrentScopeId);
-		_GeneratedCode[_Index++] = "AC";
-		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
-		_GeneratedCode[_Index++] = "XX";
-		_GeneratedCode[_Index++] = "A2";
-		_GeneratedCode[_Index++] = "01";
-		_GeneratedCode[_Index++] = "FF";
-	}
-	else if(isId(printChildNode.name) && checkId(printChildNode)[0] === "string")
-	{
-		var currentTemp = getTemp(printChildNode.name, _CurrentScopeId);
-		_GeneratedCode[_Index++] = "AC";
-		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
-		_GeneratedCode[_Index++] = "XX";
-		_GeneratedCode[_Index++] = "A2";
-		_GeneratedCode[_Index++] = "02";
-		_GeneratedCode[_Index++] = "FF";
-	}
 	//alert(checkId(printChildNode)[0] === "string");
 }
 
 function generateBlock(blockNode)
 {
 	_CurrentScope++;
-	_CurrentScopeId++;
+	_LastScopeIdStack.push(_CurrentScopeId);
+	_CurrentScopeId = _CurrentScope;
 	for(var i = 0; i < blockNode.children.length; i++)
 	{
 		generateFromNode(blockNode.children[i]);
 	}
-	_CurrentScope--;
+	_CurrentScopeId = _LastScopeIdStack.pop(_CurrentScopeId);
 }
 
 function expressionInfo(expressionNode)
