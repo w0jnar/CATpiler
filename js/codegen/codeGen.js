@@ -87,6 +87,10 @@ function generateAssignment(equalNode)
 {
 	var currentTemp = getTemp(equalNode.children[0].name, _CurrentScopeId);
 	var valueToStore = expressionInfo(equalNode.children[1])[1];
+	if(valueToStore.match(/^\"/)) //if the value is from an id and is a string literal
+	{
+		valueToStore = allocateHeap(valueToStore)[1];
+	}
 	if(valueToStore.length === 1)
 	{
 		valueToStore = 0 + valueToStore;
