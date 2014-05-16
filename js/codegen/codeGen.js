@@ -75,15 +75,12 @@ function generateFromNode(jsonNode)
 
 function generateVarDecl(varDeclNode)
 {
-	if(varDeclNode.children[0].name === "int")
-	{
-		createTemp(varDeclNode.children[1]);
-		_GeneratedCode[_Index++] = "A9";
-		_GeneratedCode[_Index++] = "00";
-		_GeneratedCode[_Index++] = "8D";
-		_GeneratedCode[_Index++] = _CurrentTemp;
-		_GeneratedCode[_Index++] = "XX";
-	}
+	createTemp(varDeclNode.children[1]);
+	_GeneratedCode[_Index++] = "A9";
+	_GeneratedCode[_Index++] = "00";
+	_GeneratedCode[_Index++] = "8D";
+	_GeneratedCode[_Index++] = _CurrentTemp;
+	_GeneratedCode[_Index++] = "XX";
 }
 
 function generateAssignment(equalNode)
@@ -120,7 +117,7 @@ function generatePrint(printChildNode)
 		// _GeneratedCode[_Index++] = "01";
 		// _GeneratedCode[_Index++] = "FF";
 	// }
-	if(isId(printChildNode.name))
+	if(isId(printChildNode.name) && checkId(printChildNode)[0] === "int")
 	{
 		var currentTemp = getTemp(printChildNode.name, _CurrentScope);
 		_GeneratedCode[_Index++] = "AC";
@@ -130,6 +127,17 @@ function generatePrint(printChildNode)
 		_GeneratedCode[_Index++] = "01";
 		_GeneratedCode[_Index++] = "FF";
 	}
+	else if(isId(printChildNode.name) && checkId(printChildNode)[0] === "string")
+	{
+		var currentTemp = getTemp(printChildNode.name, _CurrentScope);
+		_GeneratedCode[_Index++] = "AC";
+		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = "02";
+		_GeneratedCode[_Index++] = "FF";
+	}
+	//alert(checkId(printChildNode)[0] === "string");
 }
 
 function generateBlock(blockNode)
@@ -151,10 +159,14 @@ function expressionInfo(expressionNode)
 	{
 		returnArray = ["int", currentExpression];
 	}
-	else if(currentExpression.match(/\+/))
+	else if(currentExpression.match(/\+/)) //work in progress
 	{
-		returnArray = checkIntExpr(expressionNode);
+		//returnArray = checkIntExpr(expressionNode);
 		//alert(checkIntExpr(expressionNode)[1]);
+	}
+	else if(currentExpression.match(/^\"/))
+	{
+		returnArray = allocateHeap(currentExpression);
 	}
 	else if(currentExpression.match(/[a-z]/))
 	{
@@ -181,6 +193,85 @@ function createTemp(node)
 	_StaticData.push(newTemp);
 }
 
+function allocateHeap(string)
+{
+	var stringWithoutQuotes = string.slice(1, string.length);
+	stringWithoutQuotes = stringWithoutQuotes.slice(0, stringWithoutQuotes.length - 1);
+	//alert(stringWithoutQuotes);
+	var heapCheck = existInHeap(stringWithoutQuotes);
+	if(!heapCheck[0]) //if it does not exist in the heap
+	{
+		_Heap.unshift("00");
+		var stringArray = [];
+		for(var i = 0; i < stringWithoutQuotes.length; i++)
+		{
+			stringArray.push(stringWithoutQuotes.slice(i,i+1).charCodeAt(0).toString(16).toUpperCase());
+		}
+		_Heap = stringArray.concat(_Heap);
+		//_HeapPointer++;
+		_HeapPointer = _HeapPointer - stringWithoutQuotes.length;
+		var returnArray = ["string", _HeapPointer.toString(16).toUpperCase()];
+		_HeapPointer--;
+		return returnArray;
+	}
+	else
+	{
+		return ["string", heapCheck[1].toString(16).toUpperCase()];
+	}
+}
+
+function existInHeap(stringToFind)
+{
+	var pointer;
+	var offset;
+	var stringCharAsHex = stringToFind.slice(0,1).charCodeAt(0).toString(16).toUpperCase();
+	for(var i = 0; i < _Heap.length; i++)
+	{
+		//alert(stringCharAsHex);
+		//alert(_Heap[i]);
+		if(stringCharAsHex === _Heap[i])
+		{
+			pointer = _Heap.length - i;
+			//alert(pointer);
+			var booleanCheck = false;
+			for(var j = 0; j < stringToFind.length; j++)
+			{
+				stringCharAsHex = stringToFind.slice(j,j+1).charCodeAt(0).toString(16).toUpperCase();
+				//alert(stringCharAsHex);
+				//alert(_Heap[i + j]);
+				if(stringCharAsHex === _Heap[i + j])
+				{
+					booleanCheck = true;
+				}
+				else
+				{
+					booleanCheck = false;
+					break;
+				}
+			}
+			if(booleanCheck)
+			{
+				var checkNull = _Heap[i + stringToFind.length];
+				//alert(checkNull);
+				if(checkNull === "00")
+				{
+					return [true, (_ProgramSize - pointer + 1)];
+				}
+			}
+			else //string was not found, now we must reach the next null to check the next string
+			{
+				offset = i;
+				while(_Heap[offset] !== "00")
+				{
+					offset++;
+				}
+			}
+
+			i += offset; //if we reach this point, it was not a match
+		}
+	}
+	return [false, "00"];
+}
 function getTemp(varName, scope)
 {
 	var tempIndex = -1;
