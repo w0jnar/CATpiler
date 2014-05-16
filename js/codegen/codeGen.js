@@ -9,6 +9,7 @@ function generateCode()
 	//alert(JSON.stringify(_ASTjson));
 	_Index = 0;
 	_CurrentScope = 0;
+	_CurrentScopeId = 0;
 	for(var i = 0; i < _ASTjson.children.length; i++)
 	{
 		generateFromNode(_ASTjson.children[i]);
@@ -54,7 +55,7 @@ function generateCode()
 function generateFromNode(jsonNode)
 {
 	var currentNodeName = jsonNode.name;
-	if(currentNodeName === "print") //it is print, therefore it only has one child, the thing to print
+	if(currentNodeName === "print") //it is print, therefore it only has one child, the thing to print.
 	{
 		generatePrint(jsonNode.children[0]);
 	}
@@ -64,7 +65,11 @@ function generateFromNode(jsonNode)
 	}
 	else if(currentNodeName === "assignment")
 	{
-		generateAssignment(jsonNode.children[0]); //equals sign node
+		generateAssignment(jsonNode.children[0]); //equals sign node.
+	}
+	else if(currentNodeName === "stmtBlock")
+	{
+		generateBlock(jsonNode); //entire node to pass all of the children.
 	}
 }
 
@@ -83,7 +88,7 @@ function generateVarDecl(varDeclNode)
 
 function generateAssignment(equalNode)
 {
-	var currentTemp = getTemp(equalNode.children[0].name);
+	var currentTemp = getTemp(equalNode.children[0].name, _CurrentScope);
 	var valueToStore = expressionInfo(equalNode.children[1])[1];
 	if(valueToStore.length === 1)
 	{
@@ -117,7 +122,7 @@ function generatePrint(printChildNode)
 	// }
 	if(isId(printChildNode.name))
 	{
-		var currentTemp = getTemp(printChildNode.name);
+		var currentTemp = getTemp(printChildNode.name, _CurrentScope);
 		_GeneratedCode[_Index++] = "AC";
 		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
 		_GeneratedCode[_Index++] = "XX";
@@ -125,6 +130,17 @@ function generatePrint(printChildNode)
 		_GeneratedCode[_Index++] = "01";
 		_GeneratedCode[_Index++] = "FF";
 	}
+}
+
+function generateBlock(blockNode)
+{
+	_CurrentScope++;
+	_CurrentScopeId++;
+	for(var i = 0; i < blockNode.children.length; i++)
+	{
+		generateFromNode(blockNode.children[i]);
+	}
+	_CurrentScope--;
 }
 
 function expressionInfo(expressionNode)
@@ -158,23 +174,69 @@ function createTemp(node)
 	}
 	else
 	{
-		_CurrentTemp = "T" + (parseInt(_currentTemp.slice(1, 2)) + 1).toString(16);
+		_CurrentTemp = "T" + (parseInt(_CurrentTemp.slice(1, 2)) + 1).toString(16);
 	}
 	tempName = _CurrentTemp;
-	var newTemp = [tempName, node.name, _CurrentScope, _Offset++];
+	var newTemp = [tempName, node.name, _CurrentScopeId, _Offset++];
 	_StaticData.push(newTemp);
 }
 
-function getTemp(varName)
+function getTemp(varName, scope)
 {
-	var tempIndex;
+	var tempIndex = -1;
 	for(var i = 0; i < _StaticData.length; i++)
 	{
 		var currentTemp = _StaticData[i];
-		if(currentTemp[_VarIndex] === varName && currentTemp[_ScopeIndex] === _CurrentScope)
+		if(currentTemp[_VarIndex] === varName && currentTemp[_ScopeIndex] === scope)
 		{
 			tempIndex = i;
 		}
+	}
+	if(tempIndex === -1) // if it is not in the current scope, it still has to exist (at least in the parent scope or higher).
+	{
+		var tempArray = currentScopeChain(varName);
+		//alert(tempArray[0]);
+		//alert(tempArray[1]);
+		var parentTempArray = getTemp(varName, tempArray[0]);
+		// alert(parentTempArray[0]);
+		// alert(parentTempArray[1]);
+		// alert(parentTempArray[2]);
+		// alert(parentTempArray[3]);
+		
+		//store acc in memory
+		var temp = new actualTemp(" ");
+		createTemp(temp);
+		var tempToStoreAcc = getTemp(temp.name, _CurrentScopeId);
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = tempToStoreAcc[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+		
+		//load the current value of the id from the parent scope in the acc
+		_GeneratedCode[_Index++] = "AD";
+		_GeneratedCode[_Index++] = parentTempArray[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+		
+		//store the acc at the new location for the current scope
+		var tempOfId = new actualTemp(varName);
+		createTemp(tempOfId);
+		var newTempOfId = getTemp(tempOfId.name, _CurrentScopeId);
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = newTempOfId[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+		
+		//restore the accumulator
+		_GeneratedCode[_Index++] = "AD";
+		_GeneratedCode[_Index++] = tempToStoreAcc[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+		for(var i = 0; i < _StaticData.length; i++)
+		{
+			var currentTemp = _StaticData[i];
+			if(currentTemp[_VarIndex] === varName && currentTemp[_ScopeIndex] === scope)
+			{
+				tempIndex = i;
+			}
+		}
+		
 	}
 	return _StaticData[tempIndex];
 }
@@ -199,4 +261,9 @@ function jsonCleaning(json)
 	{
 		jsonCleaning(json.children[i]);
 	}
+}
+
+function actualTemp(name)
+{
+	this.name = name;
 }
