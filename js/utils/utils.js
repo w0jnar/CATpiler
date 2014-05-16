@@ -32,6 +32,10 @@ function reset()
 	_GeneratedCode = [];
 	_Heap = [];
 	_HeapPointer = _ProgramSize;
+	_StaticData = [];
+	_JumpTable = [];
+	_CurrentTemp = 0;
+	_Offset = 0;
 }
 
 function clearDiv(divID)

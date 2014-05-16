@@ -52,3 +52,12 @@ var _ProgramSize = 255;
 var _GeneratedCode = [];
 var _Heap = [];
 var _HeapPointer = _ProgramSize;
+var _StaticData = [];
+var _JumpTable = [];
+var _CurrentTemp = 0;
+var _Offset = 0;
+
+var _TempIndex = 0;
+var _VarIndex = 1;
+var _ScopeIndex = 2;
+var _OffsetIndex = 3;
