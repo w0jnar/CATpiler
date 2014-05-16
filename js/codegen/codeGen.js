@@ -101,23 +101,31 @@ function generateAssignment(equalNode)
 
 function generatePrint(printChildNode)
 {
-	// var expressionArray = expressionInfo(printChildNode);//alert(typeof printChildNode.name);
-	// if(expressionArray[0] === "int")
-	// {
-		// _GeneratedCode[_Index++] = "A0";
-		// if(expressionArray[1].toString(16).length === 1)
-		// {
-			// _GeneratedCode[_Index++] = "0" + expressionArray[1].toString(16);
-		// }
-		// else
-		// {
-			// _GeneratedCode[_Index++] = expressionArray[1].toString(16);
-		// }
-		// _GeneratedCode[_Index++] = "A2";
-		// _GeneratedCode[_Index++] = "01";
-		// _GeneratedCode[_Index++] = "FF";
-	// }
-	if(isId(printChildNode.name) && checkId(printChildNode)[0] === "int")
+	var expressionArray = expressionInfo(printChildNode);//alert(typeof printChildNode.name);
+	if(expressionArray[0] === "digit")
+	{
+		_GeneratedCode[_Index++] = "A0";
+		if(expressionArray[1].toString(16).length === 1)
+		{
+			_GeneratedCode[_Index++] = "0" + expressionArray[1].toString(16);
+		}
+		else
+		{
+			_GeneratedCode[_Index++] = expressionArray[1].toString(16);
+		}
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = "01";
+		_GeneratedCode[_Index++] = "FF";
+	}
+	else if(expressionArray[0] === "string")
+	{
+		_GeneratedCode[_Index++] = "A0";
+		_GeneratedCode[_Index++] = expressionArray[1];
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = "02";
+		_GeneratedCode[_Index++] = "FF";
+	}
+	else if(isId(printChildNode.name) && checkId(printChildNode)[0] === "int")
 	{
 		var currentTemp = getTemp(printChildNode.name, _CurrentScopeId);
 		_GeneratedCode[_Index++] = "AC";
@@ -157,7 +165,7 @@ function expressionInfo(expressionNode)
 	var returnArray = [];
 	if(currentExpression.match(/\d/))
 	{
-		returnArray = ["int", currentExpression];
+		returnArray = ["digit", currentExpression];
 	}
 	else if(currentExpression.match(/\+/)) //work in progress
 	{
