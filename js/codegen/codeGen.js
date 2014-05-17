@@ -28,11 +28,11 @@ function generateCode()
 				{
 					if(_JumpTable[j][1].toString(16).length === 1)
 					{
-						currentJump = "0" + _JumpTable[j][1].toString(16);
+						currentJump = "0" + _JumpTable[j][1].toString(16).toUpperCase();
 					}
 					else
 					{
-						currentJump = _JumpTable[j][1].toString(16);
+						currentJump = _JumpTable[j][1].toString(16).toUpperCase();
 					}
 					_GeneratedCode[i] = currentJump;
 				}
