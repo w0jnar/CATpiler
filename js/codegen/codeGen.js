@@ -129,6 +129,10 @@ function generateFromNode(jsonNode)
 	{
 		generateIf(jsonNode); //entire node to pass all of the children.
 	}
+	else if(currentNodeName === "while")
+	{
+		generateWhile(jsonNode); //entire node to pass all of the children.
+	}
 }
 
 function generateVarDecl(varDeclNode)
@@ -147,6 +151,7 @@ function generateAssignment(equalNode)
 	putMessage("-Generating Assignment Code");
 	var currentTemp = getTemp(equalNode.children[0].name, _CurrentScopeId);
 	var valueToStore = expressionInfo(equalNode.children[1])[1];
+	//alert(valueToStore);
 	if(valueToStore.match(/^\"/)) //if the value is from an id and is a string literal
 	{
 		valueToStore = allocateHeap(valueToStore)[1];
@@ -263,6 +268,73 @@ function generateIf(ifNode)
 	
 	currentIndex = _Index - currentIndex;
 	//alert(currentIndex);
+	_JumpTable.push([jumpName, currentIndex]);
+}
+
+function generateWhile(whileNode)
+{
+	putMessage("-Generating While Statement Code");
+	var whileIndex = _Index;
+	var booleanExpression = generateBooleanExpr(whileNode.children[0]);
+	
+	var temp = new actualTemp(("S" + _ActualTempCount.toString()));
+	_ActualTempCount++;
+	createTemp(temp);
+	_GeneratedCode[_Index++] = "A9";
+	_GeneratedCode[_Index++] = "01";
+	_GeneratedCode[_Index++] = "8D";
+	_GeneratedCode[_Index++] = _CurrentTemp;
+	_GeneratedCode[_Index++] = "XX";
+	
+	_GeneratedCode[_Index++] = "A2";
+	if(booleanExpression[1] === _TruePointer)
+	{
+		_GeneratedCode[_Index++] = "01";
+	}
+	else
+	{
+		_GeneratedCode[_Index++] = "00";
+	}
+	_GeneratedCode[_Index++] = "EC";
+	_GeneratedCode[_Index++] = _CurrentTemp;
+	_GeneratedCode[_Index++] = "XX";
+	_GeneratedCode[_Index++] = "D0";
+	_GeneratedCode[_Index++] = ("J" + _CurrentJump.toString());
+	var jumpName = ("J" + _CurrentJump.toString());
+	_CurrentJump++;
+	
+	var currentIndex = _Index;
+	
+	generateBlock(whileNode.children[1]);
+	
+	
+	var whileTemp = new actualTemp(("S" + _ActualTempCount.toString()));
+	_ActualTempCount++;
+	createTemp(whileTemp);
+	_GeneratedCode[_Index++] = "A9";
+	_GeneratedCode[_Index++] = "01";
+	_GeneratedCode[_Index++] = "8D";
+	_GeneratedCode[_Index++] = _CurrentTemp;
+	_GeneratedCode[_Index++] = "XX";
+	
+	_GeneratedCode[_Index++] = "A2";
+	_GeneratedCode[_Index++] = "00";
+	_GeneratedCode[_Index++] = "EC";
+	_GeneratedCode[_Index++] = _CurrentTemp;
+	_GeneratedCode[_Index++] = "XX";
+	_GeneratedCode[_Index++] = "D0";
+	_GeneratedCode[_Index++] = ("J" + _CurrentJump.toString());
+	var whileJumpName = ("J" + _CurrentJump.toString());
+	_CurrentJump++;
+	//alert(whileIndex);
+	//alert(_Index);
+	whileIndex = (_ProgramSize - (_Index - whileIndex)) + 1;
+	//alert(whileIndex);
+	_JumpTable.push([whileJumpName, whileIndex]);
+	
+	
+	
+	currentIndex = _Index - currentIndex;
 	_JumpTable.push([jumpName, currentIndex]);
 }
 
