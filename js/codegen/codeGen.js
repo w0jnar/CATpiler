@@ -160,11 +160,23 @@ function generateAssignment(equalNode)
 	{
 		valueToStore = 0 + valueToStore;
 	}
-	_GeneratedCode[_Index++] = "A9";
-	_GeneratedCode[_Index++] = valueToStore;
-	_GeneratedCode[_Index++] = "8D";
-	_GeneratedCode[_Index++] = currentTemp[_TempIndex];
-	_GeneratedCode[_Index++] = "XX";
+	if(valueToStore.slice(0,1) !== "T")
+	{
+		_GeneratedCode[_Index++] = "A9";
+		_GeneratedCode[_Index++] = valueToStore;
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+	}
+	else
+	{
+		_GeneratedCode[_Index++] = "AD";
+		_GeneratedCode[_Index++] = valueToStore;
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+	}
 }
 
 
@@ -195,18 +207,28 @@ function generatePrint(printChildNode)
 	}
 	else if(expressionArray[0] === "digit") //digit constant
 	{
-		_GeneratedCode[_Index++] = "A0";
-		if(expressionArray[1].toString(16).length === 1)
+		if(expressionArray[1].slice(0,1) !== "T")
 		{
-			_GeneratedCode[_Index++] = "0" + expressionArray[1].toString(16);
+			_GeneratedCode[_Index++] = "A0";
+			if(expressionArray[1].toString(16).length === 1)
+			{
+				_GeneratedCode[_Index++] = "0" + expressionArray[1].toString(16);
+			}
+			else
+			{
+				_GeneratedCode[_Index++] = expressionArray[1].toString(16);
+			}
 		}
 		else
 		{
-			_GeneratedCode[_Index++] = expressionArray[1].toString(16);
+			_GeneratedCode[_Index++] = "AC";
+			_GeneratedCode[_Index++] = expressionArray[1];
+			_GeneratedCode[_Index++] = "XX";
 		}
 		_GeneratedCode[_Index++] = "A2";
 		_GeneratedCode[_Index++] = "01";
 		_GeneratedCode[_Index++] = "FF";
+		
 	}
 	else if(expressionArray[0] === "string" || expressionArray[0] === "boolean") //string constant
 	{
@@ -360,7 +382,9 @@ function expressionInfo(expressionNode)
 	}
 	else if(currentExpression.match(/[a-z]/))
 	{
-		returnArray = checkId(expressionNode);
+		var currentTemp = getTemp(expressionNode.name, _CurrentScopeId);
+		returnArray.push(checkId(expressionNode)[0]);
+		returnArray.push(currentTemp[_TempIndex]);
 		//alert(returnArray[0]);
 		//alert(returnArray[1]);
 	}
@@ -368,11 +392,45 @@ function expressionInfo(expressionNode)
 }
 
 function generateIntExpr(plusNode)
-{
+{	
 	var expressionArrayRight = expressionInfo(plusNode.children[1]);
 	var valueToStore = expressionArrayRight[1];
 	var expressionArray = expressionInfo(plusNode.children[0]);
-	return ["digit", (parseInt(valueToStore,16) + parseInt(expressionArray[1],16)).toString(16)];
+	
+	//add with carry right side
+	if(valueToStore.slice(0,1) === "T")
+	{
+		var temp = new actualTemp(("S" + _ActualTempCount.toString()));
+		_ActualTempCount++;
+		createTemp(temp);
+		//store the left side (always a digit in a temp)
+		_GeneratedCode[_Index++] = "A9";
+		if(expressionArray[1].toString(16).toUpperCase().length === 1)
+		{
+			_GeneratedCode[_Index++] = "0" + expressionArray[1].toString(16).toUpperCase();
+		}
+		else
+		{
+			_GeneratedCode[_Index++] = expressionArray[1].toString(16).toUpperCase();
+		}
+		_GeneratedCode[_Index++] = "6D";
+		_GeneratedCode[_Index++] = valueToStore;
+		_GeneratedCode[_Index++] = "XX";
+		
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		
+		return ["digit", _CurrentTemp];
+		
+	}
+	else //digit
+	{
+		return ["digit", (parseInt(valueToStore,16) + parseInt(expressionArray[1],16)).toString(16)];
+	}
+	
+	
+	
 }
 
 function generateBooleanExpr(boolExprNode)
