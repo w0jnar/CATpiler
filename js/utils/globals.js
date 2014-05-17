@@ -55,6 +55,7 @@ var _HeapPointer = _ProgramSize;
 var _StaticData = [];
 var _JumpTable = [];
 var _CurrentTemp = 0;
+var _CurrentJump = 0;
 var _Offset = 0;
 
 var _TempIndex = 0;
@@ -64,3 +65,5 @@ var _OffsetIndex = 3;
 var _LastScopeIdStack = [];
 var _TruePointer = "";
 var _FalsePointer = "";
+var _ActualTempCount = 0;
+var _CurrentJump = 0;

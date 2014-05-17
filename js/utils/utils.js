@@ -39,6 +39,8 @@ function reset()
 	_LastScopeIdStack = [];
 	_TruePointer = "";
 	_FalsePointer = "";
+	_ActualTempCount = 0;
+	_CurrentJump = 0;
 }
 
 function clearDiv(divID)

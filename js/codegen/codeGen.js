@@ -16,10 +16,35 @@ function generateCode()
 	}
 	_GeneratedCode[_Index++] = "00";
 	
+	var currentJump = "";
+	putMessage("-Backpatching Jumps");
+	for(var i = 0; i < _GeneratedCode.length; i++)
+	{
+		if(_GeneratedCode[i].slice(0,1) === "J")
+		{
+			for(var j = 0; j < _JumpTable.length; j++)
+			{
+				if(_GeneratedCode[i] === _JumpTable[j][0])
+				{
+					if(_JumpTable[j][1].toString(16).length === 1)
+					{
+						currentJump = "0" + _JumpTable[j][1].toString(16);
+					}
+					else
+					{
+						currentJump = _JumpTable[j][1].toString(16);
+					}
+					_GeneratedCode[i] = currentJump;
+				}
+			}
+		}
+	}
+	
+	
 	var currentTemp;
 	var currentReplace;
 	var currentTempString;
-	putMessage("-Backpatching");
+	putMessage("-Backpatching Temps");
 	for(var i = 0; i < _StaticData.length; i++)
 	{
 		_GeneratedCode[_Index++] = "00";
@@ -99,6 +124,10 @@ function generateFromNode(jsonNode)
 	else if(currentNodeName === "stmtBlock")
 	{
 		generateBlock(jsonNode); //entire node to pass all of the children.
+	}
+	else if(currentNodeName === "if")
+	{
+		generateIf(jsonNode); //entire node to pass all of the children.
 	}
 }
 
@@ -197,6 +226,46 @@ function generateBlock(blockNode)
 	_CurrentScopeId = _LastScopeIdStack.pop(_CurrentScopeId);
 }
 
+function generateIf(ifNode)
+{
+	putMessage("-Generating If Statement Code");
+	var booleanExpression = generateBooleanExpr(ifNode.children[0]);
+	
+	var temp = new actualTemp(("S" + _ActualTempCount.toString()));
+	_ActualTempCount++;
+	createTemp(temp);
+	_GeneratedCode[_Index++] = "A9";
+	_GeneratedCode[_Index++] = "01";
+	_GeneratedCode[_Index++] = "8D";
+	_GeneratedCode[_Index++] = _CurrentTemp;
+	_GeneratedCode[_Index++] = "XX";
+	
+	_GeneratedCode[_Index++] = "A2";
+	if(booleanExpression[1] === _TruePointer)
+	{
+		_GeneratedCode[_Index++] = "01";
+	}
+	else
+	{
+		_GeneratedCode[_Index++] = "00";
+	}
+	_GeneratedCode[_Index++] = "EC";
+	_GeneratedCode[_Index++] = _CurrentTemp;
+	_GeneratedCode[_Index++] = "XX";
+	_GeneratedCode[_Index++] = "D0";
+	_GeneratedCode[_Index++] = ("J" + _CurrentJump.toString());
+	var jumpName = ("J" + _CurrentJump.toString());
+	_CurrentJump++;
+	
+	var currentIndex = _Index;
+	
+	generateBlock(ifNode.children[1]);
+	
+	currentIndex = _Index - currentIndex;
+	//alert(currentIndex);
+	_JumpTable.push([jumpName, currentIndex]);
+}
+
 function expressionInfo(expressionNode)
 {
 	var currentExpression = expressionNode.name;
@@ -258,9 +327,6 @@ function generateBooleanExpr(boolExprNode)
 			rightSide = allocateHeap(rightSide)[1].toString();
 		}
 		
-		
-		//alert(leftSide);
-		//alert(rightSide);
 		if(leftSide === rightSide && currentNodeName === "==")
 		{
 			return ["boolean", _TruePointer];
@@ -299,7 +365,6 @@ function createTemp(node)
 
 function allocateHeap(string)
 {
-	
 	var stringWithoutQuotes = string.slice(1, string.length);
 	stringWithoutQuotes = stringWithoutQuotes.slice(0, stringWithoutQuotes.length - 1);
 	//alert(stringWithoutQuotes);
