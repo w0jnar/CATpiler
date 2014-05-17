@@ -149,7 +149,9 @@ function generateAssignment(equalNode)
 {
 	putMessage("-Generating Assignment Code");
 	var currentTemp = getTemp(equalNode.children[0].name, _CurrentScopeId);
-	var valueToStore = expressionInfo(equalNode.children[1])[1];
+	var toStore = expressionInfo(equalNode.children[1]);
+	var valueToStore = toStore[1];
+	var typeToStore = toStore[0];
 	//alert(valueToStore);
 	if(valueToStore.match(/^\"/)) //if the value is from an id and is a string literal
 	{
@@ -167,11 +169,44 @@ function generateAssignment(equalNode)
 		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
 		_GeneratedCode[_Index++] = "XX";
 	}
-	else
+	else if(valueToStore.slice(0,1) === "T" && typeToStore !== "boolean")
 	{
 		_GeneratedCode[_Index++] = "AD";
 		_GeneratedCode[_Index++] = valueToStore;
 		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+	}
+	else
+	{
+		var temp = new actualTemp(("S" + _ActualTempCount.toString()));
+		_ActualTempCount++;
+		createTemp(temp);
+		_GeneratedCode[_Index++] = "A9";
+		_GeneratedCode[_Index++] = "01"; //load variable with 01. If it is a match, jump, it is false, else true.
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] =  _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "EC";
+		_GeneratedCode[_Index++] =  _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "D0";
+		_GeneratedCode[_Index++] = "0C";
+		_GeneratedCode[_Index++] = "A9";
+		_GeneratedCode[_Index++] = _TruePointer;
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = "00";
+		_GeneratedCode[_Index++] = "EC";
+		_GeneratedCode[_Index++] =  _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "D0";
+		_GeneratedCode[_Index++] = "05";
+		_GeneratedCode[_Index++] = "A9";
+		_GeneratedCode[_Index++] = _FalsePointer;
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] = currentTemp[_TempIndex];
 		_GeneratedCode[_Index++] = "XX";
