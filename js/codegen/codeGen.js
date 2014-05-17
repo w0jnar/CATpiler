@@ -228,27 +228,45 @@ function expressionInfo(expressionNode)
 
 function generateIntExpr(plusNode)
 {
-	//create a new temp to store the right side
-	var temp = new actualTemp(_TempNames.toString());
-	_TempNames++;
-	createTemp(temp);
-	var tempToStoreAcc = getTemp(temp.name, _CurrentScopeId);
-	//store left side recursively in memory.
 	var expressionArrayRight = expressionInfo(plusNode.children[1]);
 	var valueToStore = expressionArrayRight[1];
-	//alert(valueToStore);
 	var expressionArray = expressionInfo(plusNode.children[0]);
-	//alert(expressionArray[1]);
 	return ["digit", (parseInt(valueToStore,16) + parseInt(expressionArray[1],16)).toString(16)];
 }
 
 function generateBooleanExpr(boolExprNode)
 {
 	var currentNodeName = boolExprNode.name;
+	_TruePointer = allocateHeap("\"true\"")[1];
+	_FalsePointer = allocateHeap("\"false\"")[1];
 	if(currentNodeName === "true" || currentNodeName === "false")
 	{
 		var boolString = "\"" + boolExprNode.name + "\"";
-		return allocateHeap(boolString)
+		var stringBoolean = allocateHeap(boolString);
+		return stringBoolean;
+	}
+	else
+	{
+		var leftSide = (expressionInfo(boolExprNode.children[0])[1]).toString();
+		var rightSide = (expressionInfo(boolExprNode.children[1])[1]).toString();
+		alert(leftSide);
+		alert(rightSide);
+		if(leftSide === rightSide && currentNodeName === "==")
+		{
+			return ["boolean", _TruePointer];
+		}
+		else if(leftSide !== rightSide && currentNodeName === "==")
+		{
+			return ["boolean", _FalsePointer];
+		}
+		else if(leftSide === rightSide && currentNodeName === "!=")
+		{
+			return ["boolean", _FalsePointer];
+		}
+		else if(leftSide !== rightSide && currentNodeName === "!=")
+		{
+			return ["boolean", _TruePointer];
+		}
 	}
 }
 

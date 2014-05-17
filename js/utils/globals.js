@@ -62,3 +62,5 @@ var _VarIndex = 1;
 var _ScopeIndex = 2;
 var _OffsetIndex = 3;
 var _LastScopeIdStack = [];
+var _TruePointer = "";
+var _FalsePointer = "";

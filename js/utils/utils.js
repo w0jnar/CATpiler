@@ -37,6 +37,8 @@ function reset()
 	_CurrentTemp = 0;
 	_Offset = 0;
 	_LastScopeIdStack = [];
+	_TruePointer = "";
+	_FalsePointer = "";
 }
 
 function clearDiv(divID)
