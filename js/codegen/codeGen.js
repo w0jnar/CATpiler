@@ -149,7 +149,7 @@ function generatePrint(printChildNode)
 		_GeneratedCode[_Index++] = "01";
 		_GeneratedCode[_Index++] = "FF";
 	}
-	else if(isId(printChildNode.name) && checkId(printChildNode)[0] === "string") //string id
+	else if(isId(printChildNode.name) && (checkId(printChildNode)[0] === "string" || checkId(printChildNode)[0] === "boolean")) //string id
 	{
 		var currentTemp = getTemp(printChildNode.name, _CurrentScopeId);
 		_GeneratedCode[_Index++] = "AC";
@@ -213,6 +213,10 @@ function expressionInfo(expressionNode)
 	{
 		returnArray = allocateHeap(currentExpression);
 	}
+	else if(currentExpression === "==" || currentExpression === "!=" || currentExpression === "false" || currentExpression === "true")
+	{
+		returnArray = generateBooleanExpr(expressionNode);
+	}
 	else if(currentExpression.match(/[a-z]/))
 	{
 		returnArray = checkId(expressionNode);
@@ -236,9 +240,16 @@ function generateIntExpr(plusNode)
 	var expressionArray = expressionInfo(plusNode.children[0]);
 	//alert(expressionArray[1]);
 	return ["digit", (parseInt(valueToStore,16) + parseInt(expressionArray[1],16)).toString(16)];
-	
-	
-	
+}
+
+function generateBooleanExpr(boolExprNode)
+{
+	var currentNodeName = boolExprNode.name;
+	if(currentNodeName === "true" || currentNodeName === "false")
+	{
+		var boolString = "\"" + boolExprNode.name + "\"";
+		return allocateHeap(boolString)
+	}
 }
 
 function createTemp(node)
