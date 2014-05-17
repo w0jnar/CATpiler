@@ -39,7 +39,7 @@ function buttons()
 	program1Listener.addEventListener("click",
 		function(){
 			var taUserProgamFill = document.getElementById("taUserInput");
-			taUserProgamFill.value = "{\n    int a\n    a = 0\n    string z\n    z = \"bond\"\n    while (a != 9) {\n        if(a != 5) {\n            print(\"bond\")\n        }\n        {\n            a = 1 + a\n            string b\n            b = \"james bond\"\n            print(b)\n        }\n    }\n    {}\n    boolean c\n    c = true\n    boolean d\n    int b\n    b = 7\n    d = (true == (true == false))\n    d = (a == b)\n    d = (1 == a)\n    d = (1 != 1)\n    d = (\"string\" == z)\n    d = (z != \"string\")\n    d = (\"string\" != \"string\")\n    if (d == true) {\n        int c\n        c = 1 + b\n        if (c == 1) {\n            print(\"ugh\")\n        }\n    }\n    while (\"string\" == z) {\n        while (d == true) {\n            a = 1 + b\n        }\n    }\n}$";
+			taUserProgamFill.value = "{\n	int a\n	a = 0\n	while(a != 5) {\n		a = 1 + a\n		print(a)\n	}\n	print(\"meow\")\n}$";
 		},
 		false
 	);
