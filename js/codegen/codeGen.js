@@ -40,7 +40,6 @@ function generateCode()
 		}
 	}
 	
-	
 	var currentTemp;
 	var currentReplace;
 	var currentTempString;
@@ -232,11 +231,42 @@ function generatePrint(printChildNode)
 	}
 	else if(expressionArray[0] === "string" || expressionArray[0] === "boolean") //string constant
 	{
-		_GeneratedCode[_Index++] = "A0";
-		_GeneratedCode[_Index++] = expressionArray[1];
-		_GeneratedCode[_Index++] = "A2";
-		_GeneratedCode[_Index++] = "02";
-		_GeneratedCode[_Index++] = "FF";
+		if(expressionArray[0] === "boolean" && expressionArray[1] === "00")
+		{
+			var temp = new actualTemp(("S" + _ActualTempCount.toString()));
+			_ActualTempCount++;
+			createTemp(temp);
+			_GeneratedCode[_Index++] = "A9";
+			_GeneratedCode[_Index++] = "01"; //load variable with 01. If it is a match, jump, it is false, else true.
+			_GeneratedCode[_Index++] = "8D";
+			_GeneratedCode[_Index++] =  _CurrentTemp;
+			_GeneratedCode[_Index++] = "XX";
+			_GeneratedCode[_Index++] = "EC";
+			_GeneratedCode[_Index++] =  _CurrentTemp;
+			_GeneratedCode[_Index++] = "XX";
+			_GeneratedCode[_Index++] = "D0";
+			_GeneratedCode[_Index++] = "07"; //
+			_GeneratedCode[_Index++] = "AC";
+			_GeneratedCode[_Index++] = _TruePointer;
+			_GeneratedCode[_Index++] = "A2";
+			_GeneratedCode[_Index++] = "02";
+			_GeneratedCode[_Index++] = "FF";
+			_GeneratedCode[_Index++] = "D0";
+			_GeneratedCode[_Index++] = "05"; //
+			_GeneratedCode[_Index++] = "AC";
+			_GeneratedCode[_Index++] = _FalsePointer;
+			_GeneratedCode[_Index++] = "A2";
+			_GeneratedCode[_Index++] = "02";
+			_GeneratedCode[_Index++] = "FF";
+		}
+		else
+		{
+			_GeneratedCode[_Index++] = "A0";
+			_GeneratedCode[_Index++] = expressionArray[1];
+			_GeneratedCode[_Index++] = "A2";
+			_GeneratedCode[_Index++] = "02";
+			_GeneratedCode[_Index++] = "FF";
+		}
 	}
 	//alert(checkId(printChildNode)[0] === "string");
 }
@@ -457,21 +487,117 @@ function generateBooleanExpr(boolExprNode)
 			rightSide = allocateHeap(rightSide)[1].toString();
 		}
 		
-		if(leftSide === rightSide && currentNodeName === "==")
+		if(leftSide.slice(0,1) === "T" || rightSide.slice(0,1) === "T")
 		{
-			return ["boolean", _TruePointer];
+			if(leftSide.length === 1)
+			{
+				leftSide = "0" + leftSide.toString();
+			}
+			if(rightSide.length === 1)
+			{
+				rightSide = "0" + rightSide.toString();
+			}
+			//left side to X reg
+			if(leftSide.slice(0,1) === "T")
+			{
+				_GeneratedCode[_Index++] = "AE";
+				_GeneratedCode[_Index++] = leftSide;
+				_GeneratedCode[_Index++] = "XX";
+			}
+			else
+			{
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = leftSide;
+			}
+			
+			//temp for right side
+			var temp = new actualTemp(("S" + _ActualTempCount.toString()));
+			_ActualTempCount++;
+			createTemp(temp);
+			//right side need to end up in memory
+			if(rightSide.slice(0,1) === "T")
+			{
+				_GeneratedCode[_Index++] = "AD";
+				_GeneratedCode[_Index++] = rightSide;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "8D";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+			}
+			else
+			{
+				_GeneratedCode[_Index++] = "A9";
+				_GeneratedCode[_Index++] = rightSide;
+				_GeneratedCode[_Index++] = "8D";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+			}
+			
+			_GeneratedCode[_Index++] = "EC";
+			_GeneratedCode[_Index++] = _CurrentTemp;
+			_GeneratedCode[_Index++] = "XX";
+			
+			var temp2 = new actualTemp(("S" + _ActualTempCount.toString()));
+			_ActualTempCount++;
+			createTemp(temp2);
+			if(currentNodeName === "==")
+			{
+				_GeneratedCode[_Index++] = "D0";
+				_GeneratedCode[_Index++] = "0C"; //
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "A9";
+				_GeneratedCode[_Index++] = "01";
+				_GeneratedCode[_Index++] = "8D";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "EC";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "D0";
+				_GeneratedCode[_Index++] = "02"; //
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = "01";
+			}
+			else
+			{
+				_GeneratedCode[_Index++] = "D0";
+				_GeneratedCode[_Index++] = "0C"; //
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = "01";
+				_GeneratedCode[_Index++] = "A9";
+				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "8D";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "EC";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "D0";
+				_GeneratedCode[_Index++] = "02"; //
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = "00";
+			}
+			return ["boolean", "00"];
 		}
-		else if(leftSide !== rightSide && currentNodeName === "==")
+		else //static as there are no variables involved
 		{
-			return ["boolean", _FalsePointer];
-		}
-		else if(leftSide === rightSide && currentNodeName === "!=")
-		{
-			return ["boolean", _FalsePointer];
-		}
-		else if(leftSide !== rightSide && currentNodeName === "!=")
-		{
-			return ["boolean", _TruePointer];
+			if(leftSide === rightSide && currentNodeName === "==")
+			{
+				return ["boolean", _TruePointer];
+			}
+			else if(leftSide !== rightSide && currentNodeName === "==")
+			{
+				return ["boolean", _FalsePointer];
+			}
+			else if(leftSide === rightSide && currentNodeName === "!=")
+			{
+				return ["boolean", _FalsePointer];
+			}
+			else if(leftSide !== rightSide && currentNodeName === "!=")
+			{
+				return ["boolean", _TruePointer];
+			}
 		}
 	}
 }
