@@ -231,7 +231,7 @@ function generatePrint(printChildNode)
 	}
 	else if(expressionArray[0] === "string" || expressionArray[0] === "boolean") //string constant
 	{
-		if(expressionArray[0] === "boolean" && expressionArray[1] === "00")
+		if(expressionArray[0] === "boolean" && expressionArray[1].slice(0,1) === "T")
 		{
 			var temp = new actualTemp(("S" + _ActualTempCount.toString()));
 			_ActualTempCount++;
@@ -483,6 +483,8 @@ function generateBooleanExpr(boolExprNode)
 	{
 		var leftSide = (expressionInfo(boolExprNode.children[0])[1]).toString();
 		var rightSide = (expressionInfo(boolExprNode.children[1])[1]).toString();
+		var leftType = expressionInfo(boolExprNode.children[0])[0];
+		var rightType = expressionInfo(boolExprNode.children[1])[0];
 		if(leftSide.match(/^\"/)) //gets the memory location if static string for comparison
 		{
 			leftSide = allocateHeap(leftSide)[1].toString();
@@ -503,7 +505,28 @@ function generateBooleanExpr(boolExprNode)
 				rightSide = "0" + rightSide.toString();
 			}
 			//left side to X reg
-			if(leftSide.slice(0,1) === "T")
+			if(leftSide.slice(0,1) === "T" && leftType === "boolean")
+			{
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = "01";
+				_GeneratedCode[_Index++] = "EC";
+				_GeneratedCode[_Index++] = leftSide;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "D0";
+				_GeneratedCode[_Index++] = "09";
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = _FalsePointer;
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "EC";
+				_GeneratedCode[_Index++] = leftSide;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "D0";
+				_GeneratedCode[_Index++] = "02";
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = _TruePointer;
+			}
+			else if(leftSide.slice(0,1) === "T")
 			{
 				_GeneratedCode[_Index++] = "AE";
 				_GeneratedCode[_Index++] = leftSide;
@@ -520,7 +543,45 @@ function generateBooleanExpr(boolExprNode)
 			_ActualTempCount++;
 			createTemp(temp);
 			//right side need to end up in memory
-			if(rightSide.slice(0,1) === "T")
+			if(rightSide.slice(0,1) === "T" && rightType === "boolean")
+			{
+				_GeneratedCode[_Index++] = "AD";
+				_GeneratedCode[_Index++] = rightSide;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "8D";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+				
+				
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = "01";
+				_GeneratedCode[_Index++] = "EC";
+				_GeneratedCode[_Index++] = rightSide;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "D0";
+				_GeneratedCode[_Index++] = "0C";
+				_GeneratedCode[_Index++] = "A9";
+				_GeneratedCode[_Index++] = _FalsePointer;
+				_GeneratedCode[_Index++] = "8D";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "A2";
+				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "EC";
+				_GeneratedCode[_Index++] = leftSide;
+				_GeneratedCode[_Index++] = "XX";
+				_GeneratedCode[_Index++] = "D0";
+				_GeneratedCode[_Index++] = "05";
+				_GeneratedCode[_Index++] = "A9";
+				_GeneratedCode[_Index++] = _TruePointer;
+				_GeneratedCode[_Index++] = "8D";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+				
+				
+				
+			}
+			else if(rightSide.slice(0,1) === "T")
 			{
 				_GeneratedCode[_Index++] = "AD";
 				_GeneratedCode[_Index++] = rightSide;
@@ -560,9 +621,15 @@ function generateBooleanExpr(boolExprNode)
 				_GeneratedCode[_Index++] = _CurrentTemp;
 				_GeneratedCode[_Index++] = "XX";
 				_GeneratedCode[_Index++] = "D0";
-				_GeneratedCode[_Index++] = "02"; //
+				_GeneratedCode[_Index++] = "07"; //
 				_GeneratedCode[_Index++] = "A2";
 				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "A9";
+				_GeneratedCode[_Index++] = "01";
+				_GeneratedCode[_Index++] = "8D";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
+				
 			}
 			else
 			{
@@ -579,11 +646,16 @@ function generateBooleanExpr(boolExprNode)
 				_GeneratedCode[_Index++] = _CurrentTemp;
 				_GeneratedCode[_Index++] = "XX";
 				_GeneratedCode[_Index++] = "D0";
-				_GeneratedCode[_Index++] = "02"; //
+				_GeneratedCode[_Index++] = "07"; //
 				_GeneratedCode[_Index++] = "A2";
 				_GeneratedCode[_Index++] = "01";
+				_GeneratedCode[_Index++] = "A9";
+				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "8D";
+				_GeneratedCode[_Index++] = _CurrentTemp;
+				_GeneratedCode[_Index++] = "XX";
 			}
-			return ["boolean", "00"];
+			return ["boolean", _CurrentTemp];
 		}
 		else //static as there are no variables involved
 		{
