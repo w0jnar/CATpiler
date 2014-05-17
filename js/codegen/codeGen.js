@@ -174,7 +174,7 @@ function generatePrint(printChildNode)
 		_GeneratedCode[_Index++] = "01";
 		_GeneratedCode[_Index++] = "FF";
 	}
-	else if(expressionArray[0] === "string") //string constant
+	else if(expressionArray[0] === "string" || expressionArray[0] === "boolean") //string constant
 	{
 		_GeneratedCode[_Index++] = "A0";
 		_GeneratedCode[_Index++] = expressionArray[1];
@@ -249,8 +249,18 @@ function generateBooleanExpr(boolExprNode)
 	{
 		var leftSide = (expressionInfo(boolExprNode.children[0])[1]).toString();
 		var rightSide = (expressionInfo(boolExprNode.children[1])[1]).toString();
-		alert(leftSide);
-		alert(rightSide);
+		if(leftSide.match(/^\"/)) //gets the memory location if static string for comparison
+		{
+			leftSide = allocateHeap(leftSide)[1].toString();
+		}
+		if(rightSide.match(/^\"/))
+		{
+			rightSide = allocateHeap(rightSide)[1].toString();
+		}
+		
+		
+		//alert(leftSide);
+		//alert(rightSide);
 		if(leftSide === rightSide && currentNodeName === "==")
 		{
 			return ["boolean", _TruePointer];
