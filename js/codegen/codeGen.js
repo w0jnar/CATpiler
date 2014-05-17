@@ -245,15 +245,20 @@ function generatePrint(printChildNode)
 			_GeneratedCode[_Index++] =  _CurrentTemp;
 			_GeneratedCode[_Index++] = "XX";
 			_GeneratedCode[_Index++] = "D0";
-			_GeneratedCode[_Index++] = "07"; //
-			_GeneratedCode[_Index++] = "AC";
+			_GeneratedCode[_Index++] = "0C"; ///////
+			_GeneratedCode[_Index++] = "A0";
 			_GeneratedCode[_Index++] = _TruePointer;
 			_GeneratedCode[_Index++] = "A2";
 			_GeneratedCode[_Index++] = "02";
 			_GeneratedCode[_Index++] = "FF";
+			_GeneratedCode[_Index++] = "A2";
+			_GeneratedCode[_Index++] = "00";
+			_GeneratedCode[_Index++] = "EC";
+			_GeneratedCode[_Index++] =  _CurrentTemp;
+			_GeneratedCode[_Index++] = "XX";
 			_GeneratedCode[_Index++] = "D0";
 			_GeneratedCode[_Index++] = "05"; //
-			_GeneratedCode[_Index++] = "AC";
+			_GeneratedCode[_Index++] = "A0";
 			_GeneratedCode[_Index++] = _FalsePointer;
 			_GeneratedCode[_Index++] = "A2";
 			_GeneratedCode[_Index++] = "02";
@@ -543,11 +548,11 @@ function generateBooleanExpr(boolExprNode)
 			if(currentNodeName === "==")
 			{
 				_GeneratedCode[_Index++] = "D0";
-				_GeneratedCode[_Index++] = "0C"; //
+				_GeneratedCode[_Index++] = "0C"; //it will not jump if they are equal
 				_GeneratedCode[_Index++] = "A2";
-				_GeneratedCode[_Index++] = "00";
-				_GeneratedCode[_Index++] = "A9";
 				_GeneratedCode[_Index++] = "01";
+				_GeneratedCode[_Index++] = "A9";
+				_GeneratedCode[_Index++] = "00";
 				_GeneratedCode[_Index++] = "8D";
 				_GeneratedCode[_Index++] = _CurrentTemp;
 				_GeneratedCode[_Index++] = "XX";
@@ -557,16 +562,16 @@ function generateBooleanExpr(boolExprNode)
 				_GeneratedCode[_Index++] = "D0";
 				_GeneratedCode[_Index++] = "02"; //
 				_GeneratedCode[_Index++] = "A2";
-				_GeneratedCode[_Index++] = "01";
+				_GeneratedCode[_Index++] = "00";
 			}
 			else
 			{
 				_GeneratedCode[_Index++] = "D0";
 				_GeneratedCode[_Index++] = "0C"; //
 				_GeneratedCode[_Index++] = "A2";
-				_GeneratedCode[_Index++] = "01";
-				_GeneratedCode[_Index++] = "A9";
 				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "A9";
+				_GeneratedCode[_Index++] = "01";
 				_GeneratedCode[_Index++] = "8D";
 				_GeneratedCode[_Index++] = _CurrentTemp;
 				_GeneratedCode[_Index++] = "XX";
@@ -576,7 +581,7 @@ function generateBooleanExpr(boolExprNode)
 				_GeneratedCode[_Index++] = "D0";
 				_GeneratedCode[_Index++] = "02"; //
 				_GeneratedCode[_Index++] = "A2";
-				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "01";
 			}
 			return ["boolean", "00"];
 		}
