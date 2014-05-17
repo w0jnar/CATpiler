@@ -205,10 +205,9 @@ function expressionInfo(expressionNode)
 	{
 		returnArray = ["digit", currentExpression];
 	}
-	else if(currentExpression.match(/\+/)) //work in progress
+	else if(currentExpression.match(/\+/))
 	{
-		//returnArray = checkIntExpr(expressionNode);
-		//alert(checkIntExpr(expressionNode)[1]);
+		returnArray = generateIntExpr(expressionNode);
 	}
 	else if(currentExpression.match(/^\"/))
 	{
@@ -221,6 +220,25 @@ function expressionInfo(expressionNode)
 		//alert(returnArray[1]);
 	}
 	return returnArray;
+}
+
+function generateIntExpr(plusNode)
+{
+	//create a new temp to store the right side
+	var temp = new actualTemp(_TempNames.toString());
+	_TempNames++;
+	createTemp(temp);
+	var tempToStoreAcc = getTemp(temp.name, _CurrentScopeId);
+	//store left side recursively in memory.
+	var expressionArrayRight = expressionInfo(plusNode.children[1]);
+	var valueToStore = expressionArrayRight[1];
+	//alert(valueToStore);
+	var expressionArray = expressionInfo(plusNode.children[0]);
+	//alert(expressionArray[1]);
+	return ["digit", (parseInt(valueToStore,16) + parseInt(expressionArray[1],16)).toString(16)];
+	
+	
+	
 }
 
 function createTemp(node)
