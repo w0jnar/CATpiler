@@ -343,13 +343,15 @@ function generateIf(ifNode)
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] =  _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
-		_GeneratedCode[_Index++] = "EC"; //compare to X, which was set in boolean expression generation
-		_GeneratedCode[_Index++] =  _CurrentTemp;
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = "01";
+		_GeneratedCode[_Index++] = "EC";
+		_GeneratedCode[_Index++] = booleanExpression[1];
 		_GeneratedCode[_Index++] = "XX";
 		_GeneratedCode[_Index++] = "D0"; //if they are equal, do not jump, jst true, else, set false
 		_GeneratedCode[_Index++] = "0C";
 		_GeneratedCode[_Index++] = "A9"; //set to true
-		_GeneratedCode[_Index++] = _TruePointer;
+		_GeneratedCode[_Index++] = _FalsePointer;
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] = _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
@@ -361,7 +363,7 @@ function generateIf(ifNode)
 		_GeneratedCode[_Index++] = "D0"; //jump over setting it false
 		_GeneratedCode[_Index++] = "05";
 		_GeneratedCode[_Index++] = "A9"; //set false
-		_GeneratedCode[_Index++] = _FalsePointer;
+		_GeneratedCode[_Index++] = _TruePointer;
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] = _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
@@ -420,13 +422,15 @@ function generateWhile(whileNode)
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] =  _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
-		_GeneratedCode[_Index++] = "EC"; //compare to X, which was set in boolean expression generation
-		_GeneratedCode[_Index++] =  _CurrentTemp;
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = "01";
+		_GeneratedCode[_Index++] = "EC";
+		_GeneratedCode[_Index++] = booleanExpression[1];
 		_GeneratedCode[_Index++] = "XX";
 		_GeneratedCode[_Index++] = "D0"; //if they are equal, do not jump, jst true, else, set false
 		_GeneratedCode[_Index++] = "0C";
 		_GeneratedCode[_Index++] = "A9"; //set to true
-		_GeneratedCode[_Index++] = _TruePointer;
+		_GeneratedCode[_Index++] = _FalsePointer;
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] = _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
@@ -438,13 +442,13 @@ function generateWhile(whileNode)
 		_GeneratedCode[_Index++] = "D0"; //jump over setting it false
 		_GeneratedCode[_Index++] = "05";
 		_GeneratedCode[_Index++] = "A9"; //set false
-		_GeneratedCode[_Index++] = _FalsePointer;
+		_GeneratedCode[_Index++] = _TruePointer;
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] = _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
 		
 		_GeneratedCode[_Index++] = "A2";
-		_GeneratedCode[_Index++] = _TruePointer;
+		_GeneratedCode[_Index++] = _FalsePointer;
 	}
 	else
 	{
