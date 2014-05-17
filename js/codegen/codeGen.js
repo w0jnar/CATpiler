@@ -2,6 +2,7 @@
 //codeGen.js
 //
 
+//there is definitely some compaction that could happen (especially in if and while), but I would rather not just in case I need to change an individual case
 function generateCode()
 {
 	putMessage("~~~Now Starting Code Generation from AST");
@@ -362,7 +363,7 @@ function generateIf(ifNode)
 		_GeneratedCode[_Index++] = "XX";
 		
 		_GeneratedCode[_Index++] = "A2";
-		_GeneratedCode[_Index++] = _FalsePointer;
+		_GeneratedCode[_Index++] = _TruePointer;
 	}
 	else
 	{
@@ -407,20 +408,57 @@ function generateWhile(whileNode)
 	var temp = new actualTemp(("S" + _ActualTempCount.toString()));
 	_ActualTempCount++;
 	createTemp(temp);
-	_GeneratedCode[_Index++] = "A9";
-	_GeneratedCode[_Index++] = "01";
-	_GeneratedCode[_Index++] = "8D";
-	_GeneratedCode[_Index++] = _CurrentTemp;
-	_GeneratedCode[_Index++] = "XX";
 	
-	_GeneratedCode[_Index++] = "A2";
-	if(booleanExpression[1] === _TruePointer)
+	if(booleanExpression[1].slice(0,1) === "T")
 	{
-		_GeneratedCode[_Index++] = "01";
+		_GeneratedCode[_Index++] = "A9";
+		_GeneratedCode[_Index++] = "01"; //load 01 (true, sort of) into temp
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] =  _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "EC"; //compare to X, which was set in boolean expression generation
+		_GeneratedCode[_Index++] =  _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "D0"; //if they are equal, do not jump, jst true, else, set false
+		_GeneratedCode[_Index++] = "0C";
+		_GeneratedCode[_Index++] = "A9"; //set to true
+		_GeneratedCode[_Index++] = _TruePointer;
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = "00";
+		_GeneratedCode[_Index++] = "EC";
+		_GeneratedCode[_Index++] =  _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		_GeneratedCode[_Index++] = "D0"; //jump over setting it false
+		_GeneratedCode[_Index++] = "05";
+		_GeneratedCode[_Index++] = "A9"; //set false
+		_GeneratedCode[_Index++] = _FalsePointer;
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		
+		_GeneratedCode[_Index++] = "A2";
+		_GeneratedCode[_Index++] = _TruePointer;
 	}
 	else
 	{
-		_GeneratedCode[_Index++] = "00";
+		_GeneratedCode[_Index++] = "A9";
+		_GeneratedCode[_Index++] = "01";
+		_GeneratedCode[_Index++] = "8D";
+		_GeneratedCode[_Index++] = _CurrentTemp;
+		_GeneratedCode[_Index++] = "XX";
+		
+		_GeneratedCode[_Index++] = "A2";
+		if(booleanExpression[1] === _TruePointer)
+		{
+			_GeneratedCode[_Index++] = "01";
+		}
+		else
+		{
+			_GeneratedCode[_Index++] = "00";
+		}
 	}
 	_GeneratedCode[_Index++] = "EC";
 	_GeneratedCode[_Index++] = _CurrentTemp;
