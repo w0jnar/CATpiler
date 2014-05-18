@@ -1,12 +1,11 @@
-input program:
+code:
 {
 int a
 a = 0
-while(a != 5) {
+while((a == 5 ) == false) {
 a = 1 + a
 print(a)
 }
-print("meow")
 }$
 
 output:
@@ -57,48 +56,72 @@ Lexing Character
 ---Token number 8 created
 ---Token Created of Type: left_paren
 Lexing Character
--Found: a
+-Found: (
 ---Token number 9 created
----Token Created of Type: var_id, value a
-Lexing Character
--Found: !
---"!" Found, checking next character
----Token number 10 created
----Token Created of Type: boolop_not_equal
-Lexing Character
--Found: 5
----Token number 11 created
----Token Created of Type: digit, value 5
-Lexing Character
--Found: )
----Token number 12 created
----Token Created of Type: right_paren
-Lexing Character
--Found: {
----Token number 13 created
----Token Created of Type: left_brace
+---Token Created of Type: left_paren
 Lexing Character
 -Found: a
----Token number 14 created
+---Token number 10 created
 ---Token Created of Type: var_id, value a
 Lexing Character
 -Found: =
 --"=" Found, checking next character
+---Token number 11 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: 5
+---Token number 12 created
+---Token Created of Type: digit, value 5
+Lexing Character
+-Found: )
+---Token number 13 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 14 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: f
+---f Found, checking next symbol
+---a Found, checking next symbol
+---l Found, checking next symbol
+---s Found, checking next symbol
+---e Found, checking next symbol
+-Word Found: false
+-Checking if Keyword
 ---Token number 15 created
----Token Created of Type: assignment_op
+---Token Created of Type: false
 Lexing Character
--Found: 1
+-Found: )
 ---Token number 16 created
----Token Created of Type: digit, value 1
+---Token Created of Type: right_paren
 Lexing Character
--Found: +
+-Found: {
 ---Token number 17 created
----Token Created of Type: plus_op
+---Token Created of Type: left_brace
 Lexing Character
 -Found: a
 ---Token number 18 created
 ---Token Created of Type: var_id, value a
 Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 19 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: 1
+---Token number 20 created
+---Token Created of Type: digit, value 1
+Lexing Character
+-Found: +
+---Token number 21 created
+---Token Created of Type: plus_op
+Lexing Character
+-Found: a
+---Token number 22 created
+---Token Created of Type: var_id, value a
+Lexing Character
 -Found: p
 ---p Found, checking next symbol
 ---r Found, checking next symbol
@@ -107,51 +130,24 @@ Lexing Character
 ---t Found, checking next symbol
 -Word Found: print
 -Checking if Keyword
----Token number 19 created
+---Token number 23 created
 ---Token Created of Type: print
 Lexing Character
 -Found: (
----Token number 20 created
+---Token number 24 created
 ---Token Created of Type: left_paren
 Lexing Character
 -Found: a
----Token number 21 created
+---Token number 25 created
 ---Token Created of Type: var_id, value a
 Lexing Character
 -Found: )
----Token number 22 created
+---Token number 26 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: }
----Token number 23 created
----Token Created of Type: right_brace
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 24 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 25 created
----Token Created of Type: left_paren
-Lexing Character
--Found: "
----m Found, checking next symbol
----e Found, checking next symbol
----o Found, checking next symbol
----w Found, checking next symbol
----Token number 26 created
----Token Created of Type: string, value "meow"
-Lexing Character
--Found: )
 ---Token number 27 created
----Token Created of Type: right_paren
+---Token Created of Type: right_brace
 Lexing Character
 -Found: }
 ---Token number 28 created
@@ -178,12 +174,17 @@ Valid Assignment Statement parsed
 -Parsing token: while on line 4, character 1
 -Beginning Parse of a Statement
 -Parsing token: left_paren on line 4, character 5
--Parsing token: var_id on line 4, character 6
--Parsing token: boolop_not_equal on line 4, character 8
--Parsing token: digit on line 4, character 10
--Parsing token: right_paren on line 4, character 11
+-Parsing token: left_paren on line 4, character 6
+-Parsing token: var_id on line 4, character 7
+-Parsing token: boolop_equal on line 4, character 9
+-Parsing token: digit on line 4, character 11
+-Parsing token: right_paren on line 4, character 13
 Valid Boolean Expression parsed
--Parsing token: left_brace on line 4, character 13
+-Parsing token: boolop_equal on line 4, character 15
+-Parsing token: false on line 4, character 17
+-Parsing token: right_paren on line 4, character 21
+Valid Boolean Expression parsed
+-Parsing token: left_brace on line 4, character 23
 -Parsing Block
 -Parsing token: var_id on line 5, character 1
 -Beginning Parse of a Statement
@@ -201,15 +202,9 @@ Valid Print Statement Parsed
 -Parsing token: right_brace on line 7, character 1
 -Finished Parsing Block
 Valid While Statement parsed
--Parsing token: print on line 8, character 1
--Beginning Parse of a Statement
--Parsing token: left_paren on line 8, character 5
--Parsing token: string on line 8, character 6
--Parsing token: right_paren on line 8, character 12
-Valid Print Statement Parsed
--Parsing token: right_brace on line 9, character 1
+-Parsing token: right_brace on line 8, character 1
 -Finished Parsing Block
--Parsing token: end_of_file on line 9, character 2
+-Parsing token: end_of_file on line 8, character 2
 -Program parsing ended.
 No Parse Errors Found! Nice!
 ~~~Ending Parse
@@ -236,11 +231,18 @@ No Parse Errors Found! Nice!
 --Building While Node
 --Building Left Parenthesis Node
 --Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
 --Building Id Node
 --Building Char Node
 --Building Expr Node
 --Building IntExpr Node
 --Building Digit Node
+--Building Right Parenthesis Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building BoolVal Node
 --Building Right Parenthesis Node
 --Building Left Bracket Node
 --Building StatementList Node
@@ -268,15 +270,6 @@ No Parse Errors Found! Nice!
 --Building StatementList Node
 --Building Right Bracket Node
 --Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building StringExpr Node
---Building CharList Node
---Building Right Parenthesis Node
---Building StatementList Node
 --Building Right Bracket Node
 --Building End of File Node
 ~~~Ending CST Building
@@ -287,7 +280,6 @@ No Parse Errors Found! Nice!
 --Building Assignment Node
 --Building While Node
 --Building Assignment Node
---Building Print Node
 --Building Print Node
 ~~~Ending AST Building
 
@@ -325,12 +317,12 @@ Also, I recommend dragging on the labels
 -Creating Temporary Variable S0
 -Creating Temporary Variable S1
 -Creating Temporary Variable S2
--Generating Assignment Code
 -Creating Temporary Variable S3
--Generating Print Code
 -Creating Temporary Variable S4
+-Generating Assignment Code
+-Creating Temporary Variable S5
 -Generating Print Code
--Allocating Heap Space for String "meow"
+-Creating Temporary Variable S6
 -Backpatching Jumps
 -Backpatching Temps
 -Checking if code is valid
@@ -339,25 +331,343 @@ Code is valid!
 -Joining Heap to Code
 ~~~Ending Code Generation
 -Output code:
-A9 00 8D 74 00 A9 00 8D   74 00 AE 74 00 A9 05 8D
-75 00 EC 75 00 D0 0C A2   01 A9 00 8D 76 00 EC 76
-00 D0 07 A2 00 A9 01 8D   76 00 A9 01 8D 77 00 A2
-01 EC 76 00 D0 0C A9 F5   8D 77 00 A2 00 EC 77 00
-D0 05 A9 FB 8D 77 00 A2   F5 EC 77 00 D0 20 A9 01
-6D 74 00 8D 78 00 AD 78   00 8D 74 00 AC 74 00 A2
-01 FF A9 01 8D 79 00 A2   00 EC 79 00 D0 9C A0 F0
-A2 02 FF 00 00 00 00 00   00 00 00 00 00 00 00 00
+A9 00 8D 9C 00 A9 00 8D   9C 00 AE 9C 00 A9 05 8D
+9D 00 EC 9D 00 D0 0C A2   00 A9 01 8D 9E 00 EC 9E
+00 D0 07 A2 00 A9 00 8D   9E 00 A2 01 EC 9E 00 D0
+09 A2 01 EC 9E 00 D0 02   A2 F5 A9 F5 8D 9F 00 EC
+9F 00 D0 0C A2 00 A9 01   8D A0 00 EC A0 00 D0 07
+A2 00 A9 00 8D A0 00 A9   00 8D A1 00 A2 01 EC A0
+00 D0 0C A9 FB 8D A1 00   A2 00 EC A1 00 D0 05 A9
+F5 8D A1 00 A2 F5 EC A1   00 D0 20 A9 01 6D 9C 00
+8D A2 00 AD A2 00 8D 9C   00 AC 9C 00 A2 01 FF A9
+01 8D A3 00 A2 00 EC A3   00 D0 6F 00 00 00 00 00
 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
-6D 65 6F 77 00 66 61 6C   73 65 00 74 72 75 65 00
+00 00 00 00 00 66 61 6C   73 65 00 74 72 75 65 00
 
+code:
+{
+int a
+a = 0
+boolean b
+b = ((a == 5 ) != false) 
+print(b)
+}$
 
-input program:
+output:
+~~~Starting Lexical Analysis
+Lexing Character
+-Found: {
+---Token number 1 created
+---Token Created of Type: left_brace
+Lexing Character
+-Found: i
+---i Found, checking next symbol
+---n Found, checking next symbol
+---t Found, checking next symbol
+-Word Found: int
+-Checking if Keyword
+---Token number 2 created
+---Token Created of Type: int
+Lexing Character
+-Found: a
+---Token number 3 created
+---Token Created of Type: var_id, value a
+Lexing Character
+-Found: a
+---Token number 4 created
+---Token Created of Type: var_id, value a
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 5 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: 0
+---Token number 6 created
+---Token Created of Type: digit, value 0
+Lexing Character
+-Found: b
+---b Found, checking next symbol
+---o Found, checking next symbol
+---o Found, checking next symbol
+---l Found, checking next symbol
+---e Found, checking next symbol
+---a Found, checking next symbol
+---n Found, checking next symbol
+-Word Found: boolean
+-Checking if Keyword
+---Token number 7 created
+---Token Created of Type: boolean
+Lexing Character
+-Found: b
+---Token number 8 created
+---Token Created of Type: var_id, value b
+Lexing Character
+-Found: b
+---Token number 9 created
+---Token Created of Type: var_id, value b
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 10 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: (
+---Token number 11 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: (
+---Token number 12 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: a
+---Token number 13 created
+---Token Created of Type: var_id, value a
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 14 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: 5
+---Token number 15 created
+---Token Created of Type: digit, value 5
+Lexing Character
+-Found: )
+---Token number 16 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: !
+--"!" Found, checking next character
+---Token number 17 created
+---Token Created of Type: boolop_not_equal
+Lexing Character
+-Found: f
+---f Found, checking next symbol
+---a Found, checking next symbol
+---l Found, checking next symbol
+---s Found, checking next symbol
+---e Found, checking next symbol
+-Word Found: false
+-Checking if Keyword
+---Token number 18 created
+---Token Created of Type: false
+Lexing Character
+-Found: )
+---Token number 19 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: p
+---p Found, checking next symbol
+---r Found, checking next symbol
+---i Found, checking next symbol
+---n Found, checking next symbol
+---t Found, checking next symbol
+-Word Found: print
+-Checking if Keyword
+---Token number 20 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 21 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: b
+---Token number 22 created
+---Token Created of Type: var_id, value b
+Lexing Character
+-Found: )
+---Token number 23 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: }
+---Token number 24 created
+---Token Created of Type: right_brace
+Lexing Character
+-Found: $
+---Token number 25 created
+---Token Created of Type: end_of_file
+No Lexical Errors Found! Nice!
+~~~Ending Lexical Analysis
+
+~~~Starting Parse
+-Parsing token: left_brace on line 1, character 0
+-Parsing Block
+-Parsing token: int on line 2, character 1
+-Beginning Parse of a Statement
+-Parsing token: var_id on line 2, character 4
+Valid Variable Declaration Statement parsed
+-Parsing token: var_id on line 3, character 1
+-Beginning Parse of a Statement
+-Parsing token: assignment_op on line 3, character 3
+-Parsing token: digit on line 3, character 5
+Valid Assignment Statement parsed
+-Parsing token: boolean on line 4, character 1
+-Beginning Parse of a Statement
+-Parsing token: var_id on line 4, character 8
+Valid Variable Declaration Statement parsed
+-Parsing token: var_id on line 5, character 1
+-Beginning Parse of a Statement
+-Parsing token: assignment_op on line 5, character 3
+-Parsing token: left_paren on line 5, character 5
+-Parsing token: left_paren on line 5, character 6
+-Parsing token: var_id on line 5, character 7
+-Parsing token: boolop_equal on line 5, character 9
+-Parsing token: digit on line 5, character 11
+-Parsing token: right_paren on line 5, character 13
+Valid Boolean Expression parsed
+-Parsing token: boolop_not_equal on line 5, character 15
+-Parsing token: false on line 5, character 17
+-Parsing token: right_paren on line 5, character 21
+Valid Boolean Expression parsed
+Valid Assignment Statement parsed
+-Parsing token: print on line 6, character 1
+-Beginning Parse of a Statement
+-Parsing token: left_paren on line 6, character 5
+-Parsing token: var_id on line 6, character 6
+-Parsing token: right_paren on line 6, character 7
+Valid Print Statement Parsed
+-Parsing token: right_brace on line 7, character 1
+-Finished Parsing Block
+-Parsing token: end_of_file on line 7, character 2
+-Program parsing ended.
+No Parse Errors Found! Nice!
+~~~Ending Parse
+
+~~~Now Building Concrete Syntax Tree from Tokens
+--Building Program Node
+--Building Block Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
+--Building Variable Declaration Statement Node
+--Building Type Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building StatementList Node
+--Building Statement Node
+--Building Variable Declaration Statement Node
+--Building Type Node
+--Building Char Node
+--Building StatementList Node
+--Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Right Parenthesis Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building BoolVal Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Statement Node
+--Building Print Statement Node
+--Building Print Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Right Bracket Node
+--Building End of File Node
+~~~Ending CST Building
+
+~~~Now Building Abstract Syntax Tree from Tokens
+--Building Statement Block Node
+--Building Variable Declaration Node
+--Building Assignment Node
+--Building Variable Declaration Node
+--Building Assignment Node
+--Building Print Node
+~~~Ending AST Building
+
+~~~Now Building Symbol Table
+---Opening Scope, Scope level 0
+---Symbol Created with ID of a, type int
+---id a on line 3, character 1, has been assigned the value 0
+---Symbol Created with ID of b, type boolean
+---id b on line 5, character 1, has been assigned the value false
+---About to close scope, checking if any ids were not initialized
+---All ids initialized!
+---Now printing ids from the scope
+-id: a, type: int, value: 0
+-id: b, type: boolean, value: false
+---Closing Scope, Scope level 0
+~~~Symbol Table complete!
+
+Now Displaying CST.
+
+Now Displaying AST.
+
+Note for both CST and AST display:
+Depending on how large the program is, the Tree may seem unresponsive
+Also, I recommend dragging on the labels
+
+~~~Now Starting Code Generation from AST
+-Generating Variable Declaration Code
+-Creating Temporary Variable a
+-Generating Assignment Code
+-Generating Variable Declaration Code
+-Creating Temporary Variable b
+-Generating Assignment Code
+-Allocating Heap Space for String "true"
+-Allocating Heap Space for String "false"
+-Creating Temporary Variable S0
+-Creating Temporary Variable S1
+-Creating Temporary Variable S2
+-Creating Temporary Variable S3
+-Creating Temporary Variable S4
+-Generating Print Code
+-Backpatching Jumps
+-Backpatching Temps
+-Checking if code is valid
+Code is valid!
+-Filling space with "00" as needed
+-Joining Heap to Code
+~~~Ending Code Generation
+-Output code:
+A9 00 8D 80 00 A9 00 8D   80 00 A9 00 8D 81 00 AE
+80 00 A9 05 8D 82 00 EC   82 00 D0 0C A2 00 A9 01
+8D 83 00 EC 83 00 D0 07   A2 00 A9 00 8D 83 00 A2
+01 EC 83 00 D0 09 A2 01   EC 83 00 D0 02 A2 F5 A9
+F5 8D 84 00 EC 84 00 D0   0C A2 01 A9 00 8D 85 00
+EC 85 00 D0 07 A2 00 A9   01 8D 85 00 A9 01 8D 86
+00 A2 01 EC 85 00 D0 0C   A9 F5 8D 81 00 A2 00 EC
+86 00 D0 05 A9 FB 8D 81   00 AC 81 00 A2 02 FF 00
+00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
+00 00 00 00 00 66 61 6C   73 65 00 74 72 75 65 00
+
+code:
 {
 int a
 a = 5
@@ -698,8 +1008,6 @@ Also, I recommend dragging on the labels
 -Creating Temporary Variable S2
 -Creating Temporary Variable S3
 -Creating Temporary Variable S4
--Creating Temporary Variable S5
--Creating Temporary Variable S6
 -Generating Print Code
 -Generating Print Code
 -Allocating Heap Space for String "meow"
@@ -711,49 +1019,36 @@ Code is valid!
 -Joining Heap to Code
 ~~~Ending Code Generation
 -Output code:
-A9 00 8D B2 00 A9 05 8D   B2 00 AE B2 00 A9 05 8D
-B3 00 EC B3 00 D0 0C A2   00 A9 01 8D B4 00 EC B4
-00 D0 07 A2 00 A9 00 8D   B4 00 AE B2 00 A9 05 8D
-B5 00 EC B5 00 D0 0C A2   00 A9 01 8D B6 00 EC B6
-00 D0 07 A2 00 A9 00 8D   B6 00 A2 FB AD B4 00 8D
-B7 00 A2 01 EC B4 00 D0   0C A9 FB 8D B7 00 A2 00
-EC B4 00 D0 05 A9 F5 8D   B7 00 EC B7 00 D0 0C A2
-00 A9 01 8D B8 00 EC B8   00 D0 07 A2 00 A9 00 8D
-B8 00 A9 01 8D B9 00 A2   01 EC B8 00 D0 0C A9 F5
-8D B9 00 A2 00 EC B9 00   D0 05 A9 FB 8D B9 00 A2
-FB EC B9 00 D0 06 AC B2   00 A2 01 FF A0 F0 A2 02
+A9 00 8D 92 00 A9 05 8D   92 00 AE 92 00 A9 05 8D
+93 00 EC 93 00 D0 0C A2   00 A9 01 8D 94 00 EC 94
+00 D0 07 A2 00 A9 00 8D   94 00 A2 FB AD 94 00 8D
+95 00 A2 01 EC 94 00 D0   0C A9 FB 8D 95 00 A2 01
+EC 94 00 D0 05 A9 F5 8D   95 00 EC 95 00 D0 0C A2
+00 A9 01 8D 96 00 EC 96   00 D0 07 A2 00 A9 00 8D
+96 00 A9 01 8D 97 00 A2   01 EC 96 00 D0 0C A9 F5
+8D 97 00 A2 00 EC 97 00   D0 05 A9 FB 8D 97 00 A2
+F5 EC 97 00 D0 06 AC 92   00 A2 01 FF A0 F0 A2 02
 FF 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
 6D 65 6F 77 00 66 61 6C   73 65 00 74 72 75 65 00
 
-input program:
+code:
 {
-string b
-int a
-a = 2
-print(a)
-a = 9
-print(a)
+string a
+a = "meow"
+print((("meowz" == a) != (false != (5 == 5))))
 
-print(4)
-print(a)
 {
-	print(a)
+int a
+a = 5
+if((4 != 3) == (a == 5)){
+print(a)
 }
 print("meow")
-print(a)
-print(b)
-print((b == "meow"))
-{
-}
-{
-	if (true != ("meow" != "meow")) {
-		print(b)
-		print(7)
-	}
-	print(2)
 }
 }$
 
@@ -776,9 +1071,133 @@ Lexing Character
 ---Token number 2 created
 ---Token Created of Type: string, value "string"
 Lexing Character
--Found: b
+-Found: a
 ---Token number 3 created
----Token Created of Type: var_id, value b
+---Token Created of Type: var_id, value a
+Lexing Character
+-Found: a
+---Token number 4 created
+---Token Created of Type: var_id, value a
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 5 created
+---Token Created of Type: assignment_op
+Lexing Character
+-Found: "
+---m Found, checking next symbol
+---e Found, checking next symbol
+---o Found, checking next symbol
+---w Found, checking next symbol
+---Token number 6 created
+---Token Created of Type: string, value "meow"
+Lexing Character
+-Found: p
+---p Found, checking next symbol
+---r Found, checking next symbol
+---i Found, checking next symbol
+---n Found, checking next symbol
+---t Found, checking next symbol
+-Word Found: print
+-Checking if Keyword
+---Token number 7 created
+---Token Created of Type: print
+Lexing Character
+-Found: (
+---Token number 8 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: (
+---Token number 9 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: (
+---Token number 10 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: "
+---m Found, checking next symbol
+---e Found, checking next symbol
+---o Found, checking next symbol
+---w Found, checking next symbol
+---z Found, checking next symbol
+---Token number 11 created
+---Token Created of Type: string, value "meowz"
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 12 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: a
+---Token number 13 created
+---Token Created of Type: var_id, value a
+Lexing Character
+-Found: )
+---Token number 14 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: !
+--"!" Found, checking next character
+---Token number 15 created
+---Token Created of Type: boolop_not_equal
+Lexing Character
+-Found: (
+---Token number 16 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: f
+---f Found, checking next symbol
+---a Found, checking next symbol
+---l Found, checking next symbol
+---s Found, checking next symbol
+---e Found, checking next symbol
+-Word Found: false
+-Checking if Keyword
+---Token number 17 created
+---Token Created of Type: false
+Lexing Character
+-Found: !
+--"!" Found, checking next character
+---Token number 18 created
+---Token Created of Type: boolop_not_equal
+Lexing Character
+-Found: (
+---Token number 19 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: 5
+---Token number 20 created
+---Token Created of Type: digit, value 5
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 21 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: 5
+---Token number 22 created
+---Token Created of Type: digit, value 5
+Lexing Character
+-Found: )
+---Token number 23 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: )
+---Token number 24 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: )
+---Token number 25 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: )
+---Token number 26 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: {
+---Token number 27 created
+---Token Created of Type: left_brace
 Lexing Character
 -Found: i
 ---i Found, checking next symbol
@@ -786,353 +1205,91 @@ Lexing Character
 ---t Found, checking next symbol
 -Word Found: int
 -Checking if Keyword
----Token number 4 created
+---Token number 28 created
 ---Token Created of Type: int
 Lexing Character
 -Found: a
----Token number 5 created
----Token Created of Type: var_id, value a
-Lexing Character
--Found: a
----Token number 6 created
----Token Created of Type: var_id, value a
-Lexing Character
--Found: =
---"=" Found, checking next character
----Token number 7 created
----Token Created of Type: assignment_op
-Lexing Character
--Found: 2
----Token number 8 created
----Token Created of Type: digit, value 2
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 9 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 10 created
----Token Created of Type: left_paren
-Lexing Character
--Found: a
----Token number 11 created
----Token Created of Type: var_id, value a
-Lexing Character
--Found: )
----Token number 12 created
----Token Created of Type: right_paren
-Lexing Character
--Found: a
----Token number 13 created
----Token Created of Type: var_id, value a
-Lexing Character
--Found: =
---"=" Found, checking next character
----Token number 14 created
----Token Created of Type: assignment_op
-Lexing Character
--Found: 9
----Token number 15 created
----Token Created of Type: digit, value 9
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 16 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 17 created
----Token Created of Type: left_paren
-Lexing Character
--Found: a
----Token number 18 created
----Token Created of Type: var_id, value a
-Lexing Character
--Found: )
----Token number 19 created
----Token Created of Type: right_paren
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 20 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 21 created
----Token Created of Type: left_paren
-Lexing Character
--Found: 4
----Token number 22 created
----Token Created of Type: digit, value 4
-Lexing Character
--Found: )
----Token number 23 created
----Token Created of Type: right_paren
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 24 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 25 created
----Token Created of Type: left_paren
-Lexing Character
--Found: a
----Token number 26 created
----Token Created of Type: var_id, value a
-Lexing Character
--Found: )
----Token number 27 created
----Token Created of Type: right_paren
-Lexing Character
--Found: {
----Token number 28 created
----Token Created of Type: left_brace
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
 ---Token number 29 created
----Token Created of Type: print
+---Token Created of Type: var_id, value a
 Lexing Character
--Found: (
+-Found: a
 ---Token number 30 created
----Token Created of Type: left_paren
-Lexing Character
--Found: a
----Token number 31 created
 ---Token Created of Type: var_id, value a
-Lexing Character
--Found: )
----Token number 32 created
----Token Created of Type: right_paren
-Lexing Character
--Found: }
----Token number 33 created
----Token Created of Type: right_brace
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 34 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 35 created
----Token Created of Type: left_paren
-Lexing Character
--Found: "
----m Found, checking next symbol
----e Found, checking next symbol
----o Found, checking next symbol
----w Found, checking next symbol
----Token number 36 created
----Token Created of Type: string, value "meow"
-Lexing Character
--Found: )
----Token number 37 created
----Token Created of Type: right_paren
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 38 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 39 created
----Token Created of Type: left_paren
-Lexing Character
--Found: a
----Token number 40 created
----Token Created of Type: var_id, value a
-Lexing Character
--Found: )
----Token number 41 created
----Token Created of Type: right_paren
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 42 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 43 created
----Token Created of Type: left_paren
-Lexing Character
--Found: b
----Token number 44 created
----Token Created of Type: var_id, value b
-Lexing Character
--Found: )
----Token number 45 created
----Token Created of Type: right_paren
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 46 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 47 created
----Token Created of Type: left_paren
-Lexing Character
--Found: (
----Token number 48 created
----Token Created of Type: left_paren
-Lexing Character
--Found: b
----Token number 49 created
----Token Created of Type: var_id, value b
 Lexing Character
 -Found: =
 --"=" Found, checking next character
----Token number 50 created
----Token Created of Type: boolop_equal
+---Token number 31 created
+---Token Created of Type: assignment_op
 Lexing Character
--Found: "
----m Found, checking next symbol
----e Found, checking next symbol
----o Found, checking next symbol
----w Found, checking next symbol
----Token number 51 created
----Token Created of Type: string, value "meow"
-Lexing Character
--Found: )
----Token number 52 created
----Token Created of Type: right_paren
-Lexing Character
--Found: )
----Token number 53 created
----Token Created of Type: right_paren
-Lexing Character
--Found: {
----Token number 54 created
----Token Created of Type: left_brace
-Lexing Character
--Found: }
----Token number 55 created
----Token Created of Type: right_brace
-Lexing Character
--Found: {
----Token number 56 created
----Token Created of Type: left_brace
+-Found: 5
+---Token number 32 created
+---Token Created of Type: digit, value 5
 Lexing Character
 -Found: i
 ---i Found, checking next symbol
 ---f Found, checking next symbol
 -Word Found: if
 -Checking if Keyword
----Token number 57 created
+---Token number 33 created
 ---Token Created of Type: if
 Lexing Character
 -Found: (
----Token number 58 created
+---Token number 34 created
 ---Token Created of Type: left_paren
-Lexing Character
--Found: t
----t Found, checking next symbol
----r Found, checking next symbol
----u Found, checking next symbol
----e Found, checking next symbol
--Word Found: true
--Checking if Keyword
----Token number 59 created
----Token Created of Type: true
-Lexing Character
--Found: !
---"!" Found, checking next character
----Token number 60 created
----Token Created of Type: boolop_not_equal
 Lexing Character
 -Found: (
----Token number 61 created
+---Token number 35 created
 ---Token Created of Type: left_paren
 Lexing Character
--Found: "
----m Found, checking next symbol
----e Found, checking next symbol
----o Found, checking next symbol
----w Found, checking next symbol
----Token number 62 created
----Token Created of Type: string, value "meow"
+-Found: 4
+---Token number 36 created
+---Token Created of Type: digit, value 4
 Lexing Character
 -Found: !
 --"!" Found, checking next character
----Token number 63 created
+---Token number 37 created
 ---Token Created of Type: boolop_not_equal
 Lexing Character
--Found: "
----m Found, checking next symbol
----e Found, checking next symbol
----o Found, checking next symbol
----w Found, checking next symbol
----Token number 64 created
----Token Created of Type: string, value "meow"
+-Found: 3
+---Token number 38 created
+---Token Created of Type: digit, value 3
 Lexing Character
 -Found: )
----Token number 65 created
+---Token number 39 created
+---Token Created of Type: right_paren
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 40 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: (
+---Token number 41 created
+---Token Created of Type: left_paren
+Lexing Character
+-Found: a
+---Token number 42 created
+---Token Created of Type: var_id, value a
+Lexing Character
+-Found: =
+--"=" Found, checking next character
+---Token number 43 created
+---Token Created of Type: boolop_equal
+Lexing Character
+-Found: 5
+---Token number 44 created
+---Token Created of Type: digit, value 5
+Lexing Character
+-Found: )
+---Token number 45 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: )
----Token number 66 created
+---Token number 46 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: {
----Token number 67 created
+---Token number 47 created
 ---Token Created of Type: left_brace
 Lexing Character
 -Found: p
@@ -1143,46 +1300,23 @@ Lexing Character
 ---t Found, checking next symbol
 -Word Found: print
 -Checking if Keyword
----Token number 68 created
+---Token number 48 created
 ---Token Created of Type: print
 Lexing Character
 -Found: (
----Token number 69 created
+---Token number 49 created
 ---Token Created of Type: left_paren
 Lexing Character
--Found: b
----Token number 70 created
----Token Created of Type: var_id, value b
+-Found: a
+---Token number 50 created
+---Token Created of Type: var_id, value a
 Lexing Character
 -Found: )
----Token number 71 created
----Token Created of Type: right_paren
-Lexing Character
--Found: p
----p Found, checking next symbol
----r Found, checking next symbol
----i Found, checking next symbol
----n Found, checking next symbol
----t Found, checking next symbol
--Word Found: print
--Checking if Keyword
----Token number 72 created
----Token Created of Type: print
-Lexing Character
--Found: (
----Token number 73 created
----Token Created of Type: left_paren
-Lexing Character
--Found: 7
----Token number 74 created
----Token Created of Type: digit, value 7
-Lexing Character
--Found: )
----Token number 75 created
+---Token number 51 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: }
----Token number 76 created
+---Token number 52 created
 ---Token Created of Type: right_brace
 Lexing Character
 -Found: p
@@ -1193,31 +1327,35 @@ Lexing Character
 ---t Found, checking next symbol
 -Word Found: print
 -Checking if Keyword
----Token number 77 created
+---Token number 53 created
 ---Token Created of Type: print
 Lexing Character
 -Found: (
----Token number 78 created
+---Token number 54 created
 ---Token Created of Type: left_paren
 Lexing Character
--Found: 2
----Token number 79 created
----Token Created of Type: digit, value 2
+-Found: "
+---m Found, checking next symbol
+---e Found, checking next symbol
+---o Found, checking next symbol
+---w Found, checking next symbol
+---Token number 55 created
+---Token Created of Type: string, value "meow"
 Lexing Character
 -Found: )
----Token number 80 created
+---Token number 56 created
 ---Token Created of Type: right_paren
 Lexing Character
 -Found: }
----Token number 81 created
+---Token number 57 created
 ---Token Created of Type: right_brace
 Lexing Character
 -Found: }
----Token number 82 created
+---Token number 58 created
 ---Token Created of Type: right_brace
 Lexing Character
 -Found: $
----Token number 83 created
+---Token number 59 created
 ---Token Created of Type: end_of_file
 No Lexical Errors Found! Nice!
 ~~~Ending Lexical Analysis
@@ -1229,133 +1367,89 @@ No Lexical Errors Found! Nice!
 -Beginning Parse of a Statement
 -Parsing token: var_id on line 2, character 7
 Valid Variable Declaration Statement parsed
--Parsing token: int on line 3, character 1
+-Parsing token: var_id on line 3, character 1
 -Beginning Parse of a Statement
--Parsing token: var_id on line 3, character 4
+-Parsing token: assignment_op on line 3, character 3
+-Parsing token: string on line 3, character 5
+Valid Assignment Statement parsed
+-Parsing token: print on line 4, character 1
+-Beginning Parse of a Statement
+-Parsing token: left_paren on line 4, character 5
+-Parsing token: left_paren on line 4, character 6
+-Parsing token: left_paren on line 4, character 7
+-Parsing token: string on line 4, character 8
+-Parsing token: boolop_equal on line 4, character 16
+-Parsing token: var_id on line 4, character 18
+-Parsing token: right_paren on line 4, character 19
+Valid Boolean Expression parsed
+-Parsing token: boolop_not_equal on line 4, character 21
+-Parsing token: left_paren on line 4, character 23
+-Parsing token: false on line 4, character 24
+-Parsing token: boolop_not_equal on line 4, character 29
+-Parsing token: left_paren on line 4, character 31
+-Parsing token: digit on line 4, character 32
+-Parsing token: boolop_equal on line 4, character 34
+-Parsing token: digit on line 4, character 36
+-Parsing token: right_paren on line 4, character 37
+Valid Boolean Expression parsed
+-Parsing token: right_paren on line 4, character 38
+Valid Boolean Expression parsed
+-Parsing token: right_paren on line 4, character 39
+Valid Boolean Expression parsed
+-Parsing token: right_paren on line 4, character 40
+Valid Print Statement Parsed
+-Parsing token: left_brace on line 6, character 1
+-Beginning Parse of a Statement
+-Parsing Block
+-Parsing token: int on line 7, character 1
+-Beginning Parse of a Statement
+-Parsing token: var_id on line 7, character 4
 Valid Variable Declaration Statement parsed
--Parsing token: var_id on line 4, character 1
+-Parsing token: var_id on line 8, character 1
 -Beginning Parse of a Statement
--Parsing token: assignment_op on line 4, character 3
--Parsing token: digit on line 4, character 5
+-Parsing token: assignment_op on line 8, character 3
+-Parsing token: digit on line 8, character 5
 Valid Assignment Statement parsed
--Parsing token: print on line 5, character 1
+-Parsing token: if on line 9, character 1
 -Beginning Parse of a Statement
--Parsing token: left_paren on line 5, character 5
--Parsing token: var_id on line 5, character 6
--Parsing token: right_paren on line 5, character 7
-Valid Print Statement Parsed
--Parsing token: var_id on line 6, character 1
--Beginning Parse of a Statement
--Parsing token: assignment_op on line 6, character 3
--Parsing token: digit on line 6, character 5
-Valid Assignment Statement parsed
--Parsing token: print on line 7, character 1
--Beginning Parse of a Statement
--Parsing token: left_paren on line 7, character 5
--Parsing token: var_id on line 7, character 6
--Parsing token: right_paren on line 7, character 7
-Valid Print Statement Parsed
--Parsing token: print on line 9, character 1
--Beginning Parse of a Statement
--Parsing token: left_paren on line 9, character 5
--Parsing token: digit on line 9, character 6
--Parsing token: right_paren on line 9, character 7
-Valid Print Statement Parsed
+-Parsing token: left_paren on line 9, character 2
+-Parsing token: left_paren on line 9, character 3
+-Parsing token: digit on line 9, character 4
+-Parsing token: boolop_not_equal on line 9, character 6
+-Parsing token: digit on line 9, character 8
+-Parsing token: right_paren on line 9, character 9
+Valid Boolean Expression parsed
+-Parsing token: boolop_equal on line 9, character 11
+-Parsing token: left_paren on line 9, character 13
+-Parsing token: var_id on line 9, character 14
+-Parsing token: boolop_equal on line 9, character 16
+-Parsing token: digit on line 9, character 18
+-Parsing token: right_paren on line 9, character 19
+Valid Boolean Expression parsed
+-Parsing token: right_paren on line 9, character 20
+Valid Boolean Expression parsed
+-Parsing token: left_brace on line 9, character 21
+-Parsing Block
 -Parsing token: print on line 10, character 1
 -Beginning Parse of a Statement
 -Parsing token: left_paren on line 10, character 5
 -Parsing token: var_id on line 10, character 6
 -Parsing token: right_paren on line 10, character 7
 Valid Print Statement Parsed
--Parsing token: left_brace on line 11, character 1
+-Parsing token: right_brace on line 11, character 1
+-Finished Parsing Block
+Valid If Statement parsed
+-Parsing token: print on line 12, character 1
 -Beginning Parse of a Statement
--Parsing Block
--Parsing token: print on line 12, character 2
--Beginning Parse of a Statement
--Parsing token: left_paren on line 12, character 6
--Parsing token: var_id on line 12, character 7
--Parsing token: right_paren on line 12, character 8
+-Parsing token: left_paren on line 12, character 5
+-Parsing token: string on line 12, character 6
+-Parsing token: right_paren on line 12, character 12
 Valid Print Statement Parsed
 -Parsing token: right_brace on line 13, character 1
 -Finished Parsing Block
--Parsing token: print on line 14, character 1
--Beginning Parse of a Statement
--Parsing token: left_paren on line 14, character 5
--Parsing token: string on line 14, character 6
--Parsing token: right_paren on line 14, character 12
-Valid Print Statement Parsed
--Parsing token: print on line 15, character 1
--Beginning Parse of a Statement
--Parsing token: left_paren on line 15, character 5
--Parsing token: var_id on line 15, character 6
--Parsing token: right_paren on line 15, character 7
-Valid Print Statement Parsed
--Parsing token: print on line 16, character 1
--Beginning Parse of a Statement
--Parsing token: left_paren on line 16, character 5
--Parsing token: var_id on line 16, character 6
--Parsing token: right_paren on line 16, character 7
-Valid Print Statement Parsed
--Parsing token: print on line 17, character 1
--Beginning Parse of a Statement
--Parsing token: left_paren on line 17, character 5
--Parsing token: left_paren on line 17, character 6
--Parsing token: var_id on line 17, character 7
--Parsing token: boolop_equal on line 17, character 9
--Parsing token: string on line 17, character 11
--Parsing token: right_paren on line 17, character 17
-Valid Boolean Expression parsed
--Parsing token: right_paren on line 17, character 18
-Valid Print Statement Parsed
--Parsing token: left_brace on line 18, character 1
--Beginning Parse of a Statement
--Parsing Block
--Parsing token: right_brace on line 19, character 1
+-Parsing token: right_brace on line 14, character 1
 -Finished Parsing Block
--Parsing token: left_brace on line 20, character 1
--Beginning Parse of a Statement
--Parsing Block
--Parsing token: if on line 21, character 2
--Beginning Parse of a Statement
--Parsing token: left_paren on line 21, character 4
--Parsing token: true on line 21, character 5
--Parsing token: boolop_not_equal on line 21, character 9
--Parsing token: left_paren on line 21, character 11
--Parsing token: string on line 21, character 12
--Parsing token: boolop_not_equal on line 21, character 19
--Parsing token: string on line 21, character 21
--Parsing token: right_paren on line 21, character 27
-Valid Boolean Expression parsed
--Parsing token: right_paren on line 21, character 28
-Valid Boolean Expression parsed
--Parsing token: left_brace on line 21, character 30
--Parsing Block
--Parsing token: print on line 22, character 3
--Beginning Parse of a Statement
--Parsing token: left_paren on line 22, character 7
--Parsing token: var_id on line 22, character 8
--Parsing token: right_paren on line 22, character 9
-Valid Print Statement Parsed
--Parsing token: print on line 23, character 3
--Beginning Parse of a Statement
--Parsing token: left_paren on line 23, character 7
--Parsing token: digit on line 23, character 8
--Parsing token: right_paren on line 23, character 9
-Valid Print Statement Parsed
--Parsing token: right_brace on line 24, character 2
--Finished Parsing Block
-Valid If Statement parsed
--Parsing token: print on line 25, character 2
--Beginning Parse of a Statement
--Parsing token: left_paren on line 25, character 6
--Parsing token: digit on line 25, character 7
--Parsing token: right_paren on line 25, character 8
-Valid Print Statement Parsed
--Parsing token: right_brace on line 26, character 1
--Finished Parsing Block
--Parsing token: right_brace on line 27, character 1
--Finished Parsing Block
--Parsing token: end_of_file on line 27, character 2
+-Parsing token: end_of_file on line 14, character 2
 -Program parsing ended.
 No Parse Errors Found! Nice!
 ~~~Ending Parse
@@ -1371,6 +1465,55 @@ No Parse Errors Found! Nice!
 --Building Char Node
 --Building StatementList Node
 --Building Statement Node
+--Building Assignment Statement Node
+--Building Char Node
+--Building Assignment Op Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building StatementList Node
+--Building Statement Node
+--Building Print Statement Node
+--Building Print Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building StringExpr Node
+--Building CharList Node
+--Building Expr Node
+--Building Id Node
+--Building Char Node
+--Building Right Parenthesis Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building BoolVal Node
+--Building Expr Node
+--Building BooleanExpr Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Boolean Operator Equal Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Right Parenthesis Node
+--Building Right Parenthesis Node
+--Building Right Parenthesis Node
+--Building Right Parenthesis Node
+--Building StatementList Node
+--Building Statement Node
+--Building Left Bracket Node
+--Building StatementList Node
+--Building Statement Node
 --Building Variable Declaration Statement Node
 --Building Type Node
 --Building Char Node
@@ -1384,129 +1527,28 @@ No Parse Errors Found! Nice!
 --Building Digit Node
 --Building StatementList Node
 --Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building Id Node
---Building Char Node
---Building Right Parenthesis Node
---Building StatementList Node
---Building Statement Node
---Building Assignment Statement Node
---Building Char Node
---Building Assignment Op Node
---Building Expr Node
---Building IntExpr Node
---Building Digit Node
---Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building Id Node
---Building Char Node
---Building Right Parenthesis Node
---Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building IntExpr Node
---Building Digit Node
---Building Right Parenthesis Node
---Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building Id Node
---Building Char Node
---Building Right Parenthesis Node
---Building StatementList Node
---Building Statement Node
---Building Left Bracket Node
---Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building Id Node
---Building Char Node
---Building Right Parenthesis Node
---Building StatementList Node
---Building Right Bracket Node
---Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building StringExpr Node
---Building CharList Node
---Building Right Parenthesis Node
---Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building Id Node
---Building Char Node
---Building Right Parenthesis Node
---Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building Id Node
---Building Char Node
---Building Right Parenthesis Node
---Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building BooleanExpr Node
---Building Left Parenthesis Node
---Building Expr Node
---Building Id Node
---Building Char Node
---Building Expr Node
---Building StringExpr Node
---Building CharList Node
---Building Right Parenthesis Node
---Building Right Parenthesis Node
---Building StatementList Node
---Building Statement Node
---Building Left Bracket Node
---Building StatementList Node
---Building Right Bracket Node
---Building StatementList Node
---Building Statement Node
---Building Left Bracket Node
---Building StatementList Node
---Building Statement Node
 --Building If Node
 --Building Left Parenthesis Node
 --Building Expr Node
 --Building BooleanExpr Node
---Building BoolVal Node
+--Building Left Parenthesis Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Boolean Operator Not Equal Node
+--Building Expr Node
+--Building IntExpr Node
+--Building Digit Node
+--Building Right Parenthesis Node
 --Building Expr Node
 --Building BooleanExpr Node
 --Building Left Parenthesis Node
 --Building Expr Node
---Building StringExpr Node
---Building CharList Node
+--Building Id Node
+--Building Char Node
 --Building Expr Node
---Building StringExpr Node
---Building CharList Node
+--Building IntExpr Node
+--Building Digit Node
 --Building Right Parenthesis Node
 --Building Right Parenthesis Node
 --Building Left Bracket Node
@@ -1520,15 +1562,6 @@ No Parse Errors Found! Nice!
 --Building Char Node
 --Building Right Parenthesis Node
 --Building StatementList Node
---Building Statement Node
---Building Print Statement Node
---Building Print Node
---Building Left Parenthesis Node
---Building Expr Node
---Building IntExpr Node
---Building Digit Node
---Building Right Parenthesis Node
---Building StatementList Node
 --Building Right Bracket Node
 --Building StatementList Node
 --Building Statement Node
@@ -1536,8 +1569,8 @@ No Parse Errors Found! Nice!
 --Building Print Node
 --Building Left Parenthesis Node
 --Building Expr Node
---Building IntExpr Node
---Building Digit Node
+--Building StringExpr Node
+--Building CharList Node
 --Building Right Parenthesis Node
 --Building StatementList Node
 --Building Right Bracket Node
@@ -1549,57 +1582,36 @@ No Parse Errors Found! Nice!
 ~~~Now Building Abstract Syntax Tree from Tokens
 --Building Statement Block Node
 --Building Variable Declaration Node
+--Building Assignment Node
+--Building Print Node
+--Building Statement Block Node
 --Building Variable Declaration Node
 --Building Assignment Node
---Building Print Node
---Building Assignment Node
---Building Print Node
---Building Print Node
---Building Print Node
---Building Statement Block Node
---Building Print Node
---Building Print Node
---Building Print Node
---Building Print Node
---Building Print Node
---Building Statement Block Node
---Building Statement Block Node
 --Building If Node
---Building Print Node
 --Building Print Node
 --Building Print Node
 ~~~Ending AST Building
 
 ~~~Now Building Symbol Table
 ---Opening Scope, Scope level 0
----Symbol Created with ID of b, type string
+---Symbol Created with ID of a, type string
+---id a on line 3, character 1, has been assigned the value "meow"
+---Opening New Scope, Scope level 1
 ---Symbol Created with ID of a, type int
----id a on line 4, character 1, has been assigned the value 2
----id a on line 6, character 1, has been assigned the value 9
----Opening New Scope, Scope level 1
----About to close scope, checking if any ids were not initialized
----There were no ids in the soon to be closed scope
----Closing Scope, Scope level 1
-~~~WARNING id b on line 2, character 7 was not initialized
-~~~WARNING id b on line 2, character 7 was not initialized
----Opening New Scope, Scope level 1
----About to close scope, checking if any ids were not initialized
----There were no ids in the soon to be closed scope
----Closing Scope, Scope level 1
----Opening New Scope, Scope level 1
+---id a on line 8, character 1, has been assigned the value 5
 ---Opening New Scope, Scope level 2
-~~~WARNING id b on line 2, character 7 was not initialized
 ---About to close scope, checking if any ids were not initialized
 ---There were no ids in the soon to be closed scope
 ---Closing Scope, Scope level 2
 ---About to close scope, checking if any ids were not initialized
----There were no ids in the soon to be closed scope
+---All ids initialized!
+---Now printing ids from the scope
+-id: a, type: int, value: 5
 ---Closing Scope, Scope level 1
 ---About to close scope, checking if any ids were not initialized
 ---All ids initialized!
 ---Now printing ids from the scope
--id: b, type: string, value: undefined
--id: a, type: int, value: 9
+-id: a, type: string, value: "meow"
 ---Closing Scope, Scope level 0
 ~~~Symbol Table complete!
 
@@ -1613,60 +1625,31 @@ Also, I recommend dragging on the labels
 
 ~~~Now Starting Code Generation from AST
 -Generating Variable Declaration Code
--Creating Temporary Variable b
--Generating Variable Declaration Code
 -Creating Temporary Variable a
 -Generating Assignment Code
--Generating Print Code
--Generating Assignment Code
--Generating Print Code
--Generating Print Code
--Generating Print Code
--Generating Print Code
--Generating Print Code
 -Allocating Heap Space for String "meow"
--Generating Print Code
--Generating Print Code
-~~~WARNING id b on line 2, character 7 was not initialized
-~~~WARNING id b on line 2, character 7 was not initialized
-~~~WARNING id b on line 2, character 7 was not initialized
 -Generating Print Code
 -Allocating Heap Space for String "true"
 -Allocating Heap Space for String "false"
-~~~WARNING id b on line 2, character 7 was not initialized
-~~~WARNING id b on line 2, character 7 was not initialized
+-Allocating Heap Space for String "meowz"
 -Creating Temporary Variable S0
 -Creating Temporary Variable S1
 -Creating Temporary Variable S2
--Generating If Statement Code
 -Creating Temporary Variable S3
+-Creating Temporary Variable S4
+-Generating Variable Declaration Code
+-Creating Temporary Variable a
+-Generating Assignment Code
+-Generating If Statement Code
+-Creating Temporary Variable S5
+-Creating Temporary Variable S6
+-Creating Temporary Variable S7
+-Creating Temporary Variable S8
+-Creating Temporary Variable S9
 -Generating Print Code
-~~~WARNING id b on line 2, character 7 was not initialized
-~~~WARNING id b on line 2, character 7 was not initialized
-~~~WARNING id b on line 2, character 7 was not initialized
 -Generating Print Code
--Generating Print Code
+-Allocating Heap Space for String "meow"
 -Backpatching Jumps
 -Backpatching Temps
 -Checking if code is valid
-Code is valid!
--Filling space with "00" as needed
--Joining Heap to Code
-~~~Ending Code Generation
--Output code:
-A9 00 8D 9C 00 A9 00 8D   9D 00 A9 02 8D 9D 00 AC
-9D 00 A2 01 FF A9 09 8D   9D 00 AC 9D 00 A2 01 FF
-A0 04 A2 01 FF AC 9D 00   A2 01 FF AC 9D 00 A2 01
-FF A0 FB A2 02 FF AC 9D   00 A2 01 FF AC 9C 00 A2
-02 FF AE 9C 00 A9 FB 8D   9E 00 EC 9E 00 D0 0C A2
-00 A9 01 8D 9F 00 EC 9F   00 D0 07 A2 00 A9 00 8D
-9F 00 A9 01 8D A0 00 A2   01 EC 9F 00 D0 0C A0 F6
-A2 02 FF A2 00 EC A0 00   D0 05 A0 F0 A2 02 FF A9
-01 8D A1 00 A2 01 EC A1   00 D0 0B AC 9C 00 A2 02
-FF A0 07 A2 01 FF A0 02   A2 01 FF 00 00 00 00 00
-00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00
-66 61 6C 73 65 00 74 72   75 65 00 6D 65 6F 77 00
+~~~CODE GENERATION ERROR too much code for supported operation

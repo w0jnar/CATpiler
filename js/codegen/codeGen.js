@@ -369,7 +369,7 @@ function generateIf(ifNode)
 		_GeneratedCode[_Index++] = "XX";
 		
 		_GeneratedCode[_Index++] = "A2";
-		_GeneratedCode[_Index++] = _TruePointer;
+		_GeneratedCode[_Index++] = _FalsePointer;
 	}
 	else
 	{
