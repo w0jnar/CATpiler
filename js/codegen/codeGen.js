@@ -374,7 +374,7 @@ function generateIf(ifNode)
 	else
 	{
 		_GeneratedCode[_Index++] = "A9";
-		_GeneratedCode[_Index++] = "01";
+		_GeneratedCode[_Index++] = _TruePointer;
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] = _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
@@ -382,11 +382,11 @@ function generateIf(ifNode)
 		_GeneratedCode[_Index++] = "A2";
 		if(booleanExpression[1] === _TruePointer)
 		{
-			_GeneratedCode[_Index++] = "01";
+			_GeneratedCode[_Index++] =  _TruePointer;
 		}
 		else
 		{
-			_GeneratedCode[_Index++] = "00";
+			_GeneratedCode[_Index++] =  _FalsePointer;
 		}
 	}
 	_GeneratedCode[_Index++] = "EC";
@@ -409,8 +409,9 @@ function generateWhile(whileNode)
 {
 	putMessage("-Generating While Statement Code");
 	var whileIndex = _Index;
+	//alert(_Index);
 	var booleanExpression = generateBooleanExpr(whileNode.children[0]);
-	
+	//alert(_Index);
 	var temp = new actualTemp(("S" + _ActualTempCount.toString()));
 	_ActualTempCount++;
 	createTemp(temp);
@@ -418,19 +419,19 @@ function generateWhile(whileNode)
 	if(booleanExpression[1].slice(0,1) === "T")
 	{
 		_GeneratedCode[_Index++] = "A9";
-		_GeneratedCode[_Index++] = "01"; //load 01 (true, sort of) into temp
+		_GeneratedCode[_Index++] = "00"; //load 01 (true, sort of) into temp
 		_GeneratedCode[_Index++] = "8D";
-		_GeneratedCode[_Index++] =  _CurrentTemp;
+		_GeneratedCode[_Index++] = _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
 		_GeneratedCode[_Index++] = "A2";
 		_GeneratedCode[_Index++] = "01";
 		_GeneratedCode[_Index++] = "EC";
 		_GeneratedCode[_Index++] = booleanExpression[1];
 		_GeneratedCode[_Index++] = "XX";
-		_GeneratedCode[_Index++] = "D0"; //if they are equal, do not jump, jst true, else, set false
+		_GeneratedCode[_Index++] = "D0"; //if they are equal, do not jump, just true, else, set false
 		_GeneratedCode[_Index++] = "0C";
 		_GeneratedCode[_Index++] = "A9"; //set to true
-		_GeneratedCode[_Index++] = _FalsePointer;
+		_GeneratedCode[_Index++] = _TruePointer;
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] = _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
@@ -442,18 +443,19 @@ function generateWhile(whileNode)
 		_GeneratedCode[_Index++] = "D0"; //jump over setting it false
 		_GeneratedCode[_Index++] = "05";
 		_GeneratedCode[_Index++] = "A9"; //set false
-		_GeneratedCode[_Index++] = _TruePointer;
+		_GeneratedCode[_Index++] = _FalsePointer;
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] = _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
 		
 		_GeneratedCode[_Index++] = "A2";
 		_GeneratedCode[_Index++] = _FalsePointer;
+
 	}
 	else
 	{
 		_GeneratedCode[_Index++] = "A9";
-		_GeneratedCode[_Index++] = "01";
+		_GeneratedCode[_Index++] = _TruePointer;
 		_GeneratedCode[_Index++] = "8D";
 		_GeneratedCode[_Index++] = _CurrentTemp;
 		_GeneratedCode[_Index++] = "XX";
@@ -461,11 +463,11 @@ function generateWhile(whileNode)
 		_GeneratedCode[_Index++] = "A2";
 		if(booleanExpression[1] === _TruePointer)
 		{
-			_GeneratedCode[_Index++] = "01";
+			_GeneratedCode[_Index++] =  _TruePointer;
 		}
 		else
 		{
-			_GeneratedCode[_Index++] = "00";
+			_GeneratedCode[_Index++] =  _FalsePointer;
 		}
 	}
 	_GeneratedCode[_Index++] = "EC";
@@ -504,7 +506,6 @@ function generateWhile(whileNode)
 	whileIndex = (_ProgramSize - (_Index - whileIndex)) + 1;
 	//alert(whileIndex);
 	_JumpTable.push([whileJumpName, whileIndex]);
-	
 	
 	
 	currentIndex = _Index - currentIndex;
@@ -597,10 +598,12 @@ function generateBooleanExpr(boolExprNode)
 	}
 	else
 	{
-		var leftSide = (expressionInfo(boolExprNode.children[0])[1]).toString();
-		var rightSide = (expressionInfo(boolExprNode.children[1])[1]).toString();
-		var leftType = expressionInfo(boolExprNode.children[0])[0];
-		var rightType = expressionInfo(boolExprNode.children[1])[0];
+		var leftArray = expressionInfo(boolExprNode.children[0]);
+		var rightArray = expressionInfo(boolExprNode.children[1]);
+		var leftSide = leftArray[1].toString();
+		var rightSide = rightArray[1].toString();
+		var leftType = leftArray[0];
+		var rightType = rightArray[0];
 		if(leftSide.match(/^\"/)) //gets the memory location if static string for comparison
 		{
 			leftSide = allocateHeap(leftSide)[1].toString();
@@ -631,16 +634,14 @@ function generateBooleanExpr(boolExprNode)
 				_GeneratedCode[_Index++] = "D0";
 				_GeneratedCode[_Index++] = "09";
 				_GeneratedCode[_Index++] = "A2";
-				_GeneratedCode[_Index++] = _FalsePointer;
-				_GeneratedCode[_Index++] = "A2";
-				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "01";
 				_GeneratedCode[_Index++] = "EC";
 				_GeneratedCode[_Index++] = leftSide;
 				_GeneratedCode[_Index++] = "XX";
 				_GeneratedCode[_Index++] = "D0";
 				_GeneratedCode[_Index++] = "02";
 				_GeneratedCode[_Index++] = "A2";
-				_GeneratedCode[_Index++] = _TruePointer;
+				_GeneratedCode[_Index++] = _FalsePointer;
 			}
 			else if(leftSide.slice(0,1) === "T")
 			{
@@ -682,7 +683,7 @@ function generateBooleanExpr(boolExprNode)
 				_GeneratedCode[_Index++] = _CurrentTemp;
 				_GeneratedCode[_Index++] = "XX";
 				_GeneratedCode[_Index++] = "A2";
-				_GeneratedCode[_Index++] = "00";
+				_GeneratedCode[_Index++] = "01";
 				_GeneratedCode[_Index++] = "EC";
 				_GeneratedCode[_Index++] = rightSide;
 				_GeneratedCode[_Index++] = "XX";
@@ -693,8 +694,6 @@ function generateBooleanExpr(boolExprNode)
 				_GeneratedCode[_Index++] = "8D";
 				_GeneratedCode[_Index++] = _CurrentTemp;
 				_GeneratedCode[_Index++] = "XX";
-				
-				
 				
 			}
 			else if(rightSide.slice(0,1) === "T")
@@ -745,7 +744,6 @@ function generateBooleanExpr(boolExprNode)
 				_GeneratedCode[_Index++] = "8D";
 				_GeneratedCode[_Index++] = _CurrentTemp;
 				_GeneratedCode[_Index++] = "XX";
-				
 			}
 			else
 			{
